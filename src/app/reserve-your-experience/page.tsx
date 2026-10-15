@@ -1,31 +1,41 @@
-import InquiryForm from "@/components/InquiryForm";
+import Image from "next/image";
 import Link from "next/link";
+import InquiryForm from "@/components/InquiryForm";
 
 export default function ReservePage() {
   return (
     <div className="bg-white min-h-screen text-brand-dark pb-24">
-      {/* 1. Header Banner */}
-      <section className="max-w-4xl mx-auto px-6 sm:px-8 pt-12 sm:pt-20 pb-16 text-center space-y-4">
-        <span className="text-xs tracking-[0.25em] text-brand-muted uppercase font-sans block">
-          Let&rsquo;s tell your love story
-        </span>
-        <h1 className="font-forum text-4xl sm:text-6xl text-brand-dark tracking-wide uppercase">
-          Reserve your Forever After Experience
-        </h1>
-        <div className="pt-2 flex items-center justify-center gap-6">
-          <Link
-            href="/faq"
-            className="inline-block font-forum text-xs tracking-[0.25em] uppercase text-brand-dark/80 hover:text-brand-dark border-b border-brand-dark/40 pb-1 transition-colors"
-          >
-            Read the FAQ
-          </Link>
-          <span className="text-brand-sand">•</span>
-          <Link
-            href="/intake"
-            className="inline-block font-forum text-xs tracking-[0.25em] uppercase text-brand-dark hover:text-brand-gold border-b border-brand-dark/40 pb-1 transition-colors font-medium"
-          >
-            Detailed Intake Form &amp; Quotation
-          </Link>
+      {/* 1. Pixieset Hero Banner (block-call-to-action-banner) */}
+      <section className="relative w-full h-[55vh] sm:h-[65vh] overflow-hidden bg-brand-cream mb-16">
+        <Image
+          src="https://images-pw.pixieset.com/elementfield/587566321/5G4A2096-40f47ed3.jpg"
+          alt="Reserve your Forever After Experience"
+          fill
+          unoptimized
+          priority
+          className="object-cover object-center brightness-[0.7]"
+        />
+        <div className="absolute inset-0 bg-black/35 flex flex-col items-center justify-center text-center px-6 space-y-4 text-white">
+          <span className="text-xs sm:text-sm tracking-[0.35em] text-white/90 uppercase font-sans">
+            Let&rsquo;s tell your love story
+          </span>
+          <h1 className="font-forum text-3xl sm:text-5xl md:text-6xl text-white tracking-[0.15em] uppercase drop-shadow-md">
+            Reserve your Forever After Experience
+          </h1>
+          <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/faq"
+              className="inline-block px-8 py-3 border border-white text-white hover:bg-white hover:text-brand-dark font-forum text-xs tracking-widest uppercase transition-all backdrop-blur-sm"
+            >
+              Read the FAQ
+            </Link>
+            <Link
+              href="/intake"
+              className="inline-block px-8 py-3 bg-white text-brand-dark hover:bg-brand-cream font-forum text-xs tracking-widest uppercase transition-all font-medium shadow-md"
+            >
+              Detailed Intake Form
+            </Link>
+          </div>
         </div>
       </section>
 

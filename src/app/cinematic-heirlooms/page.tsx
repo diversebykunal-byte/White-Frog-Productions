@@ -1,77 +1,79 @@
-"use client";
-
-import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
-import { Play } from "lucide-react";
-import VideoModal from "@/components/VideoModal";
 import { STORIES } from "@/data/siteData";
+import { cld } from "@/lib/cloudinary";
+
+export const metadata = {
+  title: "Cinematic Heirlooms | White Frog Productions",
+  description: "Bespoke cinematic wedding films and fine-art photography stories captured worldwide by White Frog Productions.",
+};
 
 export default function CinematicHeirloomsPage() {
-  const [activeVideo, setActiveVideo] = useState<{ id: string; title: string } | null>(null);
-
   return (
-    <div className="max-w-7xl mx-auto px-6 sm:px-8 py-16 sm:py-24 space-y-16">
-      {/* Page Header */}
-      <div className="text-center space-y-4 max-w-3xl mx-auto">
-        <span className="text-xs tracking-ultra uppercase text-brand-muted font-sans">
-          Portfolio Archive
-        </span>
-        <h1 className="font-forum text-4xl sm:text-6xl text-brand-dark tracking-wide">
-          Cinematic Heirlooms
-        </h1>
-        <div className="w-16 h-[1px] bg-brand-sand mx-auto my-4" />
-        <p className="font-cormorant text-xl text-brand-muted italic">
-          Every celebration is a bespoke motion picture. From the majestic forts of Rajasthan to beach retreats across Thailand and Europe.
-        </p>
-      </div>
-
-      {/* Grid of All 26 Stories */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-14">
+    <div className="bg-white min-h-screen text-brand-dark">
+      {/* List of 26 Stories matching Pixieset block-feature-link-single-photo 1:1 */}
+      <div className="space-y-16 sm:space-y-24 pt-4 sm:pt-8 pb-20 max-w-[1550px] mx-auto px-4 sm:px-8 lg:px-16">
         {STORIES.map((story) => (
-          <div
-            key={story.slug}
-            onClick={() =>
-              setActiveVideo({
-                id: story.youtubeId,
-                title: `${story.couple} · ${story.location}`,
-              })
-            }
-            className="group cursor-pointer space-y-4"
-          >
-            {/* Cover image tile */}
-            <div className="editorial-card relative aspect-[4/5] bg-brand-cream overflow-hidden">
+          <div key={story.slug} className="space-y-4 sm:space-y-6">
+            {/* Location subtitle above frame (matching screenshot 2) */}
+            <div className="text-center">
+              <p className="text-[10px] sm:text-xs tracking-[0.35em] text-brand-muted/90 uppercase font-sans">
+                {story.location}
+              </p>
+            </div>
+
+            {/* Framed photo showcase with dark tint & centered couple title */}
+            <Link
+              href={`/${story.slug}`}
+              className="group block relative w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/10] max-h-[750px] overflow-hidden bg-brand-cream shadow-sm"
+            >
               <Image
-                src={story.coverImage}
+                src={cld(story.coverImage, 2000)}
                 alt={story.couple}
                 fill
                 unoptimized
-                className="object-cover object-center"
+                className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-black/25 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <div className="w-14 h-14 rounded-full bg-white text-brand-dark flex items-center justify-center pl-1 shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
-                  <Play className="w-5 h-5 fill-brand-dark" />
-                </div>
-              </div>
-            </div>
+              {/* Subtle tint overlay */}
+              <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-500" />
 
-            {/* Story titles */}
-            <div className="text-center space-y-1">
-              <span className="text-xs tracking-widest uppercase text-brand-muted font-sans block">
-                {story.location}
-              </span>
-              <h3 className="font-forum text-2xl text-brand-dark tracking-wide group-hover:opacity-75 transition-opacity">
-                {story.couple}
-              </h3>
-            </div>
+              {/* Centered Serif Couple Title (matching screenshot 2 typography) */}
+              <div className="absolute inset-0 flex items-center justify-center text-center px-6">
+                <h2 className="font-forum text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white tracking-[0.2em] uppercase drop-shadow-md">
+                  {story.couple}
+                </h2>
+              </div>
+            </Link>
           </div>
         ))}
       </div>
 
-      <VideoModal
-        youtubeId={activeVideo?.id || null}
-        title={activeVideo?.title}
-        onClose={() => setActiveVideo(null)}
-      />
+      {/* Pixieset Bottom 2-Column Links: About Us / Contact */}
+      <section className="max-w-4xl mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-2 gap-8 text-center border-t border-brand-sand/50">
+        <Link
+          href="/about"
+          className="p-10 border border-brand-sand/60 hover:border-brand-dark/30 hover:bg-brand-cream/30 transition-all group"
+        >
+          <span className="text-[11px] tracking-widest uppercase text-brand-muted font-sans block mb-2">
+            About Us
+          </span>
+          <h3 className="font-forum text-2xl text-brand-dark tracking-wide group-hover:text-brand-gold transition-colors">
+            Get to know us
+          </h3>
+        </Link>
+
+        <Link
+          href="/reserve-your-experience"
+          className="p-10 border border-brand-sand/60 hover:border-brand-dark/30 hover:bg-brand-cream/30 transition-all group"
+        >
+          <span className="text-[11px] tracking-widest uppercase text-brand-muted font-sans block mb-2">
+            Contact
+          </span>
+          <h3 className="font-forum text-2xl text-brand-dark tracking-wide group-hover:text-brand-gold transition-colors">
+            get in touch with us
+          </h3>
+        </Link>
+      </section>
     </div>
   );
 }
