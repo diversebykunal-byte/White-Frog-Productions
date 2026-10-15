@@ -30,6 +30,21 @@ export async function POST(req: Request) {
       console.error("Supabase inquiries insert error:", error.message);
     }
 
+    // Send email notification to Kunal via ZeptoMail
+    try {
+      const { sendInquiryNotification } = await import("@/lib/zeptomail");
+      await sendInquiryNotification({
+        name,
+        email,
+        phone,
+        message,
+        location,
+        eventDate,
+      });
+    } catch (mailErr: any) {
+      console.warn("Notice: ZeptoMail inquiry notification warning:", mailErr?.message);
+    }
+
     return NextResponse.json(
       { success: true, message: "Inquiry received successfully." },
       { status: 200 }

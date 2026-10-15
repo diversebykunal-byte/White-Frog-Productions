@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { sendIntakeNotification } from "@/lib/zeptomail";
 
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSc0xjgZJ9KZyVhfMXr6DjnaSNQYn8nXyCDvNxNc6enJ_AV3bA/formResponse";
@@ -94,6 +95,25 @@ export async function POST(req: Request) {
       }
     } catch (sbErr: any) {
       console.warn("Supabase intake insert notice:", sbErr?.message);
+    }
+
+    // 3. Dispatch instant luxury email notification via ZeptoMail to Kunal
+    try {
+      await sendIntakeNotification({
+        fullName,
+        phone,
+        email,
+        weddingDates,
+        venue,
+        weddingType,
+        primaryPriority,
+        biggestFear,
+        emotionalVision,
+        budgetBracket,
+        decisionMaker,
+      });
+    } catch (mailErr: any) {
+      console.warn("Notice: ZeptoMail intake notification warning:", mailErr?.message);
     }
 
     return NextResponse.json({
