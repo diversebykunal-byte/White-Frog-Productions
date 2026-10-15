@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
     // Send email notification to Kunal via ZeptoMail
     try {
-      const { sendInquiryNotification } = await import("@/lib/zeptomail");
+      const { sendInquiryNotification, sendClientConfirmationEmail } = await import("@/lib/zeptomail");
       await sendInquiryNotification({
         name,
         email,
@@ -41,8 +41,14 @@ export async function POST(req: Request) {
         location,
         eventDate,
       });
+
+      // Also send confirmation email to the client
+      await sendClientConfirmationEmail({
+        fullName: name,
+        email,
+      });
     } catch (mailErr: any) {
-      console.warn("Notice: ZeptoMail inquiry notification warning:", mailErr?.message);
+      console.warn("Notice: ZeptoMail notification warning:", mailErr?.message);
     }
 
     return NextResponse.json(

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { AnimatePresence } from "framer-motion";
 import PhotoLightbox from "@/components/PhotoLightbox";
 import Theme5FramedHero from "@/components/Theme5FramedHero";
 import { GALLERY_PHOTOS, STORIES } from "@/data/siteData";
@@ -50,7 +51,7 @@ export default function GalleryOfEmotionsPage() {
             >
               <Image
                 src={cld(photoUrl, 1200)}
-                alt={`White Frog Wedding Still ${idx + 1}`}
+                alt={`Fine-art luxury destination wedding photography still - White Frog Productions Gallery Frame ${idx + 1}`}
                 width={800}
                 height={1000}
                 unoptimized
@@ -120,15 +121,17 @@ export default function GalleryOfEmotionsPage() {
       </section>
 
       {/* Lightbox Modal */}
-      {lightboxIndex !== null && (
-        <PhotoLightbox
-          photos={allStills}
-          currentIndex={lightboxIndex}
-          onClose={() => setLightboxIndex(null)}
-          onNext={() => setLightboxIndex((prev) => ((prev ?? 0) + 1) % allStills.length)}
-          onPrev={() => setLightboxIndex((prev) => ((prev ?? 0) - 1 + allStills.length) % allStills.length)}
-        />
-      )}
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <PhotoLightbox
+            photos={allStills}
+            currentIndex={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+            onNext={() => setLightboxIndex((prev) => ((prev ?? 0) + 1) % allStills.length)}
+            onPrev={() => setLightboxIndex((prev) => ((prev ?? 0) - 1 + allStills.length) % allStills.length)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -118,10 +118,10 @@ export default function IntakePage() {
                 <MessageCircle className="w-4 h-4" /> Message Kunal on WhatsApp
               </a>
               <Link
-                href="/feature-films"
+                href="/films"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-brand-dark text-white rounded-full font-forum text-xs tracking-widest uppercase hover:bg-black transition-colors"
               >
-                Watch Feature Films <ArrowRight className="w-4 h-4" />
+                Watch Films <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
           </div>

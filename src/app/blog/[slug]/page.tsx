@@ -5,12 +5,9 @@ import Image from "next/image";
 import {
   Clock,
   Calendar,
-  ArrowLeft,
   ArrowRight,
   CheckCircle2,
-  Share2,
   Sparkles,
-  Play,
   Film,
   Camera,
   Heart,
@@ -23,6 +20,7 @@ import {
   getArticleBySlug,
   getRelatedArticles,
 } from "@/data/seoArticles";
+import { STORIES, Story } from "@/data/siteData";
 import { cld } from "@/lib/cloudinary";
 
 interface PageProps {
@@ -77,6 +75,70 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
+// Connect article to real client story for topical cluster E-E-A-T proof
+function getMatchingClientStory(article: {
+  title: string;
+  location?: string;
+  slug: string;
+}): Story {
+  const text = (
+    article.title +
+    " " +
+    (article.location || "") +
+    " " +
+    article.slug
+  ).toLowerCase();
+
+  let bestStory: Story | null = null;
+  let bestScore = 0;
+
+  for (const story of STORIES) {
+    const locLower = story.location.toLowerCase();
+    const tokens = locLower.split(/[\s,&]+/).filter((w) => w.length >= 4);
+    const phrases = locLower
+      .split(/[,&]+/)
+      .map((p) => p.trim())
+      .filter((p) => p.length >= 4);
+
+    // Specific venue phrases have highest weight
+    for (const phrase of phrases) {
+      if (text.includes(phrase)) {
+        let score = phrase.length * 2;
+        if (phrase === "rajasthan" || phrase === "delhi" || phrase === "india") score = 2;
+        if (score > bestScore) {
+          bestScore = score;
+          bestStory = story;
+        }
+      }
+    }
+
+    // Significant venue/destination tokens
+    const generic = new Set(["fort", "hotel", "palace", "resort", "delhi", "rajasthan", "india"]);
+    for (const token of tokens) {
+      if (!generic.has(token) && text.includes(token)) {
+        let score = token.length;
+        if (score > bestScore) {
+          bestScore = score;
+          bestStory = story;
+        }
+      }
+    }
+  }
+
+  if (bestStory) {
+    return bestStory;
+  }
+
+  // Deterministic fallback so that every single article showcases an authentic client story
+  let hash = 0;
+  for (let i = 0; i < article.slug.length; i++) {
+    hash = (hash << 5) - hash + article.slug.charCodeAt(i);
+    hash |= 0;
+  }
+  const index = Math.abs(hash) % STORIES.length;
+  return STORIES[index];
+}
+
 export default function ArticlePage({ params }: PageProps) {
   const article = getArticleBySlug(params.slug);
 
@@ -85,6 +147,7 @@ export default function ArticlePage({ params }: PageProps) {
   }
 
   const relatedArticles = getRelatedArticles(article.slug, 3);
+  const matchedStory = getMatchingClientStory(article);
 
   // Structured Data Schemas
   const articleSchema = {
@@ -114,7 +177,7 @@ export default function ArticlePage({ params }: PageProps) {
       name: "White Frog Productions",
       logo: {
         "@type": "ImageObject",
-        url: "https://images-pw.pixieset.com/elementfield/5401b7ff60df43ff8d207ec41d8e13ba.png",
+        url: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
       },
     },
     mainEntityOfPage: {
@@ -173,6 +236,33 @@ export default function ArticlePage({ params }: PageProps) {
     ],
   };
 
+  const videoId = matchedStory?.youtubeId || article.youtubeId;
+
+  const videoSchema = videoId
+    ? {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        name: `${article.title} · Wedding Cinema Film`,
+        description: article.description,
+        thumbnailUrl: [
+          article.coverImage,
+          `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`,
+          `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+        ],
+        uploadDate: article.date ? `${article.date}T08:00:00+05:30` : "2024-01-01T08:00:00+05:30",
+        contentUrl: `https://www.youtube.com/watch?v=${videoId}`,
+        embedUrl: `https://www.youtube.com/embed/${videoId}`,
+        publisher: {
+          "@type": "Organization",
+          name: "White Frog Productions",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
+          },
+        },
+      }
+    : null;
+
   return (
     <>
       {/* Schema.org Structured Data */}
@@ -190,6 +280,12 @@ export default function ArticlePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
       />
+      {videoSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
+        />
+      )}
 
       <article className="min-h-screen bg-[#faf8f5] text-brand-dark pt-28 pb-24">
         {/* Breadcrumb Navigation */}
@@ -268,7 +364,7 @@ export default function ArticlePage({ params }: PageProps) {
 
         {/* Content Body Container */}
         <div className="max-w-3xl mx-auto px-6 sm:px-8 space-y-12">
-          {/* Key Takeaways Box (High Engagement & SEO featured snippet optimization) */}
+          {/* Key Takeaways Box */}
           {article.keyTakeaways && article.keyTakeaways.length > 0 && (
             <div className="bg-[#f4efe8] border-l-4 border-brand-gold p-6 sm:p-8 rounded-r-xl space-y-4">
               <div className="flex items-center gap-2 font-forum text-sm tracking-widest uppercase text-brand-dark font-medium">
@@ -319,20 +415,77 @@ export default function ArticlePage({ params }: PageProps) {
             </div>
           </section>
 
+          {/* Real Client Wedding Spotlight (Topical Cluster & Authentic E-E-A-T Proof) */}
+          {matchedStory && (
+            <section className="my-12 p-6 sm:p-8 bg-white border border-brand-sand/80 rounded-2xl shadow-sm space-y-6">
+              <div className="flex items-center justify-between flex-wrap gap-2 border-b border-brand-sand/50 pb-4">
+                <div className="flex items-center gap-2">
+                  <Heart className="w-4 h-4 text-brand-gold fill-brand-gold" />
+                  <span className="text-xs uppercase tracking-widest text-brand-dark font-forum font-medium">
+                    Featured Real Wedding · White Frog Productions
+                  </span>
+                </div>
+                <span className="text-[11px] uppercase tracking-wider text-brand-muted font-forum">
+                  {matchedStory.location}
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                <div className="md:col-span-5 relative h-56 md:h-64 rounded-xl overflow-hidden shadow-inner bg-brand-cream">
+                  <Image
+                    src={cld(matchedStory.coverImage, 800)}
+                    alt={`Real wedding of ${matchedStory.couple} at ${matchedStory.location} by White Frog Productions`}
+                    fill
+                    unoptimized
+                    className="object-cover"
+                  />
+                </div>
+                <div className="md:col-span-7 space-y-4">
+                  <div className="space-y-1">
+                    <span className="text-[11px] uppercase tracking-[0.25em] text-brand-gold font-forum">
+                      Archival Love Story
+                    </span>
+                    <h3 className="font-forum text-2xl sm:text-3xl text-brand-dark tracking-wide">
+                      {matchedStory.couple}
+                    </h3>
+                  </div>
+                  <p className="font-cormorant text-base sm:text-lg text-brand-muted leading-relaxed">
+                    Witness how White Frog Productions translated {matchedStory.couple}&apos;s once-in-a-lifetime rituals and quiet micro-emotions into archival fine-art cinematography and photography at {matchedStory.location}.
+                  </p>
+                  <div className="pt-1">
+                    <Link
+                      href={`/cinematic-heirlooms/${matchedStory.slug}`}
+                      className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-dark text-white rounded-full font-forum text-xs tracking-widest uppercase hover:bg-black transition-colors"
+                    >
+                      <span>Explore Full Gallery & Film</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-brand-gold" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+
           {/* Featured YouTube Film Embed */}
-          {article.youtubeId && (
+          {videoId && (
             <section className="space-y-4 my-10">
               <div className="flex items-center gap-2 font-forum text-xs tracking-widest uppercase text-brand-muted">
                 <Film className="w-4 h-4 text-brand-gold" />
                 <span>Cinema Highlight by White Frog Productions</span>
               </div>
               <div className="relative aspect-video w-full rounded-2xl overflow-hidden shadow-xl border border-brand-sand/60 bg-black">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
+                  alt={article.title}
+                  className="absolute inset-0 w-full h-full object-cover opacity-60 filter blur-sm select-none"
+                />
                 <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${article.youtubeId}?rel=0&modestbranding=1`}
+                  src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`}
                   title={article.title}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
-                  className="w-full h-full border-0"
+                  className="relative z-10 w-full h-full border-0"
                 />
               </div>
               <p className="font-cormorant text-sm text-brand-muted italic text-center">
@@ -405,7 +558,7 @@ export default function ArticlePage({ params }: PageProps) {
           <div className="my-12 p-8 bg-[#f4efe8] border border-brand-sand/70 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6">
             <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden shrink-0 border-2 border-brand-sand shadow-sm">
               <Image
-                src={cld("https://images-pw.pixieset.com/elementfield/mkmNRe/DSCF8554-e9909275-1000.jpg", 300)}
+                src={cld("https://images-pw.pixieset.com/elementfield/blKlee/Screenshot2024-08-15at2.53.59PM-ebbfbad4-1500.png", 300)}
                 alt="Madhavi Singh & Kunal Khanna"
                 fill
                 unoptimized

@@ -1,8 +1,18 @@
-import type { Metadata } from "next";
-import { Cormorant_Garamond, Forum } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Cormorant_Garamond, Forum, Outfit } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  viewportFit: "cover",
+  themeColor: "#0d0d0d",
+};
 
 const forum = Forum({
   weight: "400",
@@ -18,13 +28,89 @@ const cormorant = Cormorant_Garamond({
   display: "swap",
 });
 
+const aristotelicaFallback = Outfit({
+  weight: ["200", "300", "400"],
+  subsets: ["latin"],
+  variable: "--font-aristotelica-fallback",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "White Frog Productions | Cinematic Wedding Heirlooms & Photography",
   description:
     "Contemporary luxury wedding filmmaking and fine-art photography by Kunal Khanna & Madhavi Singh. Delhi NCR & Worldwide.",
   icons: {
-    icon: "https://images-pw.pixieset.com/profile/894901/5401b7ff60df951c77d0ea7747e43f53e1171ae982ae899b31ff04c1bc44f01d.png",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon.jpg", type: "image/jpeg" },
+    ],
+    shortcut: "/favicon.ico",
+    apple: "/favicon.jpg",
   },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["ProfessionalService", "LocalBusiness"],
+      "@id": "https://www.whitefrogproductions.com/#organization",
+      "name": "White Frog Productions",
+      "url": "https://www.whitefrogproductions.com",
+      "logo": "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
+      "image": "https://images-pw.pixieset.com/elementfield/OWDoZpG/DSCF0468copy2-1473eecb-1000.jpg",
+      "description": "Award-winning luxury wedding filmmaking and fine-art photography studio helmed by Kunal Khanna & Madhavi Singh. Documenting destination weddings across Delhi NCR, Rajasthan, Goa, Europe, and worldwide.",
+      "telephone": "+91-98711-11762",
+      "email": "kunal@whitefrogproductions.com",
+      "priceRange": "₹₹₹₹",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "New Delhi",
+        "addressRegion": "Delhi NCR",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 28.6139,
+        "longitude": 77.2090
+      },
+      "areaServed": [
+        "Delhi NCR",
+        "Udaipur",
+        "Jaipur",
+        "Jodhpur",
+        "Jaisalmer",
+        "Goa",
+        "Jim Corbett",
+        "Mussoorie",
+        "Rishikesh",
+        "Chandigarh",
+        "Mumbai",
+        "Hyderabad",
+        "Bangalore",
+        "Italy",
+        "Thailand",
+        "United Arab Emirates",
+        "Worldwide"
+      ],
+      "sameAs": [
+        "https://www.instagram.com/whitefrogproductions/",
+        "https://www.youtube.com/c/WhiteFrogProductions",
+        "https://vimeo.com/user20224514",
+        "https://www.facebook.com/whitefrogproductions",
+        "https://www.linkedin.com/company/whitefrogproductions/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.whitefrogproductions.com/#website",
+      "url": "https://www.whitefrogproductions.com",
+      "name": "White Frog Productions",
+      "publisher": {
+        "@id": "https://www.whitefrogproductions.com/#organization"
+      }
+    }
+  ]
 };
 
 export default function RootLayout({
@@ -33,11 +119,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${forum.variable} ${cormorant.variable}`}>
+    <html
+      lang="en"
+      className={`${forum.variable} ${cormorant.variable} ${aristotelicaFallback.variable}`}
+    >
       <body className="bg-brand-bg text-brand-dark min-h-screen flex flex-col antialiased selection:bg-brand-dark selection:text-white">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

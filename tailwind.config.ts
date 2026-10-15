@@ -9,9 +9,21 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
+        aristotelica: [
+          "var(--font-aristotelica)",
+          "Aristotelica Pro ExtraLight",
+          "Aristotelica Pro",
+          "var(--font-aristotelica-fallback)",
+          "sans-serif",
+        ],
         forum: ["var(--font-forum)", "Forum", "serif"],
         cormorant: ["var(--font-cormorant)", "Cormorant Garamond", "serif"],
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        sans: [
+          "var(--font-aristotelica)",
+          "var(--font-aristotelica-fallback)",
+          "system-ui",
+          "sans-serif",
+        ],
       },
       colors: {
         brand: {

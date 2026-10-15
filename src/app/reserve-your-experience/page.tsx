@@ -50,10 +50,6 @@ export default function ReservePage() {
           Email:{" "}
           <a href="mailto:kunal@whitefrogproductions.com" className="hover:underline lowercase">
             kunal@whitefrogproductions.com
-          </a>{" "}
-          &amp;{" "}
-          <a href="mailto:MADHAVI@WHITEFROGPRODUCTIONS.COM" className="hover:underline lowercase">
-            MADHAVI@WHITEFROGPRODUCTIONS.COM
           </a>
         </h3>
       </section>

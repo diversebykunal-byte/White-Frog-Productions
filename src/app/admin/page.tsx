@@ -593,7 +593,7 @@ export default function AdminPage() {
                       What’s their biggest fear about wedding photography?
                     </span>
                     <p className="font-cormorant text-lg text-brand-dark italic leading-relaxed">
-                      "{selectedLead.biggestFear}"
+                      &ldquo;{selectedLead.biggestFear}&rdquo;
                     </p>
                   </div>
                 )}
@@ -604,7 +604,7 @@ export default function AdminPage() {
                       How do they want to feel watching their film years later?
                     </span>
                     <p className="font-cormorant text-lg text-brand-dark italic leading-relaxed">
-                      "{selectedLead.emotionalVision}"
+                      &ldquo;{selectedLead.emotionalVision}&rdquo;
                     </p>
                   </div>
                 )}

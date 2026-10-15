@@ -15,7 +15,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
-      url: `${baseUrl}/feature-films`,
+      url: `${baseUrl}/films`,
       lastModified: currentDate,
       changeFrequency: "weekly",
       priority: 0.95,
@@ -57,6 +57,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/portfolio`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/gallery`,
+      lastModified: currentDate,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${baseUrl}/reserve-your-experience`,
       lastModified: currentDate,
       changeFrequency: "monthly",
@@ -78,9 +90,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: article.featured ? 0.9 : 0.8,
   }));
 
-  // Wedding Story Pages
+  // Wedding Story Pages (34 real luxury wedding heirloom galleries)
   const storyPages: MetadataRoute.Sitemap = STORIES.map((story) => ({
-    url: `${baseUrl}/cinematic-heirlooms#${story.slug}`,
+    url: `${baseUrl}/cinematic-heirlooms/${story.slug}`,
     lastModified: currentDate,
     changeFrequency: "monthly",
     priority: 0.85,

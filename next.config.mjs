@@ -32,6 +32,35 @@ const nextConfig = {
       }
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/index.php',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/index.html',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/home',
+        destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/galleryofemotions',
+        destination: '/portfolio',
+        permanent: true,
+      },
+      {
+        source: '/corporates',
+        destination: '/corporate',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

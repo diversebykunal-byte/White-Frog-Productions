@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
-import { sendIntakeNotification } from "@/lib/zeptomail";
+import { sendIntakeNotification, sendClientConfirmationEmail } from "@/lib/zeptomail";
 
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSc0xjgZJ9KZyVhfMXr6DjnaSNQYn8nXyCDvNxNc6enJ_AV3bA/formResponse";
@@ -114,6 +114,16 @@ export async function POST(req: Request) {
       });
     } catch (mailErr: any) {
       console.warn("Notice: ZeptoMail intake notification warning:", mailErr?.message);
+    }
+
+    // 4. Send branded confirmation email to the client ("We’ve received your details")
+    try {
+      await sendClientConfirmationEmail({
+        fullName,
+        email,
+      });
+    } catch (clientMailErr: any) {
+      console.warn("Notice: ZeptoMail client confirmation warning:", clientMailErr?.message);
     }
 
     return NextResponse.json({

@@ -1,6 +1,8 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = "https://www.whitefrogproductions.com";
+
   return {
     rules: [
       {
@@ -9,10 +11,26 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ["/api/", "/admin/"],
       },
       {
-        userAgent: "Googlebot",
+        userAgent: [
+          "Googlebot",
+          "Bingbot",
+          "Applebot",
+          "Applebot-Extended",
+          "Google-Extended",
+          "GPTBot",
+          "ClaudeBot",
+          "PerplexityBot",
+          "CCBot",
+          "cohere-ai",
+        ],
         allow: "/",
+        disallow: ["/api/", "/admin/"],
       },
     ],
-    sitemap: "https://www.whitefrogproductions.com/sitemap.xml",
+    sitemap: [
+      `${baseUrl}/sitemap.xml`,
+      `${baseUrl}/image-sitemap.xml`,
+    ],
+    host: baseUrl,
   };
 }

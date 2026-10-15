@@ -4,18 +4,29 @@ import Link from "next/link";
 export default function ExperiencePage() {
   return (
     <div className="relative bg-white min-h-screen text-brand-dark pb-24">
-      {/* Left Vertical Subtitle (Exact 1:1 match to Pixieset theme-5-header) */}
-      <div className="hidden lg:block fixed left-6 top-1/2 -translate-y-1/2 z-30 select-none pointer-events-none">
-        <span
-          className="text-[10px] tracking-[0.35em] text-brand-muted/70 uppercase font-sans whitespace-nowrap block"
-          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-        >
-          AUTHENTIC LOVE STORIES
-        </span>
-      </div>
+      {/* 1. Framed Hero Header (Exact 1:1 match to Pixieset Block 0) */}
+      <section className="relative px-4 sm:px-12 md:px-16 lg:px-24 pt-2 pb-6 max-w-[1550px] mx-auto select-none">
+        {/* Left Vertical Subtitle (Positioned absolute to hero section, scrolls with hero) */}
+        <div className="hidden lg:block absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-20 select-none pointer-events-none">
+          <span
+            className="text-[10px] tracking-[0.35em] text-brand-muted/70 uppercase font-sans whitespace-nowrap block"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            AUTHENTIC LOVE STORIES
+          </span>
+        </div>
 
-      {/* 1. Framed Hero Slider Header (Exact 1:1 match to Pixieset Block 0) */}
-      <section className="px-4 sm:px-12 md:px-16 lg:px-24 pt-2 pb-6 max-w-[1550px] mx-auto">
+        {/* Right Vertical "CONTACT US" Link (Exact match to Pixieset Theme-5) */}
+        <div className="hidden lg:block absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-20">
+          <Link
+            href="/reserve-your-experience"
+            className="text-[10px] tracking-[0.35em] text-brand-muted/70 hover:text-brand-dark uppercase font-sans whitespace-nowrap block transition-colors"
+            style={{ writingMode: "vertical-rl" }}
+          >
+            CONTACT US
+          </Link>
+        </div>
+
         <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/11] max-h-[82vh] overflow-hidden bg-brand-cream shadow-sm">
           <Image
             src="https://images-pw.pixieset.com/elementfield/yKpv3b/0A6A4650copy-8f6d78d0-1500.jpg"

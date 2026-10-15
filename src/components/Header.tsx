@@ -18,9 +18,9 @@ export default function Header() {
 
           {/* Centered Golden Origami Frog Logo - Transparent PNG */}
           <Link href="/" className="mx-auto flex flex-col items-center group">
-            <div className="relative w-36 sm:w-44 h-12 sm:h-14">
+            <div className="relative w-40 sm:w-52 h-14 sm:h-16">
               <Image
-                src="https://images-pw.pixieset.com/profile/894901/5401b7ff60df951c77d0ea7747e43f53e1171ae982ae899b31ff04c1bc44f01d.png"
+                src="/logo.png"
                 alt="White Frog Productions"
                 fill
                 unoptimized

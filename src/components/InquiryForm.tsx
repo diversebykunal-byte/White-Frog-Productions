@@ -73,7 +73,7 @@ export default function InquiryForm() {
                 required
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full bg-white border border-brand-sand/80 px-4 py-3 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-sm transition-colors"
+                className="w-full bg-white border border-brand-sand/80 px-4 py-3 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-base transition-colors"
               />
             </div>
 
@@ -86,7 +86,7 @@ export default function InquiryForm() {
                 required
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full bg-white border border-brand-sand/80 px-4 py-3 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-sm transition-colors"
+                className="w-full bg-white border border-brand-sand/80 px-4 py-3 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-base transition-colors"
               />
             </div>
 
@@ -99,7 +99,7 @@ export default function InquiryForm() {
                 required
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full bg-white border border-brand-sand/80 px-4 py-3 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-sm transition-colors"
+                className="w-full bg-white border border-brand-sand/80 px-4 py-3 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-base transition-colors"
               />
             </div>
 
@@ -112,7 +112,7 @@ export default function InquiryForm() {
                 required
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full bg-white border border-brand-sand/80 p-4 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-sm transition-colors"
+                className="w-full bg-white border border-brand-sand/80 p-4 text-brand-dark focus:outline-none focus:border-brand-dark font-forum text-base transition-colors"
               />
             </div>
 

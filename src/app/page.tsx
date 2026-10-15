@@ -26,7 +26,7 @@ const HERO_SLIDES = [
 
 export default function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(1); // 0-indexed: 1 = slide 02 (matching screenshot)
-  const [activeVideo, setActiveVideo] = useState<{ id: string; title: string } | null>(null);
+  const [activeVideo, setActiveVideo] = useState<{ id: string; title: string; poster?: string } | null>(null);
 
   // Auto advance slides gently every 8 seconds
   useEffect(() => {
@@ -46,18 +46,28 @@ export default function HomePage() {
 
   return (
     <div className="relative min-h-screen bg-white text-brand-dark pb-24">
-      {/* Left Vertical Subtitle (Exact Match to Image 1) */}
-      <div className="hidden lg:block fixed left-6 top-1/2 -translate-y-1/2 z-30 select-none pointer-events-none">
-        <span
-          className="text-[10px] tracking-[0.35em] text-brand-muted/70 uppercase font-sans whitespace-nowrap block"
-          style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
-        >
-          LUXURY WEDDING FILMS &amp; FINE ART PHOTOGRAPHY
-        </span>
-      </div>
-
       {/* 1. Framed Hero Slider (1:1 Replica of Screenshot) */}
-      <section className="px-4 sm:px-12 md:px-16 lg:px-24 pt-2 pb-12 max-w-[1550px] mx-auto">
+      <section className="relative px-4 sm:px-12 md:px-16 lg:px-24 pt-2 pb-12 max-w-[1550px] mx-auto select-none">
+        {/* Left Vertical Subtitle (Positioned absolute to hero section, scrolls with hero) */}
+        <div className="hidden lg:block absolute left-4 lg:left-6 top-1/2 -translate-y-1/2 z-20 select-none pointer-events-none">
+          <span
+            className="text-[10px] tracking-[0.35em] text-brand-muted/70 uppercase font-sans whitespace-nowrap block"
+            style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+          >
+            LUXURY WEDDING FILMS &amp; FINE ART PHOTOGRAPHY
+          </span>
+        </div>
+
+        {/* Right Vertical "CONTACT US" Link (Exact match to Pixieset Theme-5) */}
+        <div className="hidden lg:block absolute right-4 lg:right-6 top-1/2 -translate-y-1/2 z-20">
+          <Link
+            href="/reserve-your-experience"
+            className="text-[10px] tracking-[0.35em] text-brand-muted/70 hover:text-brand-dark uppercase font-sans whitespace-nowrap block transition-colors"
+            style={{ writingMode: "vertical-rl" }}
+          >
+            CONTACT US
+          </Link>
+        </div>
         <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/11] max-h-[82vh] overflow-hidden bg-brand-cream shadow-sm">
           {HERO_SLIDES.map((slide, idx) => (
             <div
@@ -170,13 +180,19 @@ export default function HomePage() {
           ].map((item, idx) => (
             <div
               key={idx}
-              onClick={() => setActiveVideo({ id: item.youtubeId, title: `${item.couple} · ${item.location}` })}
+              onClick={() =>
+                setActiveVideo({
+                  id: item.youtubeId,
+                  title: `${item.couple} · ${item.location}`,
+                  poster: item.image,
+                })
+              }
               className="group cursor-pointer space-y-4"
             >
               <div className="editorial-card relative aspect-[4/5] bg-brand-cream overflow-hidden">
                 <Image
                   src={item.image}
-                  alt={item.couple}
+                  alt={`${item.couple} luxury destination wedding cinema & photography at ${item.location} | White Frog Productions`}
                   fill
                   unoptimized
                   className="object-cover object-center group-hover:scale-105 transition-transform duration-700"
@@ -304,6 +320,7 @@ export default function HomePage() {
       <VideoModal
         youtubeId={activeVideo?.id || null}
         title={activeVideo?.title}
+        poster={activeVideo?.poster}
         onClose={() => setActiveVideo(null)}
       />
     </div>

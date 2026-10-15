@@ -1,6 +1,7 @@
 const ZEPTOMAIL_URL = process.env.ZEPTOMAIL_URL || "https://api.zeptomail.in/v1.1/email";
 const ZEPTOMAIL_API_KEY =
   process.env.ZEPTOMAIL_API_KEY ||
+  process.env.ZEPTOMAIL_API_TOKEN ||
   "Zoho-enczapikey PHtE6r1YS+rijWB68hNV4vO4Q5TxNNsqr7xvelRC4twWDqBSTk1X/98pkTSz+EgjA/EQQv/Pwd08uLnOsrrXdDzqNjwfCWqyqK3sx/VYSPOZsbq6x00YtVQec0LeVIXoc9Rr0yzWvNjSNA==";
 
 const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "kunal@whitefrogproductions.com";
@@ -303,3 +304,131 @@ export async function sendInquiryNotification(data: InquiryData) {
     htmlBody: html,
   });
 }
+
+export interface ClientConfirmationData {
+  fullName: string;
+  email: string;
+}
+
+export async function sendClientConfirmationEmail(data: ClientConfirmationData) {
+  const firstName = (data.fullName || "").trim().split(" ")[0] || "";
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8" />
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+          background-color: #ffffff;
+          color: #111111;
+          margin: 0;
+          padding: 32px 20px;
+          line-height: 1.65;
+          font-size: 15px;
+        }
+        .container {
+          max-width: 600px;
+          margin: 0 auto;
+          background: #ffffff;
+        }
+        .greeting {
+          font-size: 16px;
+          margin-bottom: 24px;
+          color: #111111;
+        }
+        p {
+          margin: 0 0 20px;
+          color: #111111;
+        }
+        .bold {
+          font-weight: 700;
+        }
+        .list-container {
+          margin: 16px 0 24px 0;
+          padding-left: 0;
+          list-style: none;
+        }
+        .list-item {
+          margin-bottom: 10px;
+          padding-left: 24px;
+          position: relative;
+        }
+        .list-number {
+          position: absolute;
+          left: 0;
+          top: 0;
+          font-weight: 400;
+        }
+        .signature {
+          margin-top: 36px;
+          color: #111111;
+        }
+        .signature-name {
+          font-weight: 700;
+          margin-top: 16px;
+          font-size: 15px;
+        }
+        .signature-brand {
+          color: #333333;
+          font-size: 14px;
+          margin-top: 4px;
+        }
+        .signature-link {
+          color: #0b57d0;
+          text-decoration: underline;
+          font-size: 14px;
+          display: inline-block;
+          margin-top: 8px;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="greeting">Hi ${firstName ? `${firstName} ,` : ","}</div>
+
+        <p><strong>Thank you for sharing your wedding details with us. 💍✨</strong></p>
+
+        <p><strong>At White Frog Productions, we don’t just capture weddings, we design cinematic heirlooms. Every moment, every glance, every detail is preserved with the same care as if it were our own family.</strong></p>
+
+        <p><strong>Here's what happens next:</strong></p>
+
+        <div class="list-container">
+          <div class="list-item">
+            <span class="list-number">1.</span>
+            Our creative team will carefully review your vision and preferences.
+          </div>
+          <div class="list-item">
+            <span class="list-number">2.</span>
+            We'll craft a <strong>personalized proposal</strong> aligned with your story and expectations.
+          </div>
+          <div class="list-item">
+            <span class="list-number">3.</span>
+            Within the next <strong>48 hours</strong>, you'll receive a curated presentation with options designed exclusively for your wedding.
+          </div>
+        </div>
+
+        <p><strong>Because we accept only a limited number of weddings each year, every couple we work with receives our full attention, planning, and creative energy.</strong></p>
+
+        <p><strong>We're truly excited about the possibility of creating a timeless memory capsule for you and your family.</strong></p>
+
+        <div class="signature">
+          <p style="margin: 0;"><strong>Warm regards,</strong></p>
+          <div class="signature-name">Kunal Khanna</div>
+          <div class="signature-brand">White Frog Productions</div>
+          <a href="https://www.whitefrogproductions.com" class="signature-link">www.whitefrogproductions.com</a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  return sendEmail({
+    to: [{ address: data.email, name: data.fullName }],
+    replyTo: [{ address: ADMIN_EMAIL, name: "Kunal Khanna" }],
+    subject: "We’ve received your details",
+    htmlBody: html,
+  });
+}
+

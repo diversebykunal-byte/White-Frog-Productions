@@ -2,9 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Aristotelica Pro ExtraLight';
+  src: local('Aristotelica Pro ExtraLight'),
+       local('AristotelicaPro-ExtraLight'),
+       local('Aristotelica Pro'),
+       local('Aristotelica');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #faf9f6;
   --foreground: #222222;
+  --font-aristotelica: 'Aristotelica Pro ExtraLight', 'Aristotelica Pro', var(--font-aristotelica-fallback), system-ui, sans-serif;
 }
 
 body {

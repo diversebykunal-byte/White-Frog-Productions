@@ -26,15 +26,20 @@ export default function CinematicHeirloomsPage() {
           Client Story Galleries
         </p>
         <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 font-forum text-sm sm:text-base text-brand-dark/90 max-w-5xl mx-auto">
-          {STORIES.map((s) => (
-            <Link
-              key={s.slug}
-              href={`/${s.slug}`}
-              className="hover:text-brand-gold transition-colors underline decoration-brand-sand/70 underline-offset-4 px-2 py-1"
-            >
-              {s.couple} <span className="text-xs text-brand-muted font-sans font-light">· {s.location}</span>
-            </Link>
-          ))}
+          {[...STORIES]
+            .sort((a, b) => a.couple.localeCompare(b.couple))
+            .map((s) => (
+              <Link
+                key={s.slug}
+                href={`/cinematic-heirlooms/${s.slug}`}
+                className="hover:text-brand-gold transition-colors underline decoration-brand-sand/70 underline-offset-4 px-2 py-1"
+              >
+                {s.couple}{" "}
+                <span className="text-xs text-brand-muted font-sans font-light">
+                  · {s.location}
+                </span>
+              </Link>
+            ))}
         </div>
       </section>
 
@@ -51,12 +56,12 @@ export default function CinematicHeirloomsPage() {
 
             {/* Framed photo showcase with dark tint & centered couple title */}
             <Link
-              href={`/${story.slug}`}
+              href={`/cinematic-heirlooms/${story.slug}`}
               className="group block relative w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/10] max-h-[750px] overflow-hidden bg-brand-cream shadow-sm"
             >
               <Image
                 src={cld(story.coverImage, 2000)}
-                alt={story.couple}
+                alt={`${story.couple} luxury destination wedding cinema & photography heirloom at ${story.location} | White Frog Productions`}
                 fill
                 unoptimized
                 className="object-cover object-center group-hover:scale-[1.02] transition-transform duration-700 ease-out"

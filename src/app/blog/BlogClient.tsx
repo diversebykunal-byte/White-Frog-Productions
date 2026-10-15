@@ -1,11 +1,45 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Search, Clock, Calendar, ArrowRight, Sparkles } from "lucide-react";
 import { SEOArticle, ARTICLE_CATEGORIES } from "@/data/seoArticles";
 import { cld } from "@/lib/cloudinary";
+
+const FALLBACK_BLOG_IMAGE = "https://images-pw.pixieset.com/elementfield/OWDoZpG/DSCF0468copy2-1473eecb-1000.jpg";
+
+function BlogCardImage({
+  src,
+  alt,
+  className,
+  priority = false,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  priority?: boolean;
+}) {
+  const [imgSrc, setImgSrc] = useState(src);
+
+  useEffect(() => {
+    setImgSrc(src);
+  }, [src]);
+
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      fill
+      priority={priority}
+      unoptimized
+      onError={() => {
+        setImgSrc(cld(FALLBACK_BLOG_IMAGE, 800));
+      }}
+      className={className}
+    />
+  );
+}
 
 interface BlogClientProps {
   articles: SEOArticle[];
@@ -63,11 +97,10 @@ export default function BlogClient({ articles }: BlogClientProps) {
           <div className="relative group bg-white border border-brand-sand/60 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
               <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-[450px] overflow-hidden">
-                <Image
+                <BlogCardImage
                   src={cld(featured.coverImage, 1200)}
                   alt={featured.title}
-                  fill
-                  unoptimized
+                  priority
                   className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute top-4 left-4">
@@ -187,11 +220,9 @@ export default function BlogClient({ articles }: BlogClientProps) {
               >
                 <div>
                   <Link href={`/blog/${article.slug}`} className="block relative h-56 w-full overflow-hidden">
-                    <Image
+                    <BlogCardImage
                       src={cld(article.coverImage, 600)}
                       alt={article.title}
-                      fill
-                      unoptimized
                       className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                     />
                     <div className="absolute top-3 left-3">

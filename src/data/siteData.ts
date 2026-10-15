@@ -24,7 +24,7 @@ export const NAVIGATION_LINKS = [
   { label: "Home", href: "/" },
   { label: "Cinematic Heirlooms", href: "/cinematic-heirlooms" },
   { label: "Gallery of Emotions", href: "/gallery-of-emotions" },
-  { label: "Feature Films", href: "/feature-films" },
+  { label: "Films", href: "/films" },
   { label: "Corporate", href: "/corporate" },
   {
     label: "Info +",
@@ -44,14 +44,16 @@ export const BRAND_INFO = {
   founders: "Madhavi & Kunal",
   established: "September 2012",
   email: "kunal@whitefrogproductions.com",
-  secondaryEmail: "madhavi@whitefrogproductions.com",
   phone: "+91 98711 11762",
   instagram: "https://www.instagram.com/whitefrogproductions/",
   youtube: "https://www.youtube.com/c/WhiteFrogProductions",
   vimeo: "https://vimeo.com/user20224514",
   facebook: "https://www.facebook.com/whitefrogproductions",
   linkedin: "https://www.linkedin.com/company/whitefrogproductions/",
-  logo: "https://images-pw.pixieset.com/profile/894901/5401b7ff60df951c77d0ea7747e43f53e1171ae982ae899b31ff04c1bc44f01d.png"
+  logo: "/logo.png",
+  logoCloudinary: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
+  favicon: "/favicon.jpg",
+  faviconCloudinary: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099308/whitefrog/brand/favicon.jpg"
 };
 
 export const STORIES: Story[] = [
@@ -1621,26 +1623,6 @@ export const FEATURE_FILMS: Film[] = [
 
 export const INSTAGRAM_HIGHLIGHTS = [
   {
-    caption: "Disha & Kartikay",
-    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097455/whitefrog/instagram/DeUVp-JFBLz.jpg",
-    link: "https://www.instagram.com/p/DeUVp-JFBLz/"
-  },
-  {
-    caption: "Richa & Kartikey",
-    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097458/whitefrog/instagram/Dd3XaNFCOgt.jpg",
-    link: "https://www.instagram.com/p/Dd3XaNFCOgt/"
-  },
-  {
-    caption: "Disha & Kartikay — Paul Entertainment",
-    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097461/whitefrog/instagram/DdwHZG2FJgh.jpg",
-    link: "https://www.instagram.com/p/DdwHZG2FJgh/"
-  },
-  {
-    caption: "Disha x Kartikay",
-    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097464/whitefrog/instagram/DdvAExsTg5O.jpg",
-    link: "https://www.instagram.com/p/DdvAExsTg5O/"
-  },
-  {
     caption: "Kimen & Jasdeep",
     image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097466/whitefrog/instagram/DUJG7p8k_ek.jpg",
     link: "https://www.instagram.com/p/DUJG7p8k_ek/"
@@ -1658,10 +1640,6 @@ export const INSTAGRAM_HIGHLIGHTS = [
 ];
 
 export const GALLERY_PHOTOS: string[] = [
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097455/whitefrog/instagram/DeUVp-JFBLz.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097458/whitefrog/instagram/Dd3XaNFCOgt.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097461/whitefrog/instagram/DdwHZG2FJgh.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097464/whitefrog/instagram/DdvAExsTg5O.jpg",
   "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097466/whitefrog/instagram/DUJG7p8k_ek.jpg",
   "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097469/whitefrog/instagram/DTnL59LE-j9.jpg",
   "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097471/whitefrog/instagram/DTf_kMRkxXX.jpg",
