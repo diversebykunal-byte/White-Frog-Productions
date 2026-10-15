@@ -23,6 +23,7 @@ import {
   getArticleBySlug,
   getRelatedArticles,
 } from "@/data/seoArticles";
+import { cld } from "@/lib/cloudinary";
 
 interface PageProps {
   params: {
@@ -252,7 +253,7 @@ export default function ArticlePage({ params }: PageProps) {
         <div className="max-w-5xl mx-auto px-6 sm:px-8 my-12">
           <div className="relative h-[320px] sm:h-[480px] md:h-[580px] w-full rounded-2xl overflow-hidden shadow-lg border border-brand-sand/50">
             <Image
-              src={article.coverImage}
+              src={cld(article.coverImage, 1400)}
               alt={article.title}
               fill
               priority
@@ -404,7 +405,7 @@ export default function ArticlePage({ params }: PageProps) {
           <div className="my-12 p-8 bg-[#f4efe8] border border-brand-sand/70 rounded-2xl flex flex-col sm:flex-row items-center sm:items-start gap-6">
             <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden shrink-0 border-2 border-brand-sand shadow-sm">
               <Image
-                src="https://images-pw.pixieset.com/elementfield/mkmNRe/DSCF8554-e9909275-1000.jpg"
+                src={cld("https://images-pw.pixieset.com/elementfield/mkmNRe/DSCF8554-e9909275-1000.jpg", 300)}
                 alt="Madhavi Singh & Kunal Khanna"
                 fill
                 unoptimized
@@ -475,7 +476,7 @@ export default function ArticlePage({ params }: PageProps) {
                   <div>
                     <Link href={`/blog/${rel.slug}`} className="block relative h-48 w-full overflow-hidden">
                       <Image
-                        src={rel.coverImage}
+                        src={cld(rel.coverImage, 600)}
                         alt={rel.title}
                         fill
                         unoptimized

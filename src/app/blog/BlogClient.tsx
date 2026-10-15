@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Search, Clock, Calendar, ArrowRight, Sparkles } from "lucide-react";
 import { SEOArticle, ARTICLE_CATEGORIES } from "@/data/seoArticles";
+import { cld } from "@/lib/cloudinary";
 
 interface BlogClientProps {
   articles: SEOArticle[];
@@ -63,7 +64,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
               <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-[450px] overflow-hidden">
                 <Image
-                  src={featured.coverImage}
+                  src={cld(featured.coverImage, 1200)}
                   alt={featured.title}
                   fill
                   unoptimized
@@ -187,7 +188,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
                 <div>
                   <Link href={`/blog/${article.slug}`} className="block relative h-56 w-full overflow-hidden">
                     <Image
-                      src={article.coverImage}
+                      src={cld(article.coverImage, 600)}
                       alt={article.title}
                       fill
                       unoptimized
