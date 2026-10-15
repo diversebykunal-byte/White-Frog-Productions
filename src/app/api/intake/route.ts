@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { sendIntakeNotification, sendClientConfirmationEmail } from "@/lib/zeptomail";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSc0xjgZJ9KZyVhfMXr6DjnaSNQYn8nXyCDvNxNc6enJ_AV3bA/formResponse";
@@ -21,6 +22,16 @@ const ENTRY_MAP = {
 
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req);
+    const rateCheck = checkRateLimit(`intake:${ip}`, 5, 600000); // Max 5 submissions per 10 mins
+
+    if (!rateCheck.success) {
+      return NextResponse.json(
+        { error: "Too many submissions. Please wait a few minutes before trying again." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
 
     const {
@@ -35,7 +46,17 @@ export async function POST(req: Request) {
       emotionalVision,
       budgetBracket,
       decisionMaker,
+      website,
     } = body;
+
+    // Honeypot Trap
+    if (website && String(website).trim().length > 0) {
+      console.warn(`[Bot Trap] Trapped spam submission from IP ${ip}`);
+      return NextResponse.json(
+        { success: true, message: "Intake form received successfully." },
+        { status: 200 }
+      );
+    }
 
     if (!fullName || !email || !phone) {
       return NextResponse.json(

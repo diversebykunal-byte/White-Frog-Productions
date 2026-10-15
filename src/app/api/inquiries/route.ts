@@ -1,10 +1,31 @@
 import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function POST(req: Request) {
   try {
+    const ip = getClientIp(req);
+    const rateCheck = checkRateLimit(`inquiry:${ip}`, 5, 600000); // Max 5 submissions per 10 mins
+
+    if (!rateCheck.success) {
+      return NextResponse.json(
+        { error: "Too many submissions. Please wait a few minutes before trying again." },
+        { status: 429 }
+      );
+    }
+
     const body = await req.json();
-    const { name, email, phone, message, location, eventDate } = body;
+    const { name, email, phone, message, location, eventDate, website } = body;
+
+    // Honeypot Trap: Real users never fill the hidden 'website' field.
+    // If a bot fills it, silently return success without touching Supabase or ZeptoMail.
+    if (website && String(website).trim().length > 0) {
+      console.warn(`[Bot Trap] Trapped spam submission from IP ${ip}`);
+      return NextResponse.json(
+        { success: true, message: "Inquiry received successfully." },
+        { status: 200 }
+      );
+    }
 
     if (!name || !email) {
       return NextResponse.json(
