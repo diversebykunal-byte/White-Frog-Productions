@@ -23,37 +23,49 @@ CLOUDINARY_CLOUD_NAME = os.environ.get("NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME", "lyo
 CLOUDINARY_API_KEY = "488787948725331"
 CLOUDINARY_API_SECRET = "O_bzU2hzITLtz5R56ln8hVo6zsw"
 
-def extract_instagram_image_url(insta_url: str) -> str:
-    """Extracts high-resolution image URL from an Instagram post or reel."""
+def extract_instagram_image_url(insta_url: str):
+    """Extracts high-resolution image URL and caption/title from an Instagram post or reel."""
     clean_url = insta_url.split("?")[0].rstrip("/")
-    embed_url = f"{clean_url}/embed/captioned/"
-    
     headers = {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+        "User-Agent": "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
         "Accept-Language": "en-US,en;q=0.5",
     }
     
-    req = urllib.request.Request(embed_url, headers=headers)
     try:
+        req = urllib.request.Request(clean_url + "/", headers=headers)
         with urllib.request.urlopen(req, timeout=15) as res:
             html = res.read().decode("utf-8", errors="ignore")
             
-            # Match EmbeddedMediaImage
-            match = re.search(r'class="EmbeddedMediaImage"[^>]*src="([^"]+)"', html)
-            if match:
-                img_url = match.group(1).replace("&amp;", "&")
-                return img_url
+            og_imgs = re.findall(r'property=[\"\']og:image[\"\']\s+content=[\"\']([^\"\']+)[\"\']', html) or \
+                      re.findall(r'content=[\"\']([^\"\']+)[\"\']\s+property=[\"\']og:image[\"\']', html)
+            og_titles = re.findall(r'property=[\"\']og:title[\"\']\s+content=[\"\']([^\"\']+)[\"\']', html) or \
+                        re.findall(r'content=[\"\']([^\"\']+)[\"\']\s+property=[\"\']og:title[\"\']', html)
             
-            # Fallback open graph image
-            og_match = re.search(r'property="og:image"\s+content="([^"]+)"', html) or \
-                       re.search(r'content="([^"]+)"\s+property="og:image"', html)
-            if og_match:
-                return og_match.group(1).replace("&amp;", "&")
+            img_url = og_imgs[0].replace("&amp;", "&") if og_imgs else ""
+            title = og_titles[0].replace("&amp;", "&").replace("&quot;", '"') if og_titles else ""
+            
+            if img_url:
+                return img_url, title
     except Exception as e:
-        print(f"  [Error fetching {insta_url}]: {e}")
+        print(f"  [Crawler error for {insta_url}]: {e}")
     
-    return ""
+    # Fallback to embed
+    embed_url = f"{clean_url}/embed/captioned/"
+    try:
+        from bs4 import BeautifulSoup
+        req = urllib.request.Request(embed_url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=15) as res:
+            html = res.read().decode("utf-8", errors="ignore")
+            soup = BeautifulSoup(html, "html.parser")
+            for im in soup.find_all("img"):
+                src = im.get("src", "")
+                if ("fbcdn.net" in src or "cdninstagram.com" in src) and "s100x100" not in src:
+                    return src.replace("&amp;", "&"), ""
+    except Exception as e:
+        print(f"  [Embed fallback error for {insta_url}]: {e}")
+    
+    return "", ""
 
 def upload_to_cloudinary(image_url: str, public_id_name: str) -> str:
     """Uploads remote image URL directly to Cloudinary."""
@@ -97,26 +109,43 @@ def upload_to_cloudinary(image_url: str, public_id_name: str) -> str:
 
 def process_url(insta_url: str):
     print(f"\n📸 Processing: {insta_url}")
-    img_url = extract_instagram_image_url(insta_url)
+    img_url, title = extract_instagram_image_url(insta_url)
     if not img_url:
-        print("  ✗ Could not extract image directly from Instagram embed.")
-        print(f"  💡 Fallback proxy: https://res.cloudinary.com/{CLOUDINARY_CLOUD_NAME}/image/fetch/f_auto,q_auto/{insta_url}")
-        return
+        print("  ✗ Could not extract image from Instagram.")
+        return None
     
     post_id = insta_url.split("?")[0].rstrip("/").split("/")[-1]
-    print(f"  ✓ Found source image. Uploading to Cloudinary...")
+    print(f"  ✓ Found source image. Title: {title[:60]}")
+    print(f"  Uploading to Cloudinary...")
     try:
         cld_url = upload_to_cloudinary(img_url, post_id)
         print(f"  🚀 Uploaded to Cloudinary successfully!")
         print(f"  URL: {cld_url}")
-        return cld_url
+        return {
+            "title": title,
+            "url": cld_url,
+            "insta_url": insta_url,
+            "post_id": post_id
+        }
     except Exception as e:
         print(f"  ✗ Cloudinary upload error: {e}")
+        return None
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python3 scripts/add_from_instagram.py <INSTAGRAM_URL>")
+        print("Usage: python3 scripts/add_from_instagram.py <INSTAGRAM_URL> [<INSTAGRAM_URL_2> ...]")
         sys.exit(1)
     
+    results = []
     for url in sys.argv[1:]:
-        process_url(url)
+        res = process_url(url)
+        if res:
+            results.append(res)
+    
+    print("\n" + "="*60)
+    print("✨ ALL UPLOADED TO CLOUDINARY ✨")
+    print("="*60)
+    for r in results:
+        print(f"  • {r['title']}")
+        print(f"    CDN: {r['url']}")
+        print(f"    Post: {r['insta_url']}\n")

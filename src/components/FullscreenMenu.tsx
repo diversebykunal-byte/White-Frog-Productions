@@ -5,6 +5,8 @@ import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { STORIES } from "@/data/siteData";
+
 interface FullscreenMenuProps {
   isOpen: boolean;
   onClose: () => void;
@@ -12,6 +14,7 @@ interface FullscreenMenuProps {
 
 export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps) {
   const [infoOpen, setInfoOpen] = useState(false);
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   return (
     <AnimatePresence>
@@ -60,14 +63,66 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
                 closed: { opacity: 0, y: 10 },
                 open: { opacity: 1, y: 0 },
               }}
+              className="flex flex-col items-center"
             >
-              <Link
-                href="/cinematic-heirlooms"
-                onClick={onClose}
-                className="font-forum text-2xl sm:text-3xl tracking-wide text-brand-dark hover:opacity-70 transition-opacity"
-              >
-                Gallery
-              </Link>
+              <div className="flex items-center gap-2">
+                <Link
+                  href="/cinematic-heirlooms"
+                  onClick={onClose}
+                  className="font-forum text-2xl sm:text-3xl tracking-wide text-brand-dark hover:opacity-70 transition-opacity"
+                >
+                  Gallery
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => setGalleryOpen(!galleryOpen)}
+                  aria-label="Toggle client stories"
+                  className="p-1 text-brand-dark hover:opacity-70 transition-opacity cursor-pointer"
+                >
+                  <ChevronDown
+                    className={`w-4 h-4 text-brand-dark transition-transform duration-300 ${
+                      galleryOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+              </div>
+
+              <AnimatePresence>
+                {galleryOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={{ duration: 0.25 }}
+                    className="flex flex-col items-center space-y-2 mt-3 max-h-52 overflow-y-auto px-4 py-2 border-y border-brand-sand/40 text-brand-muted"
+                  >
+                    <Link
+                      href="/cinematic-heirlooms"
+                      onClick={onClose}
+                      className="font-forum text-sm sm:text-base tracking-wider text-brand-dark font-medium underline underline-offset-4"
+                    >
+                      All 26 Stories Directory →
+                    </Link>
+                    {STORIES.slice(0, 10).map((s) => (
+                      <Link
+                        key={s.slug}
+                        href={`/${s.slug}`}
+                        onClick={onClose}
+                        className="font-forum text-sm sm:text-base tracking-wider hover:text-brand-dark transition-colors"
+                      >
+                        {s.couple} <span className="text-[11px] text-brand-muted font-sans font-light">({s.location})</span>
+                      </Link>
+                    ))}
+                    <Link
+                      href="/cinematic-heirlooms"
+                      onClick={onClose}
+                      className="text-[11px] font-sans tracking-widest uppercase text-brand-muted hover:text-brand-dark pt-1"
+                    >
+                      + 16 More Stories in Gallery
+                    </Link>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
             <motion.div

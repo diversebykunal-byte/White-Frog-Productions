@@ -1619,7 +1619,52 @@ export const FEATURE_FILMS: Film[] = [
   }
 ];
 
+export const INSTAGRAM_HIGHLIGHTS = [
+  {
+    caption: "Disha & Kartikay",
+    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097455/whitefrog/instagram/DeUVp-JFBLz.jpg",
+    link: "https://www.instagram.com/p/DeUVp-JFBLz/"
+  },
+  {
+    caption: "Richa & Kartikey",
+    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097458/whitefrog/instagram/Dd3XaNFCOgt.jpg",
+    link: "https://www.instagram.com/p/Dd3XaNFCOgt/"
+  },
+  {
+    caption: "Disha & Kartikay — Paul Entertainment",
+    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097461/whitefrog/instagram/DdwHZG2FJgh.jpg",
+    link: "https://www.instagram.com/p/DdwHZG2FJgh/"
+  },
+  {
+    caption: "Disha x Kartikay",
+    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097464/whitefrog/instagram/DdvAExsTg5O.jpg",
+    link: "https://www.instagram.com/p/DdvAExsTg5O/"
+  },
+  {
+    caption: "Kimen & Jasdeep",
+    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097466/whitefrog/instagram/DUJG7p8k_ek.jpg",
+    link: "https://www.instagram.com/p/DUJG7p8k_ek/"
+  },
+  {
+    caption: "Brides — White Frog Productions",
+    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097469/whitefrog/instagram/DTnL59LE-j9.jpg",
+    link: "https://www.instagram.com/p/DTnL59LE-j9/"
+  },
+  {
+    caption: "Kanika & Avinash",
+    image: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097471/whitefrog/instagram/DTf_kMRkxXX.jpg",
+    link: "https://www.instagram.com/p/DTf_kMRkxXX/"
+  }
+];
+
 export const GALLERY_PHOTOS: string[] = [
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097455/whitefrog/instagram/DeUVp-JFBLz.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097458/whitefrog/instagram/Dd3XaNFCOgt.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097461/whitefrog/instagram/DdwHZG2FJgh.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097464/whitefrog/instagram/DdvAExsTg5O.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097466/whitefrog/instagram/DUJG7p8k_ek.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097469/whitefrog/instagram/DTnL59LE-j9.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792097471/whitefrog/instagram/DTf_kMRkxXX.jpg",
   "https://images-pw.pixieset.com/elementfield/rLYl8D/DSCF0418-cf337b07-1500.JPEG",
   "https://images-pw.pixieset.com/elementfield/7AVjOG/DSCF8554-e9909275-1000.jpg",
   "https://images-pw.pixieset.com/elementfield/7AVjOG/DSCF8537-dca28d21-1000.jpg",

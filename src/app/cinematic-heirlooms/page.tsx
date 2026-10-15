@@ -20,6 +20,24 @@ export default function CinematicHeirloomsPage() {
         showContactLink={true}
       />
 
+      {/* Client Stories Quick Navigation Directory */}
+      <section className="max-w-6xl mx-auto px-6 pt-12 pb-6 text-center space-y-6">
+        <p className="text-[11px] tracking-[0.35em] text-brand-muted uppercase font-sans">
+          Client Story Galleries
+        </p>
+        <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 font-forum text-sm sm:text-base text-brand-dark/90 max-w-5xl mx-auto">
+          {STORIES.map((s) => (
+            <Link
+              key={s.slug}
+              href={`/${s.slug}`}
+              className="hover:text-brand-gold transition-colors underline decoration-brand-sand/70 underline-offset-4 px-2 py-1"
+            >
+              {s.couple} <span className="text-xs text-brand-muted font-sans font-light">· {s.location}</span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* List of 26 Stories matching Pixieset block-feature-link-single-photo 1:1 */}
       <div className="space-y-16 sm:space-y-24 pt-8 pb-20 max-w-[1550px] mx-auto px-4 sm:px-8 lg:px-16">
         {STORIES.map((story) => (
