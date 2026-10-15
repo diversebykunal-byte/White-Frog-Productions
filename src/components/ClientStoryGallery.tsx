@@ -79,9 +79,6 @@ export default function ClientStoryGallery({
               className="w-full h-full border-0"
             />
           </div>
-          <p className="font-cormorant text-base sm:text-lg text-brand-muted italic max-w-xl mx-auto">
-            Cinematography and bespoke 35mm color grading by Kunal Khanna & Madhavi Singh.
-          </p>
         </section>
       )}
 
