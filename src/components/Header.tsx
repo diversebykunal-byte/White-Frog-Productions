@@ -11,7 +11,7 @@ export default function Header() {
 
   return (
     <>
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-sm transition-all duration-300 py-6 px-6 sm:px-12">
+      <header className="relative w-full bg-white transition-all duration-300 py-6 px-6 sm:px-12">
         <div className="max-w-[1550px] mx-auto relative flex items-center justify-between">
           {/* Left spacer for centering */}
           <div className="w-10 hidden sm:block" />

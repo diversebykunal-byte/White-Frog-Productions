@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface FullscreenMenuProps {
@@ -32,12 +32,21 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
           exit={{ opacity: 0 }}
           transition={{ duration: 0.25 }}
           /* 1:1 match to screenshot: Frosted glass blurred background with safe-area and mobile scrolling */
-          className="fixed inset-0 z-40 bg-white/85 backdrop-blur-2xl flex flex-col items-center justify-center p-6 select-none overflow-y-auto"
+          className="fixed inset-0 z-50 bg-white/85 backdrop-blur-2xl flex flex-col items-center justify-center p-6 select-none overflow-y-auto"
           onClick={(e) => {
             // Close if clicked on empty background
             if (e.target === e.currentTarget) onClose();
           }}
         >
+          {/* Top-Right Close Button matching Header position */}
+          <button
+            onClick={onClose}
+            aria-label="Close Navigation Menu"
+            className="fixed top-6 right-6 sm:top-8 sm:right-12 z-50 p-2 text-brand-dark/80 hover:text-brand-dark transition-opacity cursor-pointer"
+          >
+            <X className="w-7 h-7 stroke-[1.25] text-brand-dark" />
+          </button>
+
           {/* Centered Luxury Navigation - Exact 1:1 match to screenshot */}
           <motion.nav
             initial="closed"
