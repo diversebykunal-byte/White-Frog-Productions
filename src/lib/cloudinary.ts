@@ -4,7 +4,12 @@
  * Prevents hotlinking blocks and guarantees zero broken images.
  */
 
-const CLOUD_NAME = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'lyoxtgem';
+// Defensive cleanup in case user pasted "NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME=lyoxtgem" or quotes into Vercel
+let rawCloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || "lyoxtgem";
+if (rawCloudName.includes("=")) {
+  rawCloudName = rawCloudName.split("=")[1].trim();
+}
+const CLOUD_NAME = rawCloudName.replace(/["';]/g, "").trim() || "lyoxtgem";
 
 export function getOptimizedImageUrl(src: string, options: { width?: number; quality?: string } = {}): string {
   if (!src) return '';
