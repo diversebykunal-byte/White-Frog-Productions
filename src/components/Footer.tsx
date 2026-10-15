@@ -19,10 +19,10 @@ export default function Footer() {
         {/* Quick Links */}
         <div className="flex flex-wrap justify-center gap-6 sm:gap-8 font-forum text-sm sm:text-base tracking-widest text-brand-dark/80">
           <Link href="/cinematic-heirlooms" className="hover:text-brand-dark transition-colors">
-            Cinematic Heirlooms
+            Gallery
           </Link>
-          <Link href="/gallery-of-emotions" className="hover:text-brand-dark transition-colors">
-            Gallery of Emotions
+          <Link href="/portfolio" className="hover:text-brand-dark transition-colors">
+            Portfolio
           </Link>
           <Link href="/feature-films" className="hover:text-brand-dark transition-colors">
             Feature Films
@@ -31,7 +31,7 @@ export default function Footer() {
             Corporate
           </Link>
           <Link href="/blog" className="hover:text-brand-dark transition-colors">
-            Journal
+            Blogs
           </Link>
           <Link href="/about" className="hover:text-brand-dark transition-colors">
             About

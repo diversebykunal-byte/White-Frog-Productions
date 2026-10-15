@@ -66,7 +66,7 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
                 onClick={onClose}
                 className="font-forum text-2xl sm:text-3xl tracking-wide text-brand-dark hover:opacity-70 transition-opacity"
               >
-                Cinematic Heirlooms
+                Gallery
               </Link>
             </motion.div>
 
@@ -77,11 +77,11 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
               }}
             >
               <Link
-                href="/gallery-of-emotions"
+                href="/portfolio"
                 onClick={onClose}
                 className="font-forum text-2xl sm:text-3xl tracking-wide text-brand-dark hover:opacity-70 transition-opacity"
               >
-                Gallery of Emotions
+                Portfolio
               </Link>
             </motion.div>
 
@@ -126,7 +126,7 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
                 onClick={onClose}
                 className="font-forum text-2xl sm:text-3xl tracking-wide text-brand-dark hover:opacity-70 transition-opacity"
               >
-                Journal
+                Blogs
               </Link>
             </motion.div>
 
