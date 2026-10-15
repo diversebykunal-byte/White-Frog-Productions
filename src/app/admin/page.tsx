@@ -49,20 +49,34 @@ export default function AdminPage() {
 
   const handlePinSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Default PIN: wfp2026 or 2026
-    if (pinInput === "wfp2026" || pinInput === "2026" || pinInput === "admin") {
+    const pin = pinInput.trim();
+    if (pin === "wfp2026" || pin === "2026" || pin === "admin") {
       setIsAuthenticated(true);
       sessionStorage.setItem("wfp_admin_auth", "true");
+      sessionStorage.setItem("wfp_admin_pin", pin);
       setPinError("");
     } else {
-      setPinError("Incorrect studio PIN. Try 'wfp2026'");
+      setPinError("Incorrect studio access PIN.");
     }
   };
 
   const fetchLeads = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/leads", { cache: "no-store" });
+      const pin = sessionStorage.getItem("wfp_admin_pin") || "wfp2026";
+      const res = await fetch("/api/admin/leads", {
+        cache: "no-store",
+        headers: {
+          "x-admin-pin": pin,
+        },
+      });
+      if (res.status === 401) {
+        setIsAuthenticated(false);
+        sessionStorage.removeItem("wfp_admin_auth");
+        sessionStorage.removeItem("wfp_admin_pin");
+        setPinError("Session expired. Please re-enter PIN.");
+        return;
+      }
       const data = await res.json();
       if (data.leads) {
         setLeads(data.leads);

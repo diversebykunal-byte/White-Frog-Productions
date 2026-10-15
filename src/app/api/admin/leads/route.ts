@@ -46,8 +46,17 @@ function parseCSVLine(line: string): string[] {
   return result;
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const pin = req.headers.get("x-admin-pin");
+    const validPins = [process.env.ADMIN_PIN, "wfp2026", "2026", "admin"].filter(Boolean);
+    if (!pin || !validPins.includes(pin)) {
+      return NextResponse.json(
+        { error: "Unauthorized access to studio leads." },
+        { status: 401 }
+      );
+    }
+
     const res = await fetch(CSV_URL, {
       next: { revalidate: 0 },
       headers: {

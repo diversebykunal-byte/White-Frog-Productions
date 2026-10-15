@@ -5,14 +5,14 @@ import { SEO_ARTICLES } from "@/data/seoArticles";
 export const metadata: Metadata = {
   title: "Wedding Photography & Cinema Journal | White Frog Productions",
   description:
-    "Explore authoritative wedding guides, destination spotlights, venue breakdowns, and cinematic filmmaking secrets by Kunal Khanna & Madhavi Singh.",
+    "Explore authoritative wedding guides, destination spotlights, venue breakdowns, and cinematic filmmaking secrets by White Frog Productions.",
   alternates: {
     canonical: "https://www.whitefrogproductions.com/blog",
   },
   openGraph: {
     title: "Luxury Wedding Cinema & Story Journal | White Frog Productions",
     description:
-      "Award-winning destination wedding filmmakers Kunal Khanna & Madhavi Singh share expert venue guides, photography advice, and cinema inspiration.",
+      "Award-winning destination wedding team White Frog Productions shares expert venue guides, photography advice, and cinema inspiration.",
     url: "https://www.whitefrogproductions.com/blog",
     siteName: "White Frog Productions",
     type: "website",

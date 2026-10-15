@@ -217,7 +217,7 @@ export default function HomePage() {
 
         <div className="text-center pt-4">
           <Link
-            href="/cinematic-heirlooms"
+            href="/gallery"
             className="inline-block px-8 py-3.5 border border-brand-dark/40 font-forum text-xs tracking-widest uppercase text-brand-dark hover:bg-brand-dark hover:text-white transition-all"
           >
             More Love Stories

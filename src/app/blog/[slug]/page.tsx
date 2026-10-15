@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       siteName: "White Frog Productions",
       type: "article",
       publishedTime: article.date,
-      authors: ["Kunal Khanna", "Madhavi Singh"],
+      authors: ["White Frog Productions"],
       images: [
         {
           url: article.coverImage,
@@ -336,7 +336,7 @@ export default function ArticlePage({ params }: PageProps) {
           <div className="pt-4 border-t border-brand-sand/50 flex flex-wrap items-center justify-between gap-4 text-xs tracking-widest uppercase text-brand-muted font-forum max-w-xl mx-auto">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-brand-gold"></span>
-              <span>By Kunal Khanna & Madhavi Singh</span>
+              <span>By White Frog Productions</span>
             </div>
             <div className="flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5" />
@@ -595,7 +595,7 @@ export default function ArticlePage({ params }: PageProps) {
               Let us preserve your love story as a timeless work of art.
             </h3>
             <p className="font-cormorant text-base sm:text-lg text-neutral-300 max-w-lg mx-auto italic font-light">
-              Connect with Kunal & Madhavi to verify date availability, receive our private investment guide, and begin conceptualizing your wedding film.
+              Connect with our studio team to verify date availability, receive our private investment guide, and begin conceptualizing your wedding film.
             </p>
             <div>
               <Link

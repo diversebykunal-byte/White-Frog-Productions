@@ -63,9 +63,6 @@ export default function ClientStoryGallery({
       {youtubeId && (
         <section className="max-w-5xl mx-auto px-4 sm:px-8 pt-16 sm:pt-20 text-center space-y-6">
           <div className="space-y-1">
-            <span className="text-[11px] tracking-[0.3em] uppercase text-brand-gold font-forum font-medium">
-              The Cinematic Heirloom
-            </span>
             <h2 className="font-forum text-2xl sm:text-4xl text-brand-dark tracking-wide uppercase">
               {couple} · The Wedding Film
             </h2>
@@ -114,7 +111,7 @@ export default function ClientStoryGallery({
       {/* 4. Button: MORE FROM THE JOURNAL */}
       <div className="text-center">
         <Link
-          href="/cinematic-heirlooms"
+          href="/gallery"
           className="inline-block px-8 py-3.5 border border-brand-dark/40 font-forum text-xs tracking-widest uppercase text-brand-dark hover:bg-brand-dark hover:text-white transition-all"
         >
           MORE FROM THE JOURNAL
@@ -183,7 +180,7 @@ export default function ClientStoryGallery({
       {/* 6. Two Feature Cards matching Pixieset block-feature-links-text */}
       <section className="max-w-4xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-center">
         <Link
-          href="/gallery-of-emotions"
+          href="/portfolio"
           className="p-10 border border-brand-sand/60 hover:border-brand-dark/30 hover:bg-brand-cream/30 transition-all group"
         >
           <span className="text-[11px] tracking-widest uppercase text-brand-muted font-sans block mb-2">
@@ -195,7 +192,7 @@ export default function ClientStoryGallery({
         </Link>
 
         <Link
-          href="/cinematic-heirlooms"
+          href="/gallery"
           className="p-10 border border-brand-sand/60 hover:border-brand-dark/30 hover:bg-brand-cream/30 transition-all group"
         >
           <span className="text-[11px] tracking-widest uppercase text-brand-muted font-sans block mb-2">

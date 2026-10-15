@@ -102,7 +102,7 @@ export default function ExperiencePage() {
           </h1>
           <div className="pt-4">
             <Link
-              href="/gallery-of-emotions"
+              href="/portfolio"
               className="inline-block px-8 py-3.5 border border-white text-white hover:bg-white hover:text-brand-dark font-forum text-xs tracking-[0.25em] uppercase transition-all backdrop-blur-sm"
             >
               View Our Work

@@ -86,7 +86,7 @@ export default function ReservePage() {
             See Our Work
           </h3>
           <Link
-            href="/gallery-of-emotions"
+            href="/portfolio"
             className="inline-block font-forum text-sm tracking-widest uppercase text-brand-dark hover:underline"
           >
             View Portfolio

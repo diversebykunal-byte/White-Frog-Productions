@@ -45,7 +45,7 @@ export default function NotFound() {
           </Link>
 
           <Link
-            href="/gallery-of-emotions"
+            href="/portfolio"
             className="p-5 bg-white border border-brand-sand/70 rounded-xl hover:border-brand-dark/40 hover:shadow-md transition-all group flex items-start gap-4"
           >
             <div className="w-10 h-10 rounded-full bg-brand-cream flex items-center justify-center shrink-0 text-brand-gold group-hover:scale-110 transition-transform">
@@ -53,7 +53,7 @@ export default function NotFound() {
             </div>
             <div className="space-y-0.5">
               <h3 className="font-forum text-base text-brand-dark tracking-wide group-hover:text-brand-gold transition-colors">
-                Gallery of Emotions
+                Portfolio
               </h3>
               <p className="font-cormorant text-xs text-brand-muted">
                 Explore fine-art stills and unscripted rituals.
@@ -102,7 +102,7 @@ export default function NotFound() {
             href="/reserve-your-experience"
             className="inline-flex items-center gap-2 px-8 py-3.5 bg-brand-dark text-white rounded-full font-forum text-xs tracking-widest uppercase hover:bg-black transition-colors"
           >
-            <span>Connect with Kunal & Madhavi</span>
+            <span>Reserve Your Experience</span>
             <ArrowRight className="w-3.5 h-3.5 text-brand-gold" />
           </Link>
         </div>

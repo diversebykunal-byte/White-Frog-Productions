@@ -24,7 +24,7 @@ export default function AboutPage() {
 
             <div className="pt-4">
               <Link
-                href="/gallery-of-emotions"
+                href="/portfolio"
                 className="inline-block font-forum text-xs tracking-[0.25em] uppercase text-brand-dark/80 hover:text-brand-dark border-b border-brand-dark/40 pb-1.5 transition-colors"
               >
                 SEE OUR WORK

@@ -38,7 +38,7 @@ const aristotelicaFallback = Outfit({
 export const metadata: Metadata = {
   title: "White Frog Productions | Cinematic Wedding Heirlooms & Photography",
   description:
-    "Contemporary luxury wedding filmmaking and fine-art photography by Kunal Khanna & Madhavi Singh. Delhi NCR & Worldwide.",
+    "Contemporary luxury wedding filmmaking and fine-art photography by White Frog Productions. Delhi NCR & Worldwide.",
   icons: {
     icon: [
       { url: "/favicon.ico" },

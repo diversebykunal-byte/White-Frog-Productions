@@ -67,7 +67,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
     });
   }, [articles, searchQuery, selectedCategory]);
 
-  const totalPages = Math.ceil(filteredArticles.length / articlesPerPage);
+  const totalPages = Math.max(1, Math.ceil(filteredArticles.length / articlesPerPage));
   const currentArticles = useMemo(() => {
     const start = (currentPage - 1) * articlesPerPage;
     return filteredArticles.slice(start, start + articlesPerPage);
@@ -87,7 +87,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
           Luxury Wedding Cinema & Stories
         </h1>
         <p className="font-cormorant text-lg sm:text-xl md:text-2xl text-brand-muted max-w-2xl mx-auto italic font-light">
-          A curated collection of destination guides, venue insights, and documentary filmmaking secrets by Kunal Khanna & Madhavi Singh.
+          A curated collection of destination guides, venue insights, and documentary filmmaking secrets from White Frog Productions.
         </p>
       </div>
 

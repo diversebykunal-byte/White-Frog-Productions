@@ -31,7 +31,7 @@ export default function CinematicHeirloomsPage() {
             .map((s) => (
               <Link
                 key={s.slug}
-                href={`/cinematic-heirlooms/${s.slug}`}
+                href={`/${s.slug}`}
                 className="hover:text-brand-gold transition-colors underline decoration-brand-sand/70 underline-offset-4 px-2 py-1"
               >
                 {s.couple}{" "}
@@ -56,7 +56,7 @@ export default function CinematicHeirloomsPage() {
 
             {/* Framed photo showcase with dark tint & centered couple title */}
             <Link
-              href={`/cinematic-heirlooms/${story.slug}`}
+              href={`/${story.slug}`}
               className="group block relative w-full aspect-[16/10] sm:aspect-[16/9] md:aspect-[21/10] max-h-[750px] overflow-hidden bg-brand-cream shadow-sm"
             >
               <Image
