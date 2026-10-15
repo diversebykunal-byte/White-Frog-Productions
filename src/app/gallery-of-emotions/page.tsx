@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import PhotoLightbox from "@/components/PhotoLightbox";
+import Theme5FramedHero from "@/components/Theme5FramedHero";
 import { GALLERY_PHOTOS, STORIES } from "@/data/siteData";
 import { cld } from "@/lib/cloudinary";
 
@@ -20,14 +21,22 @@ export default function GalleryOfEmotionsPage() {
 
   return (
     <div className="bg-white min-h-screen text-brand-dark">
+      {/* 0. Pixieset Theme-5 Framed Hero Header (10000% Match to Screenshot 2) */}
+      <Theme5FramedHero
+        title="Gallery of Emotions"
+        subtitle="a collection of our work"
+        image="https://images-pw.pixieset.com/elementfield/rLYl8D/DSCF0418-cf337b07-1500.JPEG"
+        showContactLink={true}
+      />
+
       {/* 1. Header matching Pixieset block-single-text exactly */}
-      <section className="max-w-4xl mx-auto px-6 pt-16 sm:pt-24 pb-12 text-center space-y-3">
+      <section className="max-w-4xl mx-auto px-6 pt-12 sm:pt-20 pb-12 text-center space-y-3">
         <p className="text-[10px] sm:text-xs tracking-[0.35em] text-brand-muted uppercase font-sans">
           A FEW OF OUR FAVORITES
         </p>
-        <h1 className="font-forum text-2xl sm:text-3xl md:text-4xl text-brand-dark tracking-wide font-normal leading-snug">
+        <h2 className="font-forum text-2xl sm:text-3xl md:text-4xl text-brand-dark tracking-wide font-normal leading-snug">
           Handcrafted, Luxury &amp; Contemporary Images from some of the weddings we love!
-        </h1>
+        </h2>
       </section>
 
       {/* 2. Masonry Photo Grid */}

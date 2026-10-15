@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { STORIES } from "@/data/siteData";
 import { cld } from "@/lib/cloudinary";
+import Theme5FramedHero from "@/components/Theme5FramedHero";
 
 export const metadata = {
   title: "Cinematic Heirlooms | White Frog Productions",
@@ -11,8 +12,16 @@ export const metadata = {
 export default function CinematicHeirloomsPage() {
   return (
     <div className="bg-white min-h-screen text-brand-dark">
+      {/* 0. Pixieset Theme-5 Framed Hero Header (10000% Parity) */}
+      <Theme5FramedHero
+        title="Cinematic Heirlooms"
+        subtitle="Your stories, by us!"
+        image="https://images-pw.pixieset.com/elementfield/yvXXe8/DSC00158-0a7488a1-1500.jpg"
+        showContactLink={true}
+      />
+
       {/* List of 26 Stories matching Pixieset block-feature-link-single-photo 1:1 */}
-      <div className="space-y-16 sm:space-y-24 pt-4 sm:pt-8 pb-20 max-w-[1550px] mx-auto px-4 sm:px-8 lg:px-16">
+      <div className="space-y-16 sm:space-y-24 pt-8 pb-20 max-w-[1550px] mx-auto px-4 sm:px-8 lg:px-16">
         {STORIES.map((story) => (
           <div key={story.slug} className="space-y-4 sm:space-y-6">
             {/* Location subtitle above frame (matching screenshot 2) */}
