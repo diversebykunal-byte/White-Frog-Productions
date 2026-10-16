@@ -119,7 +119,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
                       {featured.readingTime}
                     </span>
                   </div>
-                  <Link href={`/blog/${featured.slug}`}>
+                  <Link href={featured.href || `/blog/${featured.slug}`}>
                     <h2 className="font-forum text-2xl sm:text-3xl text-brand-dark leading-snug hover:text-brand-gold transition-colors">
                       {featured.title}
                     </h2>
@@ -133,7 +133,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
                     By Kunal Khanna & Madhavi Singh
                   </span>
                   <Link
-                    href={`/blog/${featured.slug}`}
+                    href={featured.href || `/blog/${featured.slug}`}
                     className="inline-flex items-center gap-1.5 font-forum text-xs tracking-widest uppercase text-brand-dark hover:text-brand-gold transition-colors"
                   >
                     Read Guide <ArrowRight className="w-3.5 h-3.5" />
@@ -158,14 +158,14 @@ export default function BlogClient({ articles }: BlogClientProps) {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
-              placeholder="Search destinations, venues, or wedding advice..."
+              placeholder="Search destinations, corporate hubs, venues, or cinema advice..."
               className="w-full pl-11 pr-4 py-3 bg-white border border-brand-sand/60 rounded-full font-cormorant text-base text-brand-dark placeholder:text-brand-muted/70 focus:outline-none focus:border-brand-dark transition-colors"
             />
           </div>
 
           {/* Results count */}
           <div className="text-xs tracking-widest uppercase text-brand-muted font-forum">
-            Showing {filteredArticles.length} {filteredArticles.length === 1 ? "article" : "articles"}
+            Showing {filteredArticles.length.toLocaleString()} {filteredArticles.length === 1 ? "article" : "articles"}
           </div>
         </div>
 
@@ -173,6 +173,7 @@ export default function BlogClient({ articles }: BlogClientProps) {
         <div className="flex gap-2 overflow-x-auto pt-6 pb-2 no-scrollbar">
           {ARTICLE_CATEGORIES.map((cat) => {
             const isSelected = selectedCategory === cat;
+            const isCorporate = cat === "Corporate Films";
             return (
               <button
                 key={cat}
@@ -183,6 +184,8 @@ export default function BlogClient({ articles }: BlogClientProps) {
                 className={`px-4 py-2 rounded-full text-xs tracking-wider uppercase whitespace-nowrap transition-all ${
                   isSelected
                     ? "bg-brand-dark text-white shadow-sm"
+                    : isCorporate
+                    ? "bg-brand-gold/15 text-brand-dark border border-brand-gold/50 hover:bg-brand-gold/25"
                     : "bg-white text-brand-dark/80 border border-brand-sand/60 hover:border-brand-dark"
                 }`}
               >
@@ -213,61 +216,64 @@ export default function BlogClient({ articles }: BlogClientProps) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {currentArticles.map((article) => (
-              <article
-                key={article.slug}
-                className="group bg-white rounded-xl border border-brand-sand/60 overflow-hidden flex flex-col justify-between hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
-              >
-                <div>
-                  <Link href={`/blog/${article.slug}`} className="block relative h-56 w-full overflow-hidden">
-                    <BlogCardImage
-                      src={cld(article.coverImage, 600)}
-                      alt={article.title}
-                      className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                    />
-                    <div className="absolute top-3 left-3">
-                      <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-brand-dark text-[10px] tracking-widest uppercase rounded-full font-medium">
-                        {article.category}
-                      </span>
-                    </div>
-                  </Link>
-
-                  <div className="p-6 space-y-3">
-                    <div className="flex items-center gap-3 text-[11px] tracking-wider uppercase text-brand-muted">
-                      <span className="inline-flex items-center gap-1">
-                        <Clock className="w-3 h-3" />
-                        {article.readingTime}
-                      </span>
-                      <span>•</span>
-                      <span className="inline-flex items-center gap-1">
-                        <Calendar className="w-3 h-3" />
-                        {article.date}
-                      </span>
-                    </div>
-
-                    <Link href={`/blog/${article.slug}`}>
-                      <h3 className="font-forum text-xl text-brand-dark leading-snug group-hover:text-brand-gold transition-colors line-clamp-2">
-                        {article.title}
-                      </h3>
+            {currentArticles.map((article) => {
+              const cardHref = article.href || `/blog/${article.slug}`;
+              return (
+                <article
+                  key={article.slug}
+                  className="group bg-white rounded-xl border border-brand-sand/60 overflow-hidden flex flex-col justify-between hover:border-brand-dark/30 hover:shadow-md transition-all duration-300"
+                >
+                  <div>
+                    <Link href={cardHref} className="block relative h-56 w-full overflow-hidden">
+                      <BlogCardImage
+                        src={cld(article.coverImage, 600)}
+                        alt={article.title}
+                        className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      />
+                      <div className="absolute top-3 left-3">
+                        <span className="px-2.5 py-1 bg-white/90 backdrop-blur-sm text-brand-dark text-[10px] tracking-widest uppercase rounded-full font-medium">
+                          {article.category}
+                        </span>
+                      </div>
                     </Link>
 
-                    <p className="font-cormorant text-sm sm:text-base text-brand-muted line-clamp-3 leading-relaxed">
-                      {article.description}
-                    </p>
-                  </div>
-                </div>
+                    <div className="p-6 space-y-3">
+                      <div className="flex items-center gap-3 text-[11px] tracking-wider uppercase text-brand-muted">
+                        <span className="inline-flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {article.readingTime}
+                        </span>
+                        <span>•</span>
+                        <span className="inline-flex items-center gap-1">
+                          <Calendar className="w-3 h-3" />
+                          {article.date}
+                        </span>
+                      </div>
 
-                <div className="p-6 pt-0 border-t border-brand-sand/30 flex items-center justify-between text-xs tracking-wider uppercase font-forum text-brand-muted group-hover:text-brand-dark">
-                  <span>{article.location || "White Frog Studio"}</span>
-                  <Link
-                    href={`/blog/${article.slug}`}
-                    className="inline-flex items-center gap-1 text-brand-dark group-hover:translate-x-1 transition-transform"
-                  >
-                    Read <ArrowRight className="w-3 h-3" />
-                  </Link>
-                </div>
-              </article>
-            ))}
+                      <Link href={cardHref}>
+                        <h3 className="font-forum text-xl text-brand-dark leading-snug group-hover:text-brand-gold transition-colors line-clamp-2">
+                          {article.title}
+                        </h3>
+                      </Link>
+
+                      <p className="font-cormorant text-sm sm:text-base text-brand-muted line-clamp-3 leading-relaxed">
+                        {article.description}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-6 pt-0 border-t border-brand-sand/30 flex items-center justify-between text-xs tracking-wider uppercase font-forum text-brand-muted group-hover:text-brand-dark">
+                    <span>{article.location || "White Frog Studio"}</span>
+                    <Link
+                      href={cardHref}
+                      className="inline-flex items-center gap-1 text-brand-dark group-hover:translate-x-1 transition-transform"
+                    >
+                      Read <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         )}
 

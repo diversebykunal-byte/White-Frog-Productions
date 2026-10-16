@@ -21,10 +21,12 @@ export interface SEOArticle {
   location?: string;
   keyTakeaways?: string[];
   faqs?: FAQItem[];
+  href?: string;
 }
 
 export const ARTICLE_CATEGORIES = [
   "All",
+  "Corporate Films",
   "Destination Guides",
   "Venue Spotlight",
   "Cinema & Gear",

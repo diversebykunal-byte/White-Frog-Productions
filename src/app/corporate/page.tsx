@@ -109,7 +109,7 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     category: "Brand Films & Commercials",
     type: "youtube",
     videoId: "DWVIfSQIoNM",
-    coverImage: "https://img.youtube.com/vi/DWVIfSQIoNM/hqdefault.jpg",
+    coverImage: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80",
   },
 
   // --- Government & PSUs ---
@@ -258,7 +258,7 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     category: "Industrial & Manufacturing",
     type: "external",
     externalUrl: "https://drive.google.com/file/d/1Ae_eaaVzMnKd3AVt4Ap_5l4uYPDq4wNq/view?usp=drivesdk",
-    coverImage: "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
     badge: "Drive Video Master",
   },
   {
@@ -267,7 +267,7 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     category: "Industrial & Manufacturing",
     type: "external",
     externalUrl: "https://drive.google.com/file/d/1nogtLttjDFP0yvcaoH9E2vUnPZv8PkWA/view?usp=drivesdk",
-    coverImage: "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1200&q=80",
     badge: "Drive Video Master",
   },
   {
@@ -349,7 +349,7 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     category: "Commercial Campaigns & Headshots",
     type: "external",
     externalUrl: "https://drive.google.com/drive/folders/1sG9_zG-FOl4HAJnARpewl16tcoBMo7tW?usp=sharing",
-    coverImage: "https://images.unsplash.com/photo-1528458876885-5442433249d0?auto=format&fit=crop&w=1200&q=80",
+    coverImage: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?auto=format&fit=crop&w=1200&q=80",
     badge: "Drive Gallery",
   },
   {
@@ -423,8 +423,8 @@ export default function CorporatePage() {
         <h1 className="font-forum text-4xl sm:text-6xl text-brand-dark tracking-wide uppercase">
           Corporate Films & Campaigns
         </h1>
-        <p className="font-cormorant text-lg sm:text-xl text-brand-muted max-w-2xl mx-auto font-light leading-relaxed">
-          From Fortune 500 brand AVs and government initiatives to multi-acre factory walkthroughs, global MICE summits, and celebrity advertising campaigns.
+        <p className="font-cormorant text-lg sm:text-xl text-brand-muted max-w-3xl mx-auto font-light leading-relaxed">
+          Founded in 2014, White Frog Productions pioneered cinematic brand films and corporate documentaries across India—partnering with Fortune 500 leaders, government institutions, and global brands before bringing that same masterclass storytelling to worldwide destination cinema.
         </p>
       </section>
 

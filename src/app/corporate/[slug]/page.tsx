@@ -155,6 +155,33 @@ export default function CorporateArticlePage({ params }: PageProps) {
     ],
   };
 
+  const videoSchema = article.videoId
+    ? {
+        "@context": "https://schema.org",
+        "@type": "VideoObject",
+        name: `${article.title} · Showreel`,
+        description: article.metaDescription,
+        thumbnailUrl: [article.coverImage],
+        uploadDate: `${article.date}T08:00:00+05:30`,
+        contentUrl:
+          article.videoType === "vimeo"
+            ? `https://vimeo.com/${article.videoId}`
+            : `https://www.youtube.com/watch?v=${article.videoId}`,
+        embedUrl:
+          article.videoType === "vimeo"
+            ? `https://player.vimeo.com/video/${article.videoId}`
+            : `https://www.youtube.com/embed/${article.videoId}`,
+        publisher: {
+          "@type": "Organization",
+          name: "White Frog Productions",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
+          },
+        },
+      }
+    : null;
+
   return (
     <>
       <script
@@ -169,6 +196,12 @@ export default function CorporateArticlePage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
       />
+      {videoSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
+        />
+      )}
 
       <article className="min-h-screen bg-[#faf8f5] text-brand-dark pt-28 pb-24">
         {/* Breadcrumb Navigation */}

@@ -1,18 +1,19 @@
 import { Metadata } from "next";
 import BlogClient from "./BlogClient";
 import { SEO_ARTICLES } from "@/data/seoArticles";
+import { getCorporateAsSEOArticles } from "@/data/corporateSeoArticles";
 
 export const metadata: Metadata = {
-  title: "Wedding Photography & Cinema Journal | White Frog Productions",
+  title: "Wedding & Corporate Cinema Journal | White Frog Productions",
   description:
-    "Explore authoritative wedding guides, destination spotlights, venue breakdowns, and cinematic filmmaking secrets by White Frog Productions.",
+    "Explore authoritative destination wedding guides, venue breakdowns, corporate video production insights, and cinematic filmmaking secrets by White Frog Productions.",
   alternates: {
     canonical: "https://www.whitefrogproductions.com/blog",
   },
   openGraph: {
-    title: "Luxury Wedding Cinema & Story Journal | White Frog Productions",
+    title: "Luxury Wedding & Corporate Cinema Journal | White Frog Productions",
     description:
-      "Award-winning destination wedding team White Frog Productions shares expert venue guides, photography advice, and cinema inspiration.",
+      "Award-winning cinema and photography studio White Frog Productions shares venue guides, enterprise production case studies, and cinema inspiration.",
     url: "https://www.whitefrogproductions.com/blog",
     siteName: "White Frog Productions",
     type: "website",
@@ -21,18 +22,21 @@ export const metadata: Metadata = {
         url: "https://images-pw.pixieset.com/elementfield/1naox6/DSCF0325copy-8ff17774-1500.jpg",
         width: 1500,
         height: 1000,
-        alt: "White Frog Productions Wedding Journal",
+        alt: "White Frog Productions Journal",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Wedding Photography & Cinema Journal | White Frog Productions",
+    title: "Wedding & Corporate Cinema Journal | White Frog Productions",
     description:
-      "Authoritative destination wedding guides, luxury venue insights, and cinematography secrets.",
+      "Authoritative destination wedding guides, enterprise production insights, and cinematography secrets.",
   },
 };
 
 export default function BlogPage() {
-  return <BlogClient articles={SEO_ARTICLES} />;
+  const corporateArticles = getCorporateAsSEOArticles();
+  // Merge wedding and corporate articles
+  const allArticles = [...corporateArticles, ...SEO_ARTICLES];
+  return <BlogClient articles={allArticles} />;
 }

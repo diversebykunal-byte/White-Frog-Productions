@@ -11,8 +11,8 @@ const SERVICES = [
     defaultVideo: { type: "youtube", id: "kL4Noppj1rY" },
     coverImages: [
       "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1600&q=80",
-      "https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1600&q=80",
     ],
     deliverables: [
       "Cinematic 4K/6K plant & machinery walkthroughs capturing automation and scale",
@@ -217,6 +217,150 @@ const SERVICES = [
         answer: `We use X-Rite ColorCheckers and hardware-calibrated EIZO reference monitors to guarantee exact Pantone and textile color fidelity across digital screens and print billboards.`
       }
     ]
+  },
+  {
+    name: "Safety Induction & EHS Training Video Production",
+    shortName: "Safety Induction & EHS Training Films",
+    slugPrefix: "safety-induction-video-production",
+    serviceSlug: "safety-training",
+    heroHeading: "OSHA Compliant Safety Modules, Factory SOPs & Hazard Prevention Films",
+    defaultVideo: { type: "youtube", id: "kL4Noppj1rY" },
+    coverImages: [
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?auto=format&fit=crop&w=1600&q=80",
+    ],
+    deliverables: [
+      "Interactive visitor and contractor safety induction video modules",
+      "Standard Operating Procedure (SOP) step-by-step machinery operation videos",
+      "Multilingual voiceover localization in Hindi, English, and regional Indian languages",
+      "2D/3D safety hazard animation and emergency evacuation graphics",
+      "LMS-compatible video files formatted with interactive quiz milestones"
+    ],
+    equipment: ["Sony FX6 Cinema Package", "Wireless Audio with Noise Cancellation", "High-Visibility Grip Gear", "Multilingual Voice Talent Roster"],
+    clients: ["Reckitt Benckiser", "Heavy Engineering Multinationals", "Automotive Assembly Plants", "Chemical & Pharma Units"],
+    faqTemplates: (hub, city) => [
+      {
+        question: `Can your safety induction videos be produced in multiple regional languages in ${city}?`,
+        answer: `Yes. We routinely produce safety induction videos with voiceovers and synchronized subtitles in Hindi, English, Tamil, Telugu, Marathi, Gujarati, and Bengali to ensure complete worker comprehension.`
+      },
+      {
+        question: `Do you integrate animated safety graphics and warning icons?`,
+        answer: `Yes. We overlay custom 2D/3D motion graphics, PPE checklists, emergency exit paths, and chemical hazard diamond callouts to reinforce vital EHS standards.`
+      },
+      {
+        question: `How do you shoot around active machinery safely in ${hub}?`,
+        answer: `Our crew uses wireless follow focus and telephoto cinema primes to film machine operators from safe designated safety boundaries without interrupting factory operations.`
+      }
+    ]
+  },
+  {
+    name: "CSR Documentary & ESG Impact Video Production",
+    shortName: "CSR & ESG Impact Films",
+    slugPrefix: "csr-film-makers",
+    serviceSlug: "csr-esg",
+    heroHeading: "Documentary Storytelling for Corporate Social Responsibility & Sustainability",
+    defaultVideo: { type: "youtube", id: "piPQQ5K2t5U" },
+    coverImages: [
+      "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+    ],
+    deliverables: [
+      "Human-centric documentary films showcasing grassroots community impact",
+      "Renewable energy, solar, and environmental sustainability initiatives documentation",
+      "Annual CSR compliance video reports for Board meetings and Ministry submissions",
+      "Authentic beneficiary and community elder interviews captured with empathy",
+      "Social-first bite-sized impact vignettes for corporate LinkedIn and investor decks"
+    ],
+    equipment: ["Lightweight Run-and-Gun Cinema Rigs", "Super-Cardioid Shotgun Microphones", "Compact LED Battery Lights", "Rugged All-Terrain Drones"],
+    clients: ["C-DOT Green Initiatives", "Fortune 500 Foundations", "Public Sector Undertakings (PSUs)", "Clean Energy Enterprises"],
+    faqTemplates: (hub, city) => [
+      {
+        question: `Can your documentary crew travel to remote village sites outside ${city}?`,
+        answer: `Yes. White Frog's documentary teams are experienced in field productions across rural India, navigating remote villages, tribal areas, and rugged terrains with lightweight, self-sufficient production rigs.`
+      },
+      {
+        question: `How do you capture authentic beneficiary stories without making them feel staged?`,
+        answer: `Drawing from our documentary wedding and cinematic storytelling heritage, we spend time building rapport before turning on the cameras, capturing honest emotion and unfiltered dignity.`
+      },
+      {
+        question: `Can the CSR film fulfill statutory Corporate Social Responsibility reporting requirements?`,
+        answer: `Yes. We structure the documentary to highlight measurable metrics (beneficiaries reached, carbon offset, literacy rates) aligned with MCA and ESG reporting frameworks.`
+      }
+    ]
+  },
+  {
+    name: "Investor Pitch & Pre-IPO Roadshow Films",
+    shortName: "Investor Pitch & Pre-IPO Films",
+    slugPrefix: "investor-pitch-video-production",
+    serviceSlug: "investor-pitch",
+    heroHeading: "High-Conviction Pre-IPO Roadshow Videos, Founder Pitches & Shareholder AVs",
+    defaultVideo: { type: "youtube", id: "MZLJI48_r-o" },
+    coverImages: [
+      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+    ],
+    deliverables: [
+      "Dynamic 3-to-5 minute investor pitch films designed to open pre-IPO roadshows",
+      "Financial milestone visualization, TAM/SAM market graphics and kinetic typography",
+      "High-calibre founder & leadership vision interviews with cinematic lighting",
+      "Global institutional investor cutdowns compliant with SEBI & SEC guidelines",
+      "Encrypted cloud delivery with password-protected private screening links"
+    ],
+    equipment: ["Arri Alexa / Sony FX9 Systems", "Cooke Anamorphic Lenses", "Full Cinematic Lighting Package", "Motion Graphics Workstations"],
+    clients: ["Pre-IPO Enterprise Unicorns", "Leading Venture Capital Portfolios", "Financial Institutions", "C-DOT"],
+    faqTemplates: (hub, city) => [
+      {
+        question: `What makes White Frog's investor pitch films effective in ${city}?`,
+        answer: `We combine quantitative financial clarity with emotional narrative conviction. We transform complex cap-table data and technical moats into a compelling cinematic story that commands investment committee attention.`
+      },
+      {
+        question: `How do you protect non-public financial information during production in ${hub}?`,
+        answer: `We sign airtight bilateral NDAs before receiving sensitive decks. Post-production is performed offline on encrypted drives, and rough cuts are shared via DRM-secured watermarked links.`
+      },
+      {
+        question: `Can you produce fast-turnaround video cutdowns for roadshow meetings?`,
+        answer: `Yes. We provide 90-second teaser cuts for investor emails, full 5-minute plenary presentations for bankers, and 60-second summary reels for social media announcement day.`
+      }
+    ]
+  },
+  {
+    name: "Client Testimonial & B2B Case Study Video Production",
+    shortName: "Client Testimonials & Case Studies",
+    slugPrefix: "client-testimonial-video-production",
+    serviceSlug: "client-testimonials",
+    heroHeading: "High-Impact Enterprise Case Studies, Customer Success Stories & B2B Proof",
+    defaultVideo: { type: "youtube", id: "SqI3hj1S338" },
+    coverImages: [
+      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1600&q=80",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1600&q=80",
+    ],
+    deliverables: [
+      "Executive two-camera conversational interviews conducted at client offices",
+      "Dynamic B-roll footage showing software adoption, factory output, and business results",
+      "Quantitative ROI metrics callouts and animated pull-quote titles",
+      "Full 3-minute case study documentary plus 45-second LinkedIn conversion cuts",
+      "Turnkey interview coaching so non-actor clients speak naturally and confidently"
+    ],
+    equipment: ["Two-Camera Matched Sony Cinema Rigs", "Soft Eye-Light Key and Hair Lighting", "Broadcast Lavaliers & Boom Microphones", "Portable Sound Dampening"],
+    clients: ["SaaS & Tech Unicorns", "Enterprise Industrial Suppliers", "Consulting & Financial Advisory Firms"],
+    faqTemplates: (hub, city) => [
+      {
+        question: `Can you conduct testimonial interviews at our client's office in ${hub}?`,
+        answer: `Yes. Our mobile documentary crew sets up in your client's boardroom or executive suite within 45 minutes, creating a studio-quality look without disrupting their workday.`
+      },
+      {
+        question: `How do you help nervous executives speak naturally on camera in ${city}?`,
+        answer: `We use a conversational interview approach rather than rigid teleprompters. Our directors ask guided questions that evoke spontaneous, authentic enthusiasm and credible business proof.`
+      },
+      {
+        question: `Do you provide customer release forms and legal consent templates?`,
+        answer: `Yes. We provide standard enterprise video release agreements to ensure clear copyright assignment and client signoff for marketing usage.`
+      }
+    ]
   }
 ];
 
@@ -278,17 +422,114 @@ const HUBS = [
   { city: "Chandigarh", hub: "IT Park & Mohali", state: "Punjab/UT", landmark: "Rajiv Gandhi Chandigarh Technology Park & Mohali Sector 82 industrial area" }
 ];
 
+const CITIES = [
+  { city: "Delhi", state: "Delhi", landmark: "Central Business District, Aerocity, Okhla & Connaught Place" },
+  { city: "Gurgaon", state: "Haryana", landmark: "Cyber City, Golf Course Road, Udyog Vihar & Manesar" },
+  { city: "Noida", state: "Uttar Pradesh", landmark: "Sector 62 IT Corridor, Sector 125 Expressway & Sector 132" },
+  { city: "Greater Noida", state: "Uttar Pradesh", landmark: "Knowledge Park, Ecotech Industrial Park & Techzone" },
+  { city: "Faridabad", state: "Haryana", landmark: "Mathura Road NH-19 Industrial & Engineering Corridor" },
+  { city: "Ghaziabad", state: "Uttar Pradesh", landmark: "Sahibabad Industrial Area & Mohan Nagar Commercial Belt" },
+  { city: "Manesar", state: "Haryana", landmark: "IMT Manesar Automotive & Heavy Manufacturing Cluster" },
+  { city: "Neemrana", state: "Rajasthan", landmark: "Japanese Industrial Zone & RIICO Industrial Corridor" },
+  { city: "Mumbai", state: "Maharashtra", landmark: "BKC (Bandra Kurla Complex), Lower Parel, Powai & Nariman Point" },
+  { city: "Navi Mumbai", state: "Maharashtra", landmark: "Mindspace Airoli, Vashi Infotech Park & CBD Belapur" },
+  { city: "Thane", state: "Maharashtra", landmark: "Wagle Industrial Estate & Ghodbunder Corporate Towers" },
+  { city: "Pune", state: "Maharashtra", landmark: "Hinjawadi Infotech Park, Chakan Auto Cluster & Magarpatta Cybercity" },
+  { city: "Bangalore", state: "Karnataka", landmark: "Whitefield Tech Corridor, Electronic City, Manyata & ORR Bellandur" },
+  { city: "Hyderabad", state: "Telangana", landmark: "HITEC City, Gachibowli Financial District & Madhapur" },
+  { city: "Chennai", state: "Tamil Nadu", landmark: "OMR IT Highway, Sriperumbudur & Oragadam Automotive Hub" },
+  { city: "Ahmedabad", state: "Gujarat", landmark: "SG Highway Corporate Corridor, Sanand GIDC & Changodar" },
+  { city: "Surat", state: "Gujarat", landmark: "Hazira Industrial Port Belt & Surat Diamond Bourse" },
+  { city: "Vadodara", state: "Gujarat", landmark: "Savli GIDC & Makarpura Engineering Equipment Zone" },
+  { city: "Jaipur", state: "Rajasthan", landmark: "Sitapura Industrial Area & Mahindra World City SEZ" },
+  { city: "Chandigarh", state: "Punjab/UT", landmark: "Rajiv Gandhi IT Park & Tri-City Corporate Enclaves" },
+  { city: "Mohali", state: "Punjab", landmark: "Sector 82 Industrial Area & Quark City IT Zone" },
+  { city: "Ludhiana", state: "Punjab", landmark: "Focal Point Industrial Estate & Textile Manufacturing Belt" },
+  { city: "Kolkata", state: "West Bengal", landmark: "Salt Lake Sector V IT Hub & Rajarhat New Town" },
+  { city: "Lucknow", state: "Uttar Pradesh", landmark: "Gomti Nagar IT City & Amausi Industrial Corridor" },
+  { city: "Indore", state: "Madhya Pradesh", landmark: "Super Corridor Tech Park & Pithampur Auto Cluster" },
+  { city: "Bhopal", state: "Madhya Pradesh", landmark: "Govindpura & Mandideep Industrial Area" },
+  { city: "Nagpur", state: "Maharashtra", landmark: "MIHAN SEZ Multi-modal Cargo Hub & Butibori MIDC" },
+  { city: "Coimbatore", state: "Tamil Nadu", landmark: "TIDEL Park & Peelamedu Industrial Corridor" },
+  { city: "Kochi", state: "Kerala", landmark: "Infopark Kakkanad, SmartCity & Cochin SEZ" },
+  { city: "Visakhapatnam", state: "Andhra Pradesh", landmark: "APIIC Autonagar & Cyber Valley IT SEZ" },
+  { city: "Bhubaneswar", state: "Odisha", landmark: "Infocity IT Park & Chandaka Industrial Estate" },
+  { city: "Dehradun", state: "Uttarakhand", landmark: "IT Park Sahastradhara & Selaqui Pharma Corridor" },
+  { city: "Baddi", state: "Himachal Pradesh", landmark: "BBN Pharmaceutical Manufacturing Special Zone" }
+];
+
 function generateSlug(service, hubObj) {
   const cleanHub = hubObj.hub
     .toLowerCase()
     .replace(/[&(),.]/g, '')
     .replace(/\s+/g, '-');
-  const cleanCity = hubObj.city.toLowerCase().replace(/\s+/g, '-');
+  const cleanCity = hubObj.city.toLowerCase().replace(/[\s/]/g, '-');
   return `${service.slugPrefix}-${cleanCity}-${cleanHub}`;
+}
+
+function generateCitySlug(service, cityObj) {
+  const cleanCity = cityObj.city.toLowerCase().replace(/[\s/]/g, '-');
+  return `${service.slugPrefix}-${cleanCity}`;
 }
 
 const articles = [];
 let idCounter = 1;
+
+// 1. Generate City-Wide Flagship Articles
+for (const cityObj of CITIES) {
+  for (const service of SERVICES) {
+    const slug = generateCitySlug(service, cityObj);
+    const title = `Best ${service.name} in ${cityObj.city} | White Frog Productions`;
+    const headline = `Top ${service.shortName} in ${cityObj.city}`;
+    const metaDescription = `Leading corporate video production agency in ${cityObj.city}. High-impact ${service.name.toLowerCase()} across ${cityObj.landmark} with 4K/6K cinema gear, licensed drones, and masterclass storytelling.`;
+
+    const imageIdx = (idCounter + cityObj.city.length) % service.coverImages.length;
+    const coverImage = service.coverImages[imageIdx];
+
+    const keywords = [
+      `corporate video production company in ${cityObj.city}`,
+      `best corporate film makers in ${cityObj.city}`,
+      `${service.slugPrefix.replace(/-/g, ' ')} ${cityObj.city}`,
+      `corporate video production agency ${cityObj.city}`,
+      `corporate film production house ${cityObj.city}`,
+      `top corporate filmmakers ${cityObj.city}`,
+      `business promotional video ${cityObj.city}`,
+      `${service.shortName.toLowerCase()} ${cityObj.state}`
+    ];
+
+    const keyDeliverables = service.deliverables;
+    const equipmentStack = service.equipment;
+    const clientShowcase = service.clients;
+    const faqs = service.faqTemplates(`All Major Districts of ${cityObj.city}`, cityObj.city);
+
+    articles.push({
+      slug,
+      title,
+      headline,
+      service: service.name,
+      serviceSlug: service.serviceSlug,
+      city: cityObj.city,
+      hub: "City-Wide Operations",
+      state: cityObj.state,
+      landmark: cityObj.landmark,
+      metaDescription,
+      heroHeading: service.heroHeading,
+      keywords,
+      coverImage,
+      readingTime: "6 min read",
+      date: "2026-09-22",
+      featured: true,
+      videoType: service.defaultVideo.type,
+      videoId: service.defaultVideo.id,
+      keyDeliverables,
+      equipmentStack,
+      clientShowcase,
+      faqs
+    });
+
+    idCounter++;
+  }
+}
 
 for (const hubObj of HUBS) {
   for (const service of SERVICES) {
@@ -304,9 +545,14 @@ for (const hubObj of HUBS) {
     const keywords = [
       `${service.slugPrefix.replace(/-/g, ' ')} ${hubObj.city}`,
       `${service.slugPrefix.replace(/-/g, ' ')} ${hubObj.hub}`,
-      `corporate video production ${hubObj.city}`,
-      `best corporate film makers ${hubObj.city}`,
-      `${service.shortName.toLowerCase()} ${hubObj.state}`
+      `corporate video production company in ${hubObj.city}`,
+      `best corporate film makers in ${hubObj.city}`,
+      `corporate video production agency ${hubObj.hub}`,
+      `industrial video makers in ${hubObj.city}`,
+      `company profile video production services ${hubObj.city}`,
+      `${service.shortName.toLowerCase()} ${hubObj.state}`,
+      `corporate cinematography services ${hubObj.city}`,
+      `business video production ${hubObj.city}`
     ];
 
     const keyDeliverables = service.deliverables;
@@ -386,7 +632,11 @@ export const CORPORATE_SERVICES = [
   "Corporate Brand Films & AV Production",
   "Corporate Headshot & Executive Photography",
   "Commercial Real Estate & Drone Filming",
-  "Commercial Advertising & Product Campaigns"
+  "Commercial Advertising & Product Campaigns",
+  "Safety Induction & EHS Training Video Production",
+  "CSR Documentary & ESG Impact Video Production",
+  "Investor Pitch & Pre-IPO Roadshow Films",
+  "Client Testimonial & B2B Case Study Video Production"
 ] as const;
 
 export const CORPORATE_ARTICLES: CorporateArticle[] = ${JSON.stringify(articles, null, 2)};
@@ -402,6 +652,25 @@ export function getRelatedCorporateArticles(currentSlug: string, count = 3): Cor
   return CORPORATE_ARTICLES.filter(
     (a) => a.slug !== currentSlug && (a.serviceSlug === current.serviceSlug || a.city === current.city)
   ).slice(0, count);
+}
+
+export function getCorporateAsSEOArticles() {
+  return CORPORATE_ARTICLES.map((ca) => ({
+    slug: ca.slug,
+    title: ca.title,
+    category: "Corporate Films",
+    description: ca.metaDescription,
+    keywords: ca.keywords,
+    coverImage: ca.coverImage,
+    readingTime: ca.readingTime,
+    date: ca.date,
+    featured: ca.featured,
+    youtubeId: ca.videoType === "youtube" ? ca.videoId : undefined,
+    location: ca.hub + ", " + ca.city,
+    keyTakeaways: ca.keyDeliverables,
+    faqs: ca.faqs,
+    href: "/corporate/" + ca.slug,
+  }));
 }
 `;
 
