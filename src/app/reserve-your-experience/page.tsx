@@ -1,6 +1,41 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import InquiryForm from "@/components/InquiryForm";
+
+export const metadata: Metadata = {
+  title: "Reserve Your Experience | White Frog Productions",
+  description:
+    "Let’s tell your love story. Inquire about availability and bespoke collections for your wedding celebration.",
+  alternates: {
+    canonical: "https://www.whitefrogproductions.com/reserve-your-experience",
+  },
+  openGraph: {
+    title: "Reserve Your Forever After Experience | White Frog Productions",
+    description:
+      "Let’s tell your love story. Inquire about availability and bespoke collections for your wedding celebration.",
+    url: "https://www.whitefrogproductions.com/reserve-your-experience",
+    siteName: "White Frog Productions",
+    type: "website",
+    images: [
+      {
+        url: "https://images-pw.pixieset.com/elementfield/587566321/5G4A2096-40f47ed3.jpg",
+        width: 1500,
+        height: 1000,
+        alt: "Reserve Your Experience - White Frog Productions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Reserve Your Forever After Experience | White Frog Productions",
+    description:
+      "Inquire about availability and bespoke collections for your wedding celebration.",
+    images: [
+      "https://images-pw.pixieset.com/elementfield/587566321/5G4A2096-40f47ed3.jpg",
+    ],
+  },
+};
 
 export default function ReservePage() {
   return (

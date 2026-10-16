@@ -36,9 +36,39 @@ const aristotelicaFallback = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.whitefrogproductions.com"),
   title: "White Frog Productions | Cinematic Wedding Heirlooms & Photography",
   description:
     "Contemporary luxury wedding filmmaking and fine-art photography by White Frog Productions. Delhi NCR & Worldwide.",
+  alternates: {
+    canonical: "https://www.whitefrogproductions.com",
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://www.whitefrogproductions.com",
+    siteName: "White Frog Productions",
+    title: "White Frog Productions | Cinematic Wedding Heirlooms & Photography",
+    description:
+      "Contemporary luxury wedding filmmaking and fine-art photography by White Frog Productions. Delhi NCR & Worldwide.",
+    images: [
+      {
+        url: "https://images-pw.pixieset.com/elementfield/blK9LJ/Screenshot2025-05-31at12.38.52AM-223909a0-1500.png",
+        width: 1500,
+        height: 1000,
+        alt: "White Frog Productions - Luxury Wedding Cinema & Fine-Art Photography",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "White Frog Productions | Cinematic Wedding Heirlooms & Photography",
+    description:
+      "Contemporary luxury wedding filmmaking and fine-art photography by White Frog Productions. Delhi NCR & Worldwide.",
+    images: [
+      "https://images-pw.pixieset.com/elementfield/blK9LJ/Screenshot2025-05-31at12.38.52AM-223909a0-1500.png",
+    ],
+  },
   icons: {
     icon: [
       { url: "/favicon.ico" },

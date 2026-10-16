@@ -1,5 +1,40 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "About Us | White Frog Productions",
+  description:
+    "We love, love. Founded in September 2012 by Madhavi & Kunal, documenting raw, unscripted emotions across 500+ luxury weddings worldwide.",
+  alternates: {
+    canonical: "https://www.whitefrogproductions.com/about",
+  },
+  openGraph: {
+    title: "About Us · Madhavi & Kunal | White Frog Productions",
+    description:
+      "We love, love. Founded in September 2012 by Madhavi & Kunal, documenting raw, unscripted emotions across 500+ luxury weddings worldwide.",
+    url: "https://www.whitefrogproductions.com/about",
+    siteName: "White Frog Productions",
+    type: "profile",
+    images: [
+      {
+        url: "https://images-pw.pixieset.com/elementfield/blKlee/Screenshot2024-08-15at2.53.59PM-ebbfbad4-1500.png",
+        width: 1500,
+        height: 1000,
+        alt: "Madhavi & Kunal - Founders of White Frog Productions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "About Us · Madhavi & Kunal | White Frog Productions",
+    description:
+      "Documenting raw, unscripted emotions across 500+ luxury weddings worldwide.",
+    images: [
+      "https://images-pw.pixieset.com/elementfield/blKlee/Screenshot2024-08-15at2.53.59PM-ebbfbad4-1500.png",
+    ],
+  },
+};
 
 export default function AboutPage() {
   return (

@@ -1,5 +1,40 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "The Experience | White Frog Productions",
+  description:
+    "We do things differently. This is about you, your story, and authentic unscripted wedding cinema by White Frog Productions.",
+  alternates: {
+    canonical: "https://www.whitefrogproductions.com/experience",
+  },
+  openGraph: {
+    title: "The Experience · Authentic Love Stories | White Frog Productions",
+    description:
+      "We do things differently. This is about you, your story, and authentic unscripted wedding cinema by White Frog Productions.",
+    url: "https://www.whitefrogproductions.com/experience",
+    siteName: "White Frog Productions",
+    type: "website",
+    images: [
+      {
+        url: "https://images-pw.pixieset.com/elementfield/yKpv3b/0A6A4650copy-8f6d78d0-1500.jpg",
+        width: 1500,
+        height: 1000,
+        alt: "The Experience - White Frog Productions",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "The Experience · Authentic Love Stories | White Frog Productions",
+    description:
+      "We do things differently. This is about you, your story, and authentic unscripted wedding cinema.",
+    images: [
+      "https://images-pw.pixieset.com/elementfield/yKpv3b/0A6A4650copy-8f6d78d0-1500.jpg",
+    ],
+  },
+};
 
 export default function ExperiencePage() {
   return (

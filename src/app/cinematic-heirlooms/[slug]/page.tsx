@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     };
   }
 
-  const url = `https://www.whitefrogproductions.com/cinematic-heirlooms/${story.slug}`;
+  const url = `https://www.whitefrogproductions.com/${story.slug}`;
 
   return {
     title: `${story.couple} · ${story.location} | White Frog Productions`,
