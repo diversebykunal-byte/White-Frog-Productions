@@ -91,7 +91,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: article.featured ? 0.9 : 0.8,
   }));
 
-  // Programmatic Corporate B2B SEO Pages (330 enterprise hubs & services)
+  // Programmatic Corporate B2B SEO Pages (880 enterprise hubs & services)
   const corporatePages: MetadataRoute.Sitemap = CORPORATE_ARTICLES.map((article) => ({
     url: `${baseUrl}/corporate/${article.slug}`,
     lastModified: article.date || currentDate,

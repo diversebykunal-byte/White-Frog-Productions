@@ -7,6 +7,7 @@ import { Play, ExternalLink, ChevronRight, Briefcase, Award, MapPin, Sparkles, P
 import VideoModal from "@/components/VideoModal";
 import PhotoLightbox from "@/components/PhotoLightbox";
 import { cld } from "@/lib/cloudinary";
+import { COX_AND_KINGS_PHOTOS } from "@/data/siteData";
 
 type CategoryTab =
   | "All"
@@ -28,40 +29,6 @@ interface CorporateProject {
   badge?: string;
   photos?: string[];
 }
-
-const COX_AND_KINGS_PHOTOS: string[] = [
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_01.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_02.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_03.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_04.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142094/whitefrog/corporate/cox-and-kings/kullu_05.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142097/whitefrog/corporate/cox-and-kings/kullu_06.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142097/whitefrog/corporate/cox-and-kings/kullu_07.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142098/whitefrog/corporate/cox-and-kings/kullu_08.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142098/whitefrog/corporate/cox-and-kings/kullu_09.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142098/whitefrog/corporate/cox-and-kings/kullu_10.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142100/whitefrog/corporate/cox-and-kings/kullu_11.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142100/whitefrog/corporate/cox-and-kings/kullu_12.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142101/whitefrog/corporate/cox-and-kings/kullu_13.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142101/whitefrog/corporate/cox-and-kings/kullu_14.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142102/whitefrog/corporate/cox-and-kings/kullu_15.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142103/whitefrog/corporate/cox-and-kings/kullu_16.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142103/whitefrog/corporate/cox-and-kings/kullu_17.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142104/whitefrog/corporate/cox-and-kings/kullu_18.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142104/whitefrog/corporate/cox-and-kings/kullu_19.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142105/whitefrog/corporate/cox-and-kings/kullu_20.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142106/whitefrog/corporate/cox-and-kings/kullu_21.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142107/whitefrog/corporate/cox-and-kings/kullu_22.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142108/whitefrog/corporate/cox-and-kings/kullu_23.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142108/whitefrog/corporate/cox-and-kings/kullu_24.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142108/whitefrog/corporate/cox-and-kings/kullu_25.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142109/whitefrog/corporate/cox-and-kings/kullu_26.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142110/whitefrog/corporate/cox-and-kings/kullu_27.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142111/whitefrog/corporate/cox-and-kings/kullu_28.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142111/whitefrog/corporate/cox-and-kings/kullu_29.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142112/whitefrog/corporate/cox-and-kings/kullu_30.jpg",
-  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142112/whitefrog/corporate/cox-and-kings/kullu_31.jpg",
-];
 
 const CATEGORIES: CategoryTab[] = [
   "All",
@@ -144,9 +111,10 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     client: "DIACOLOR",
     title: "Fine Jewellery Brand Film",
     category: "Brand Films & Commercials",
-    type: "youtube",
-    videoId: "DWVIfSQIoNM",
+    type: "external",
+    externalUrl: "https://www.dia-color.com",
     coverImage: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1200&q=80",
+    badge: "Brand Showcase",
   },
 
   // --- Government & PSUs ---

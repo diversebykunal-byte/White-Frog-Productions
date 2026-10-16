@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { STORIES, GALLERY_PHOTOS } from "@/data/siteData";
+import { STORIES, GALLERY_PHOTOS, COX_AND_KINGS_PHOTOS } from "@/data/siteData";
 
 function escapeXml(unsafe: string): string {
   return unsafe
@@ -51,6 +51,22 @@ export async function GET() {
 
     xml += `  </url>\n`;
   }
+
+  // 3. Corporate Commercial Campaign Photos on /corporate
+  xml += `  <url>\n`;
+  xml += `    <loc>${baseUrl}/corporate</loc>\n`;
+  for (let i = 0; i < COX_AND_KINGS_PHOTOS.length; i++) {
+    const photoUrl = COX_AND_KINGS_PHOTOS[i];
+    const title = `Cox & Kings Kullu Lifestyle Campaign Still ${i + 1} | White Frog Productions`;
+    const caption = `Commercial travel and lifestyle cinematography and photography campaign in Kullu by White Frog Productions.`;
+
+    xml += `    <image:image>\n`;
+    xml += `      <image:loc>${escapeXml(photoUrl)}</image:loc>\n`;
+    xml += `      <image:title>${escapeXml(title)}</image:title>\n`;
+    xml += `      <image:caption>${escapeXml(caption)}</image:caption>\n`;
+    xml += `    </image:image>\n`;
+  }
+  xml += `  </url>\n`;
 
   xml += `</urlset>`;
 

@@ -108,7 +108,7 @@ export default function IntakePage() {
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href={`https://wa.me/919871111762?text=${encodeURIComponent(
+                href={`https://wa.me/919899263434?text=${encodeURIComponent(
                   `Hi Kunal & Madhavi! I just filled out the WFP intake form for my wedding (${formData.weddingDates || "upcoming"}). Looking forward to connecting!`
                 )}`}
                 target="_blank"
