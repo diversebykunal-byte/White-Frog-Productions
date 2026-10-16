@@ -5,44 +5,70 @@ import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface VideoModalProps {
-  youtubeId: string | null;
+  youtubeId?: string | null;
+  videoId?: string | null;
+  videoType?: "youtube" | "vimeo";
   onClose: () => void;
   title?: string;
   poster?: string;
 }
 
-export default function VideoModal({ youtubeId, onClose, title, poster }: VideoModalProps) {
+export default function VideoModal({
+  youtubeId,
+  videoId,
+  videoType,
+  onClose,
+  title,
+  poster,
+}: VideoModalProps) {
+  // Determine effective ID and type
+  const effectiveId = videoId || youtubeId || null;
+  const effectiveType: "youtube" | "vimeo" =
+    videoType || (effectiveId && /^\d{7,11}$/.test(effectiveId) && !youtubeId ? "vimeo" : "youtube");
+
   // Retain video data during exit animation so everything remains visible during the fade
-  const [activeData, setActiveData] = useState<{ id: string; title?: string; poster?: string } | null>(null);
+  const [activeData, setActiveData] = useState<{
+    id: string;
+    type: "youtube" | "vimeo";
+    title?: string;
+    poster?: string;
+  } | null>(null);
   const [iframeLoaded, setIframeLoaded] = useState(false);
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (youtubeId) {
-      setActiveData({ id: youtubeId, title, poster });
+    if (effectiveId) {
+      setActiveData({ id: effectiveId, type: effectiveType, title, poster });
       setIframeLoaded(false);
     } else if (iframeRef.current?.contentWindow) {
       // Pause video & mute immediately so audio stops in 0ms on close
       try {
-        iframeRef.current.contentWindow.postMessage(
-          JSON.stringify({ event: "command", func: "pauseVideo", args: [] }),
-          "*"
-        );
-        iframeRef.current.contentWindow.postMessage(
-          JSON.stringify({ event: "command", func: "mute", args: [] }),
-          "*"
-        );
+        if (activeData?.type === "vimeo") {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ method: "pause" }),
+            "*"
+          );
+        } else {
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: "command", func: "pauseVideo", args: [] }),
+            "*"
+          );
+          iframeRef.current.contentWindow.postMessage(
+            JSON.stringify({ event: "command", func: "mute", args: [] }),
+            "*"
+          );
+        }
       } catch {
         // Ignore cross-origin postMessage errors
       }
     }
-  }, [youtubeId, title, poster]);
+  }, [effectiveId, effectiveType, title, poster, activeData?.type]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
-    if (youtubeId) {
+    if (effectiveId) {
       document.body.style.overflow = "hidden";
       window.addEventListener("keydown", handleKeyDown);
     }
@@ -50,15 +76,19 @@ export default function VideoModal({ youtubeId, onClose, title, poster }: VideoM
       document.body.style.overflow = "auto";
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [youtubeId, onClose]);
+  }, [effectiveId, onClose]);
 
-  const displayData = youtubeId ? { id: youtubeId, title, poster } : activeData;
-  const isVisible = Boolean(youtubeId);
+  const displayData = effectiveId
+    ? { id: effectiveId, type: effectiveType, title, poster }
+    : activeData;
+  const isVisible = Boolean(effectiveId);
 
   // Determine the instant cached poster URL
   const posterUrl =
     displayData?.poster ||
-    (displayData?.id ? `https://i.ytimg.com/vi/${displayData.id}/hqdefault.jpg` : "");
+    (displayData?.type === "youtube" && displayData?.id
+      ? `https://i.ytimg.com/vi/${displayData.id}/hqdefault.jpg`
+      : "");
 
   return (
     <AnimatePresence onExitComplete={() => setActiveData(null)}>
@@ -116,11 +146,15 @@ export default function VideoModal({ youtubeId, onClose, title, poster }: VideoM
                 </div>
               )}
 
-              {/* Layer 2: YouTube Iframe - remains mounted and frozen during exit fade to avoid black void */}
+              {/* Layer 2: Video Iframe (YouTube or Vimeo) - remains mounted during exit fade */}
               <iframe
                 ref={iframeRef}
-                src={`https://www.youtube.com/embed/${displayData.id}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1&playsinline=1`}
-                title={displayData.title || "YouTube video player"}
+                src={
+                  displayData.type === "vimeo"
+                    ? `https://player.vimeo.com/video/${displayData.id}?autoplay=1&badge=0&autopause=0&player_id=0&app_id=58479`
+                    : `https://www.youtube.com/embed/${displayData.id}?autoplay=1&enablejsapi=1&rel=0&modestbranding=1&playsinline=1`
+                }
+                title={displayData.title || (displayData.type === "vimeo" ? "Vimeo video player" : "YouTube video player")}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 onLoad={() => setIframeLoaded(true)}

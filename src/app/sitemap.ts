@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import { SEO_ARTICLES } from "@/data/seoArticles";
+import { CORPORATE_ARTICLES } from "@/data/corporateSeoArticles";
 import { STORIES } from "@/data/siteData";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -90,6 +91,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: article.featured ? 0.9 : 0.8,
   }));
 
+  // Programmatic Corporate B2B SEO Pages (330 enterprise hubs & services)
+  const corporatePages: MetadataRoute.Sitemap = CORPORATE_ARTICLES.map((article) => ({
+    url: `${baseUrl}/corporate/${article.slug}`,
+    lastModified: article.date || currentDate,
+    changeFrequency: "weekly",
+    priority: article.featured ? 0.9 : 0.85,
+  }));
+
   // Wedding Story Pages (34 real luxury wedding heirloom galleries)
   const storyPages: MetadataRoute.Sitemap = STORIES.map((story) => ({
     url: `${baseUrl}/cinematic-heirlooms/${story.slug}`,
@@ -98,5 +107,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  return [...corePages, ...blogPages, ...storyPages];
+  return [...corePages, ...blogPages, ...corporatePages, ...storyPages];
 }
