@@ -366,7 +366,7 @@ export default function CorporateArticlePage({ params }: PageProps) {
               Commission {article.service} in {article.city}
             </h2>
             <p className="font-cormorant text-lg sm:text-xl text-white/80 max-w-2xl mx-auto leading-relaxed">
-              Contact our executive production desk to request our full corporate showreel, technical rate card, or schedule an on-site technical inspection in {article.hub}.
+              Contact our executive production desk to request our full corporate showreel, technical rate card, or schedule an on-site technical inspection in {article.hub === "City-Wide Operations" ? article.city : `${article.hub}, ${article.city}`}.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <Link
@@ -377,7 +377,9 @@ export default function CorporateArticlePage({ params }: PageProps) {
                 <ArrowRight className="w-4 h-4" />
               </Link>
               <a
-                href="https://wa.me/919999888888?text=Hello%20White%20Frog,%20we%20are%20inquirying%20about%20corporate%20video%20production%20in%20"
+                href={`https://wa.me/919899263434?text=${encodeURIComponent(
+                  `Hello White Frog Productions, we are inquiring about corporate production services in ${article.city}.`
+                )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-white/10 hover:bg-white/20 text-white font-forum text-sm tracking-widest uppercase rounded transition-all border border-white/20"

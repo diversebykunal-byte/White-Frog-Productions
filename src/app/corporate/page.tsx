@@ -3,8 +3,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Play, ExternalLink, ChevronRight, Briefcase, Award, MapPin, Sparkles, PhoneCall, Layers, ShieldCheck } from "lucide-react";
+import { Play, ExternalLink, ChevronRight, Briefcase, Award, MapPin, Sparkles, PhoneCall, Layers, ShieldCheck, Images, X, ZoomIn } from "lucide-react";
 import VideoModal from "@/components/VideoModal";
+import PhotoLightbox from "@/components/PhotoLightbox";
+import { cld } from "@/lib/cloudinary";
 
 type CategoryTab =
   | "All"
@@ -19,12 +21,47 @@ interface CorporateProject {
   client: string;
   title: string;
   category: CategoryTab;
-  type: "youtube" | "vimeo" | "external";
+  type: "youtube" | "vimeo" | "external" | "gallery";
   videoId?: string;
   externalUrl?: string;
   coverImage: string;
   badge?: string;
+  photos?: string[];
 }
+
+const COX_AND_KINGS_PHOTOS: string[] = [
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_01.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_02.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_03.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_04.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142094/whitefrog/corporate/cox-and-kings/kullu_05.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142097/whitefrog/corporate/cox-and-kings/kullu_06.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142097/whitefrog/corporate/cox-and-kings/kullu_07.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142098/whitefrog/corporate/cox-and-kings/kullu_08.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142098/whitefrog/corporate/cox-and-kings/kullu_09.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142098/whitefrog/corporate/cox-and-kings/kullu_10.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142100/whitefrog/corporate/cox-and-kings/kullu_11.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142100/whitefrog/corporate/cox-and-kings/kullu_12.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142101/whitefrog/corporate/cox-and-kings/kullu_13.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142101/whitefrog/corporate/cox-and-kings/kullu_14.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142102/whitefrog/corporate/cox-and-kings/kullu_15.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142103/whitefrog/corporate/cox-and-kings/kullu_16.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142103/whitefrog/corporate/cox-and-kings/kullu_17.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142104/whitefrog/corporate/cox-and-kings/kullu_18.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142104/whitefrog/corporate/cox-and-kings/kullu_19.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142105/whitefrog/corporate/cox-and-kings/kullu_20.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142106/whitefrog/corporate/cox-and-kings/kullu_21.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142107/whitefrog/corporate/cox-and-kings/kullu_22.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142108/whitefrog/corporate/cox-and-kings/kullu_23.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142108/whitefrog/corporate/cox-and-kings/kullu_24.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142108/whitefrog/corporate/cox-and-kings/kullu_25.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142109/whitefrog/corporate/cox-and-kings/kullu_26.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142110/whitefrog/corporate/cox-and-kings/kullu_27.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142111/whitefrog/corporate/cox-and-kings/kullu_28.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142111/whitefrog/corporate/cox-and-kings/kullu_29.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142112/whitefrog/corporate/cox-and-kings/kullu_30.jpg",
+  "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142112/whitefrog/corporate/cox-and-kings/kullu_31.jpg",
+];
 
 const CATEGORIES: CategoryTab[] = [
   "All",
@@ -203,9 +240,10 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     client: "FRENCH EMBASSY",
     title: "European Cheese Summit Event",
     category: "MICE & Global Summits",
-    type: "vimeo",
-    videoId: "153960571",
+    type: "external",
+    externalUrl: "https://drive.google.com/drive/u/3/folders/1ex5M9DwS_1tZESbe8gXCbis1ROdXpseL",
     coverImage: "https://images.unsplash.com/photo-1486297678162-eb2a19b0a32d?auto=format&fit=crop&w=1200&q=80",
+    badge: "Drive Archive",
   },
   {
     client: "FRENCH EMBASSY",
@@ -311,17 +349,19 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     client: "SAMODE PALACE",
     title: "Cinematic Aerial Architecture",
     category: "Hospitality & Aerial",
-    type: "vimeo",
-    videoId: "131757127",
+    type: "youtube",
+    videoId: "7FOXGQdaYrs",
     coverImage: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+    badge: "Aerial Architecture Film",
   },
   {
     client: "BHANWAR SINGH PALACE",
     title: "Cinematic Aerial Architecture",
     category: "Hospitality & Aerial",
-    type: "vimeo",
-    videoId: "131909015",
+    type: "youtube",
+    videoId: "IcPI06Ntmz4",
     coverImage: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    badge: "Heritage Architecture Film",
   },
 
   // --- Commercial Campaigns & Headshots ---
@@ -338,10 +378,11 @@ const CORPORATE_PROJECTS: CorporateProject[] = [
     client: "COX & KINGS",
     title: "Lifestyle Campaign · Shot in Kullu",
     category: "Commercial Campaigns & Headshots",
-    type: "external",
+    type: "gallery",
     externalUrl: "https://drive.google.com/drive/folders/1bbqbG_yUOIOmw7rxIUJhxJL08FBLEHoZ?usp=sharing",
-    coverImage: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80",
-    badge: "Drive Gallery",
+    coverImage: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142095/whitefrog/corporate/cox-and-kings/kullu_01.jpg",
+    badge: "31 Photos · Masonry Gallery",
+    photos: COX_AND_KINGS_PHOTOS,
   },
   {
     client: "GANGA WOOLS",
@@ -389,6 +430,8 @@ export default function CorporatePage() {
     type: "youtube" | "vimeo";
     title: string;
   } | null>(null);
+  const [activeGallery, setActiveGallery] = useState<CorporateProject | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filteredProjects =
     activeTab === "All"
@@ -396,7 +439,9 @@ export default function CorporatePage() {
       : CORPORATE_PROJECTS.filter((p) => p.category === activeTab);
 
   const handleCardClick = (project: CorporateProject) => {
-    if (project.type === "youtube" && project.videoId) {
+    if (project.type === "gallery" && project.photos && project.photos.length > 0) {
+      setActiveGallery(project);
+    } else if (project.type === "youtube" && project.videoId) {
       setActiveVideo({
         id: project.videoId,
         type: "youtube",
@@ -468,7 +513,11 @@ export default function CorporatePage() {
                 {/* Badge Overlay */}
                 {proj.badge && (
                   <div className="absolute top-3 right-3 bg-black/75 backdrop-blur-md px-2.5 py-1 rounded text-[10px] font-forum tracking-wider uppercase text-white/90 flex items-center gap-1 border border-white/20">
-                    <ExternalLink className="w-3 h-3 text-brand-gold" />
+                    {proj.type === "gallery" ? (
+                      <Images className="w-3 h-3 text-brand-gold" />
+                    ) : (
+                      <ExternalLink className="w-3 h-3 text-brand-gold" />
+                    )}
                     <span>{proj.badge}</span>
                   </div>
                 )}
@@ -476,7 +525,9 @@ export default function CorporatePage() {
                 {/* Hover Play / Open Overlay */}
                 <div className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <div className="w-14 h-14 rounded-full bg-white text-brand-dark flex items-center justify-center pl-0.5 shadow-lg transform scale-90 group-hover:scale-100 transition-transform">
-                    {proj.type === "external" ? (
+                    {proj.type === "gallery" ? (
+                      <Images className="w-5 h-5 text-brand-dark" />
+                    ) : proj.type === "external" ? (
                       <ExternalLink className="w-5 h-5 text-brand-dark" />
                     ) : (
                       <Play className="w-5 h-5 fill-brand-dark" />
@@ -617,6 +668,99 @@ export default function CorporatePage() {
         title={activeVideo?.title}
         onClose={() => setActiveVideo(null)}
       />
+
+      {/* Corporate Masonry Photo Gallery Modal */}
+      {activeGallery && (
+        <div className="fixed inset-0 z-50 bg-[#0a0a0a]/95 backdrop-blur-md flex flex-col justify-between overflow-y-auto">
+          {/* Sticky Header Bar */}
+          <div className="sticky top-0 z-20 bg-[#121212]/95 backdrop-blur-md border-b border-white/10 px-6 sm:px-12 py-4 flex items-center justify-between gap-4">
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-forum tracking-[0.25em] uppercase text-brand-gold">
+                  {activeGallery.category}
+                </span>
+                <span className="text-white/40 text-xs">•</span>
+                <span className="text-[11px] font-sans tracking-widest uppercase text-white/60">
+                  {activeGallery.photos?.length || 0} Frames · Cloudinary CDN
+                </span>
+              </div>
+              <h3 className="font-forum text-lg sm:text-2xl text-white tracking-wide uppercase">
+                {activeGallery.client} · {activeGallery.title}
+              </h3>
+            </div>
+            <div className="flex items-center gap-3">
+              {activeGallery.externalUrl && (
+                <a
+                  href={activeGallery.externalUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-white/20 text-xs font-forum tracking-wider uppercase text-white/90 hover:bg-white/10 transition-colors"
+                >
+                  <span>Raw Drive Archive</span>
+                  <ExternalLink className="w-3.5 h-3.5 text-brand-gold" />
+                </a>
+              )}
+              <button
+                onClick={() => {
+                  setActiveGallery(null);
+                  setLightboxIndex(null);
+                }}
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer border border-white/20"
+                aria-label="Close Gallery"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
+          {/* Masonry Photo Grid */}
+          <div className="max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 sm:py-12">
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+              {activeGallery.photos?.map((photo, idx) => (
+                <div
+                  key={idx}
+                  onClick={() => setLightboxIndex(idx)}
+                  className="relative overflow-hidden cursor-pointer group bg-brand-dark/40 rounded-lg break-inside-avoid shadow-md border border-white/10 hover:border-brand-gold/60 transition-all"
+                >
+                  <Image
+                    src={cld(photo, 1200)}
+                    alt={`${activeGallery.client} - Frame ${idx + 1}`}
+                    width={800}
+                    height={600}
+                    unoptimized
+                    className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-500 ease-out"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <span className="text-xs font-forum tracking-widest uppercase bg-black/75 backdrop-blur-md text-white px-3 py-1.5 rounded-full border border-white/20 flex items-center gap-1.5">
+                      <ZoomIn className="w-3.5 h-3.5 text-brand-gold" />
+                      <span>View Frame {idx + 1}</span>
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Fullscreen Photo Lightbox when frame is clicked */}
+      {activeGallery && activeGallery.photos && lightboxIndex !== null && (
+        <PhotoLightbox
+          photos={activeGallery.photos}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNext={() =>
+            setLightboxIndex((prev) => (prev! + 1) % activeGallery.photos!.length)
+          }
+          onPrev={() =>
+            setLightboxIndex(
+              (prev) =>
+                (prev! - 1 + activeGallery.photos!.length) %
+                activeGallery.photos!.length
+            )
+          }
+        />
+      )}
     </div>
   );
 }
