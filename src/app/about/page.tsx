@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { Tv, ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "About Us | White Frog Productions",
@@ -98,6 +99,40 @@ export default function AboutPage() {
       <div className="w-full max-w-[1350px] mx-auto px-6 sm:px-12">
         <div className="w-full h-[1px] bg-brand-sand/60" />
       </div>
+
+      {/* Featured in National Media Spotlight */}
+      <section className="max-w-[1350px] mx-auto px-6 sm:px-12 py-12 sm:py-16">
+        <div className="border border-brand-sand/80 bg-brand-cream/30 p-8 sm:p-12 rounded-sm flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="space-y-3 max-w-2xl text-center md:text-left">
+            <div className="inline-flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-brand-gold font-sans font-medium">
+              <Tv className="w-3.5 h-3.5" />
+              <span>FEATURED IN NATIONAL MEDIA</span>
+            </div>
+            <h3 className="font-forum text-2xl sm:text-3xl text-brand-dark tracking-wide">
+              WION TV · Tech It Out! (EP 35)
+            </h3>
+            <p className="font-cormorant text-lg sm:text-xl text-brand-muted italic leading-relaxed">
+              Co-Founder Kunal Khanna interviewed on national television discussing the technological revolution in digital cinema, compact 4K camera gear, and elevating weddings into timeless visual heirlooms.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+            <Link
+              href="/in-media"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand-dark text-white font-forum text-xs tracking-[0.2em] uppercase hover:bg-black transition-colors"
+            >
+              <span>Watch Broadcast</span>
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/music-videos"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-brand-dark/40 text-brand-dark font-forum text-xs tracking-[0.2em] uppercase hover:bg-white transition-colors"
+            >
+              <span>Music Videos</span>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* 3. Testimonials Banner */}
       <section className="relative w-full h-[50vh] sm:h-[60vh] overflow-hidden my-16">

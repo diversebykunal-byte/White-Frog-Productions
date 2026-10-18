@@ -126,6 +126,21 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
               }}
             >
               <Link
+                href="/music-videos"
+                onClick={onClose}
+                className="font-forum text-2xl sm:text-3xl tracking-wide text-brand-dark hover:opacity-70 transition-opacity"
+              >
+                Music Videos
+              </Link>
+            </motion.div>
+
+            <motion.div
+              variants={{
+                closed: { opacity: 0, y: 10 },
+                open: { opacity: 1, y: 0 },
+              }}
+            >
+              <Link
                 href="/corporate"
                 onClick={onClose}
                 className="font-forum text-2xl sm:text-3xl tracking-wide text-brand-dark hover:opacity-70 transition-opacity"
@@ -184,6 +199,13 @@ export default function FullscreenMenu({ isOpen, onClose }: FullscreenMenuProps)
                       className="font-forum text-lg sm:text-xl tracking-wider hover:text-brand-dark transition-colors"
                     >
                       About
+                    </Link>
+                    <Link
+                      href="/in-media"
+                      onClick={onClose}
+                      className="font-forum text-lg sm:text-xl tracking-wider hover:text-brand-dark transition-colors"
+                    >
+                      In Media &amp; Press
                     </Link>
                     <Link
                       href="/experience"

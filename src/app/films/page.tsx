@@ -30,6 +30,36 @@ export default function FilmsPage() {
         </div>
       </section>
 
+      {/* Top Cross-Navigation Hub */}
+      <section className="border-b border-brand-sand/60 bg-brand-cream/30 py-4 px-6">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-3 sm:gap-6 text-xs sm:text-sm font-forum tracking-widest uppercase">
+          <span className="px-4 py-2 bg-brand-dark text-white rounded-full">
+            Wedding Films (29)
+          </span>
+          <span className="text-brand-sand">|</span>
+          <Link
+            href="/pre-weddings"
+            className="px-4 py-2 text-brand-muted hover:text-brand-dark transition-colors"
+          >
+            Pre-Weddings (20)
+          </Link>
+          <span className="text-brand-sand">|</span>
+          <Link
+            href="/music-videos"
+            className="px-4 py-2 text-brand-muted hover:text-brand-dark transition-colors"
+          >
+            Music Videos (14)
+          </Link>
+          <span className="text-brand-sand">|</span>
+          <Link
+            href="/in-media"
+            className="px-4 py-2 text-brand-muted hover:text-brand-dark transition-colors"
+          >
+            In Media &amp; Press
+          </Link>
+        </div>
+      </section>
+
       {/* 2. Grid of All 29 Real YouTube Films */}
       <section className="max-w-7xl mx-auto px-6 sm:px-8 py-16 sm:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 sm:gap-14">

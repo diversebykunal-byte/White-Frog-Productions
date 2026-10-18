@@ -34,6 +34,9 @@ export default function Footer() {
           <Link href="/films" className="hover:text-brand-dark transition-colors">
             Films
           </Link>
+          <Link href="/music-videos" className="hover:text-brand-dark transition-colors">
+            Music Videos
+          </Link>
           <Link href="/corporate" className="hover:text-brand-dark transition-colors">
             Corporate
           </Link>

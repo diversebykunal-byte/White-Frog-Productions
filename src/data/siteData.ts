@@ -15,6 +15,43 @@ export interface Film {
   youtubeId: string;
 }
 
+export interface MusicVideo {
+  id: string;
+  youtubeId: string;
+  title: string;
+  artist: string;
+  label?: string;
+  category: "Punjabi Hits" | "Indie & Bands" | "Mainstream & Hip-Hop" | "Teasers & Promos" | "All";
+  coverImage: string;
+  featured?: boolean;
+}
+
+export interface PreWeddingFilm {
+  id: string;
+  youtubeId: string;
+  title: string;
+  couple: string;
+  subtitle?: string;
+  location: string;
+  category: "Forts & Palaces" | "Mountain & Scenic" | "Coastal & Destination" | "Creative Concepts" | "Cinematic Romance" | "Proposals & Love Stories" | "Exotic & Landscapes" | "Save The Date";
+  coverImage: string;
+  featured?: boolean;
+}
+
+export interface MediaFeature {
+  id: string;
+  youtubeId: string;
+  title: string;
+  subtitle: string;
+  network: string;
+  show: string;
+  coverImage: string;
+  description: string;
+  quote: string;
+  featuredPerson: string;
+  tags: string[];
+}
+
 export interface FAQItem {
   question: string;
   answer: string;
@@ -25,12 +62,14 @@ export const NAVIGATION_LINKS = [
   { label: "Cinematic Heirlooms", href: "/cinematic-heirlooms" },
   { label: "Gallery of Emotions", href: "/gallery-of-emotions" },
   { label: "Films", href: "/films" },
+  { label: "Music Videos", href: "/music-videos" },
   { label: "Corporate", href: "/corporate" },
   {
     label: "Info +",
     href: "/about",
     sublinks: [
       { label: "About", href: "/about" },
+      { label: "In Media & Press", href: "/in-media" },
       { label: "Experience", href: "/experience" },
       { label: "FAQ", href: "/faq" }
     ]
@@ -1731,4 +1770,351 @@ export const COX_AND_KINGS_PHOTOS: string[] = [
   "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142111/whitefrog/corporate/cox-and-kings/kullu_29.jpg",
   "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142112/whitefrog/corporate/cox-and-kings/kullu_30.jpg",
   "https://res.cloudinary.com/lyoxtgem/image/upload/v1792142112/whitefrog/corporate/cox-and-kings/kullu_31.jpg",
+];
+
+export const MUSIC_VIDEOS: MusicVideo[] = [
+  {
+    id: "jogi-eremite-mahadev-vibes",
+    youtubeId: "fLZFLP5y4cQ",
+    title: "Jogi (Eremite)",
+    artist: "Mahadev Vibes",
+    label: "Original Composition",
+    category: "Indie & Bands",
+    coverImage: "https://i.ytimg.com/vi/fLZFLP5y4cQ/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "andhere-sheher-me-swastik-the-band",
+    youtubeId: "vUA1GzfefrE",
+    title: "Andhere Sheher Me",
+    artist: "Swastik The Band",
+    label: "White Frog Productions",
+    category: "Indie & Bands",
+    coverImage: "https://i.ytimg.com/vi/vUA1GzfefrE/hqdefault.jpg",
+    featured: true
+  },
+  {
+    id: "paisa-paisa-promo-just-ittefaaq",
+    youtubeId: "MEPrvyBnuy0",
+    title: "Paisa Paisa (Promo)",
+    artist: "Jasleen Aulakh & Just Ittefaaq",
+    label: "White Frog Productions",
+    category: "Teasers & Promos",
+    coverImage: "https://i.ytimg.com/vi/MEPrvyBnuy0/maxresdefault.jpg"
+  },
+  {
+    id: "haar-gaya-dil-abazz",
+    youtubeId: "4S0WLY-weSs",
+    title: "Haar Gaya Dil",
+    artist: "A-bazz",
+    label: "Independent Release",
+    category: "Mainstream & Hip-Hop",
+    coverImage: "https://i.ytimg.com/vi/4S0WLY-weSs/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "sajna-teaser-vikas-arora",
+    youtubeId: "JDLAUYsH84A",
+    title: "Sajna (Official Teaser)",
+    artist: "Vikas Arora",
+    label: "Moviebox Record Label",
+    category: "Teasers & Promos",
+    coverImage: "https://i.ytimg.com/vi/JDLAUYsH84A/hqdefault.jpg"
+  },
+  {
+    id: "paisa-paisa-jasleen-aulakh",
+    youtubeId: "E8pEjIMk4lI",
+    title: "Paisa Paisa (Just Ittefaaq)",
+    artist: "Jasleen Aulakh",
+    label: "White Frog Productions",
+    category: "Indie & Bands",
+    coverImage: "https://i.ytimg.com/vi/E8pEjIMk4lI/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "ghadoli-nambardar-sony-music",
+    youtubeId: "PkP7H7Sh-CA",
+    title: "Ghadoli (Album: Da Future)",
+    artist: "Nambardar",
+    label: "Sony Music India",
+    category: "Mainstream & Hip-Hop",
+    coverImage: "https://i.ytimg.com/vi/PkP7H7Sh-CA/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "short-dress-luvit-ghai",
+    youtubeId: "Zcbsi9CQO3Y",
+    title: "Short Dress",
+    artist: "Luv-it Ghai ft. Mustapha",
+    label: "SagaHits",
+    category: "Punjabi Hits",
+    coverImage: "https://i.ytimg.com/vi/Zcbsi9CQO3Y/maxresdefault.jpg"
+  },
+  {
+    id: "ghadoli-teaser-nambardar",
+    youtubeId: "_evK5k_WiW8",
+    title: "Ghadoli (Official Teaser)",
+    artist: "Nambardar",
+    label: "Sony Music India",
+    category: "Teasers & Promos",
+    coverImage: "https://i.ytimg.com/vi/_evK5k_WiW8/maxresdefault.jpg"
+  },
+  {
+    id: "darshan-karke-dj-sanj-mankirt-aulakh",
+    youtubeId: "9_dE9Izcbfc",
+    title: "Darshan Karke",
+    artist: "DJ Sanj & Mankirt Aulakh",
+    label: "Moviebox Record Label",
+    category: "Punjabi Hits",
+    coverImage: "https://i.ytimg.com/vi/9_dE9Izcbfc/hqdefault.jpg",
+    featured: true
+  },
+  {
+    id: "short-dress-teaser-luvit-ghai",
+    youtubeId: "n4A02Nqvj0o",
+    title: "Short Dress (Teaser)",
+    artist: "Luv-it Ghai ft. Mustapha",
+    label: "SagaHits",
+    category: "Teasers & Promos",
+    coverImage: "https://i.ytimg.com/vi/n4A02Nqvj0o/hqdefault.jpg"
+  },
+  {
+    id: "lalala-abazz-big-natty",
+    youtubeId: "Yx_kDSadXx4",
+    title: "LaLaLa",
+    artist: "A-bazz ft. Big Natty",
+    label: "Independent Release",
+    category: "Mainstream & Hip-Hop",
+    coverImage: "https://i.ytimg.com/vi/Yx_kDSadXx4/maxresdefault.jpg"
+  },
+  {
+    id: "sajna-vikas-arora",
+    youtubeId: "Ep8euJr-hRU",
+    title: "Sajna",
+    artist: "Vikas Arora",
+    label: "Moviebox Record Label",
+    category: "Punjabi Hits",
+    coverImage: "https://i.ytimg.com/vi/Ep8euJr-hRU/hqdefault.jpg",
+    featured: true
+  },
+  {
+    id: "nasha-jay-n-gag",
+    youtubeId: "sCauWcon1Aw",
+    title: "Nasha",
+    artist: "Jay N Gag",
+    label: "Lokdhun Punjabi / MV Records",
+    category: "Punjabi Hits",
+    coverImage: "https://i.ytimg.com/vi/sCauWcon1Aw/maxresdefault.jpg"
+  }
+];
+
+export const PRE_WEDDING_FILMS: PreWeddingFilm[] = [
+  {
+    id: "mrigakshi-harsh",
+    youtubeId: "CIX3mKNVFR0",
+    title: "Mrigakshi & Harsh",
+    couple: "Mrigakshi & Harsh",
+    location: "Heritage Estate",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/CIX3mKNVFR0/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "thelma-ashish",
+    youtubeId: "jQ6FsaffyD4",
+    title: "Thelma & Ashish",
+    subtitle: "The Most Romantic Proposal Ever",
+    couple: "Thelma & Ashish",
+    location: "Private Haven",
+    category: "Proposals & Love Stories",
+    coverImage: "https://i.ytimg.com/vi/jQ6FsaffyD4/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "shailee-aditya",
+    youtubeId: "c1ba8_Y-ItQ",
+    title: "Shailee & Aditya",
+    couple: "Shailee & Aditya",
+    location: "Neemrana Fort Palace, Rajasthan",
+    category: "Forts & Palaces",
+    coverImage: "https://i.ytimg.com/vi/c1ba8_Y-ItQ/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "rohit-neha",
+    youtubeId: "0gs1VQT4NBY",
+    title: "Rohit & Neha",
+    couple: "Rohit & Neha",
+    location: "Delhi NCR",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/0gs1VQT4NBY/maxresdefault.jpg"
+  },
+  {
+    id: "noor-mahal-karnal",
+    youtubeId: "IcPI06Ntmz4",
+    title: "Noor Mahal Royal Pre-Wedding",
+    couple: "Royal Elegance",
+    location: "Noor Mahal, Karnal",
+    category: "Forts & Palaces",
+    coverImage: "https://i.ytimg.com/vi/IcPI06Ntmz4/maxresdefault.jpg"
+  },
+  {
+    id: "tanya-varun",
+    youtubeId: "ZqG2K2Fgelw",
+    title: "Tanya & Varun",
+    couple: "Tanya & Varun",
+    location: "Neemrana Fort Palace, Rajasthan",
+    category: "Forts & Palaces",
+    coverImage: "https://i.ytimg.com/vi/ZqG2K2Fgelw/maxresdefault.jpg"
+  },
+  {
+    id: "nikita-himanshu",
+    youtubeId: "N3i6D6pB8Ss",
+    title: "Nikita & Himanshu",
+    couple: "Nikita & Himanshu",
+    location: "The Perfect Location, Delhi",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/N3i6D6pB8Ss/maxresdefault.jpg"
+  },
+  {
+    id: "goa-coastal-romance",
+    youtubeId: "moJdVLzUCIo",
+    title: "Pre Wedding in Goa",
+    couple: "Coastal Romance",
+    location: "Goa Coastline",
+    category: "Coastal & Destination",
+    coverImage: "https://i.ytimg.com/vi/moJdVLzUCIo/hqdefault.jpg",
+    featured: true
+  },
+  {
+    id: "anamika-mohak",
+    youtubeId: "GUU1g5xydGs",
+    title: "Anamika & Mohak",
+    couple: "Anamika & Mohak",
+    location: "Heritage Retreat",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/GUU1g5xydGs/maxresdefault.jpg"
+  },
+  {
+    id: "kawita-mandeep",
+    youtubeId: "pXuJK6oiQNA",
+    title: "Kawita & Mandeep",
+    couple: "Kawita & Mandeep",
+    location: "Punjab Countryside",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/pXuJK6oiQNA/maxresdefault.jpg"
+  },
+  {
+    id: "mansi-jinal",
+    youtubeId: "yv47wqQVW_I",
+    title: "Mansi & Jinal",
+    couple: "Mansi & Jinal",
+    location: "White Desert, Rann of Kutch, Gujarat",
+    category: "Exotic & Landscapes",
+    coverImage: "https://i.ytimg.com/vi/yv47wqQVW_I/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "divya-ranjan",
+    youtubeId: "WKPkoX79gOw",
+    title: "Divya & Ranjan",
+    couple: "Divya & Ranjan",
+    location: "Tijara Fort-Palace, Alwar, Rajasthan",
+    category: "Forts & Palaces",
+    coverImage: "https://i.ytimg.com/vi/WKPkoX79gOw/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "aditya-swati",
+    youtubeId: "rrvM8gmYLRc",
+    title: "Aditya & Swati",
+    couple: "Aditya & Swati",
+    location: "Narkanda Snowlines, Himachal Pradesh",
+    category: "Mountain & Scenic",
+    coverImage: "https://i.ytimg.com/vi/rrvM8gmYLRc/hqdefault.jpg",
+    featured: true
+  },
+  {
+    id: "aditya-neha-save-the-date",
+    youtubeId: "VUu0K4KY9ZQ",
+    title: "Aditya & Neha",
+    subtitle: "Save The Date",
+    couple: "Aditya & Neha",
+    location: "Delhi NCR",
+    category: "Save The Date",
+    coverImage: "https://i.ytimg.com/vi/VUu0K4KY9ZQ/hqdefault.jpg"
+  },
+  {
+    id: "anchal-ritwik",
+    youtubeId: "aP9C9qyLbmQ",
+    title: "Anchal & Ritwik",
+    couple: "Anchal & Ritwik",
+    location: "Rishikesh & The Ganges",
+    category: "Mountain & Scenic",
+    coverImage: "https://i.ytimg.com/vi/aP9C9qyLbmQ/maxresdefault.jpg"
+  },
+  {
+    id: "niharika-prataya",
+    youtubeId: "2PrgP0upI_Y",
+    title: "Niharika & Prataya",
+    couple: "Niharika & Prataya",
+    location: "Urban Romance",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/2PrgP0upI_Y/maxresdefault.jpg"
+  },
+  {
+    id: "sidhanth-vanika",
+    youtubeId: "z3Pip33K2FI",
+    title: "Sidhanth & Vanika",
+    subtitle: "Stop Motion Creative Film",
+    couple: "Sidhanth & Vanika",
+    location: "Studio & Outdoor",
+    category: "Creative Concepts",
+    coverImage: "https://i.ytimg.com/vi/z3Pip33K2FI/maxresdefault.jpg",
+    featured: true
+  },
+  {
+    id: "nitya-aditya",
+    youtubeId: "wAOAPJR356Y",
+    title: "Nitya & Aditya",
+    couple: "Nitya & Aditya",
+    location: "Heritage Haven",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/wAOAPJR356Y/maxresdefault.jpg"
+  },
+  {
+    id: "tripti-pulkit",
+    youtubeId: "FswVLetBJsY",
+    title: "Tripti & Pulkit",
+    subtitle: "Shaadi Ke Side Effects",
+    couple: "Tripti & Pulkit",
+    location: "Concept Romance",
+    category: "Creative Concepts",
+    coverImage: "https://i.ytimg.com/vi/FswVLetBJsY/maxresdefault.jpg"
+  },
+  {
+    id: "dimple-harmeet",
+    youtubeId: "TbdnGsOrhkw",
+    title: "Dimple & Harmeet",
+    couple: "Dimple & Harmeet",
+    location: "Royal Romance",
+    category: "Cinematic Romance",
+    coverImage: "https://i.ytimg.com/vi/TbdnGsOrhkw/maxresdefault.jpg"
+  }
+];
+
+export const MEDIA_FEATURES: MediaFeature[] = [
+  {
+    id: "wion-tv-tech-it-out-ep35",
+    youtubeId: "AKl95ggzdgM",
+    title: "Interview · WION TV · Tech It Out! (EP 35)",
+    subtitle: "Digital Filmmaking & Modern Wedding Cinema ft. Kunal Khanna",
+    network: "WION TV (World Is One News)",
+    show: "Tech It Out! Episode 35",
+    coverImage: "https://i.ytimg.com/vi/AKl95ggzdgM/maxresdefault.jpg",
+    description: "National television broadcast exploring the technological renaissance in digital filmmaking, cinematic storytelling gear, ultra-compact 4K cameras, and the evolution of luxury wedding films into genuine heirlooms.",
+    quote: "Filmmaking today isn't just about massive gear; it's about the intimacy of human connection, cinematic composition, and mastering the tools that make every frame timeless.",
+    featuredPerson: "Kunal Khanna, Co-Founder & Director of Photography",
+    tags: ["National Broadcast", "WION TV", "Digital Cinema", "Tech It Out", "Kunal Khanna"]
+  }
 ];
