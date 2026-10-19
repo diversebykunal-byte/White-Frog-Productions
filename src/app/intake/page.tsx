@@ -103,19 +103,19 @@ export default function IntakePage() {
               </h2>
             </div>
             <p className="font-cormorant text-lg sm:text-xl text-brand-muted max-w-md mx-auto leading-relaxed">
-              We take on only a limited number of weddings each year to ensure a stress-free, white-glove experience. Kunal & Madhavi will personally review your celebration details and connect with a curated proposal.
+              We take on only a limited number of weddings each year to ensure a stress-free, white-glove experience. Our team will personally review your celebration details and connect with a curated proposal.
             </p>
 
             <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
                 href={`https://wa.me/919899263434?text=${encodeURIComponent(
-                  `Hi Kunal & Madhavi! I just filled out the WFP intake form for my wedding (${formData.weddingDates || "upcoming"}). Looking forward to connecting!`
+                  `Hi Team White Frog! I just filled out the WFP intake form for my wedding (${formData.weddingDates || "upcoming"}). Looking forward to connecting!`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-[#25D366] text-white rounded-full font-forum text-xs tracking-widest uppercase hover:opacity-90 transition-opacity"
               >
-                <MessageCircle className="w-4 h-4" /> Message Kunal on WhatsApp
+                <MessageCircle className="w-4 h-4" /> Message Our Team on WhatsApp
               </a>
               <Link
                 href="/films"
