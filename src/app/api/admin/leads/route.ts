@@ -57,54 +57,80 @@ export async function GET(req: Request) {
       );
     }
 
-    const res = await fetch(CSV_URL, {
-      next: { revalidate: 0 },
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
-      },
-    });
+    const { readStoredLeads } = await import("@/lib/leadsDb");
+    const localDbLeads = readStoredLeads();
 
-    if (!res.ok) {
-      return NextResponse.json(
-        { error: `Failed to fetch Google Sheet: status ${res.status}` },
-        { status: 502 }
-      );
-    }
-
-    const csvText = await res.text();
-    const rawLines = csvText.split(/\r?\n/).filter((l) => l.trim().length > 0);
-
-    if (rawLines.length < 2) {
-      return NextResponse.json({ leads: [], stats: {} });
-    }
-
-    // Skip header row
-    const dataRows = rawLines.slice(1);
     const leads: IntakeLead[] = [];
+    const seen = new Set<string>();
 
-    dataRows.forEach((rowStr, idx) => {
-      const cols = parseCSVLine(rowStr);
-      if (cols.length >= 4 && (cols[1] || cols[3])) {
+    // 1. Add our own database leads first (highest freshness)
+    localDbLeads.forEach((l) => {
+      const cleanPhone = (l.phone || "").replace(/\D/g, "");
+      const key = `${(l.email || "").toLowerCase()}_${cleanPhone}`;
+      if (!seen.has(key)) {
+        seen.add(key);
         leads.push({
-          id: `lead-${idx + 1}`,
-          timestamp: cols[0] || "",
-          fullName: cols[1] || "Anonymous",
-          phone: cols[2] || "",
-          email: cols[3] || "",
-          weddingDates: cols[4] || "",
-          venue: cols[5] || "",
-          weddingType: cols[6] || "Not Specified",
-          primaryPriority: cols[7] || "",
-          biggestFear: cols[8] || "",
-          emotionalVision: cols[9] || "",
-          budgetBracket: cols[10] || "Undisclosed",
-          decisionMaker: cols[11] || "Couple",
+          id: l.id,
+          timestamp: l.timestamp ? new Date(l.timestamp).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) : "Recent",
+          fullName: l.fullName || "Anonymous",
+          phone: l.phone || "",
+          email: l.email || "",
+          weddingDates: l.weddingDates || "",
+          venue: l.venue || "",
+          weddingType: l.weddingType || "Not Specified",
+          primaryPriority: l.primaryPriority || "",
+          biggestFear: l.biggestFear || "",
+          emotionalVision: l.emotionalVision || "",
+          budgetBracket: l.budgetBracket || "Undisclosed",
+          decisionMaker: l.decisionMaker || "Couple",
         });
       }
     });
 
-    // Sort most recent first
-    leads.reverse();
+    // 2. Fetch and merge Google Sheet CSV rows (for historical/legacy leads)
+    try {
+      const res = await fetch(CSV_URL, {
+        next: { revalidate: 0 },
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+        },
+      });
+
+      if (res.ok) {
+        const csvText = await res.text();
+        const rawLines = csvText.split(/\r?\n/).filter((l) => l.trim().length > 0);
+        if (rawLines.length >= 2) {
+          const dataRows = rawLines.slice(1);
+          dataRows.reverse().forEach((rowStr, idx) => {
+            const cols = parseCSVLine(rowStr);
+            if (cols.length >= 4 && (cols[1] || cols[3])) {
+              const cleanPhone = (cols[2] || "").replace(/\D/g, "");
+              const key = `${(cols[3] || "").toLowerCase()}_${cleanPhone}`;
+              if (!seen.has(key)) {
+                seen.add(key);
+                leads.push({
+                  id: `sheet-${idx + 1}`,
+                  timestamp: cols[0] || "",
+                  fullName: cols[1] || "Anonymous",
+                  phone: cols[2] || "",
+                  email: cols[3] || "",
+                  weddingDates: cols[4] || "",
+                  venue: cols[5] || "",
+                  weddingType: cols[6] || "Not Specified",
+                  primaryPriority: cols[7] || "",
+                  biggestFear: cols[8] || "",
+                  emotionalVision: cols[9] || "",
+                  budgetBracket: cols[10] || "Undisclosed",
+                  decisionMaker: cols[11] || "Couple",
+                });
+              }
+            }
+          });
+        }
+      }
+    } catch (sheetErr: any) {
+      console.warn("Notice: Google Sheet CSV fetch fallback:", sheetErr?.message);
+    }
 
     // Calculate executive statistics
     const total = leads.length;

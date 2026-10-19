@@ -45,11 +45,15 @@ export async function POST(req: Request) {
       created_at: new Date().toISOString(),
     };
 
-    const adminClient = createAdminClient();
-    const { error } = await adminClient.from("inquiries").insert([payload]);
-    if (error) {
-      console.error("Supabase inquiries insert error:", error.message);
-    }
+    const { saveInquiryToDatabase } = await import("@/lib/leadsDb");
+    await saveInquiryToDatabase({
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      message: payload.message,
+      eventLocation: payload.event_location,
+      eventDate: payload.event_date,
+    });
 
     // Send email notification to Kunal via ZeptoMail
     try {
@@ -63,10 +67,13 @@ export async function POST(req: Request) {
         eventDate,
       });
 
-      // Also send confirmation email to the client
+      // Also send luxury branded confirmation email to the client
       await sendClientConfirmationEmail({
         fullName: name,
         email,
+        weddingDates: eventDate || undefined,
+        venue: location || undefined,
+        weddingType: "Exclusive Wedding Celebration",
       });
     } catch (mailErr: any) {
       console.warn("Notice: ZeptoMail notification warning:", mailErr?.message);

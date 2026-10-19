@@ -4,7 +4,10 @@ const ZEPTOMAIL_API_KEY =
   process.env.ZEPTOMAIL_API_TOKEN ||
   "Zoho-enczapikey PHtE6r1YS+rijWB68hNV4vO4Q5TxNNsqr7xvelRC4twWDqBSTk1X/98pkTSz+EgjA/EQQv/Pwd08uLnOsrrXdDzqNjwfCWqyqK3sx/VYSPOZsbq6x00YtVQec0LeVIXoc9Rr0yzWvNjSNA==";
 
-const ADMIN_EMAIL = process.env.ADMIN_NOTIFICATION_EMAIL || "kunal@whitefrogproductions.com";
+const ADMIN_EMAILS = [
+  { address: "kunal@whitefrogproductions.com", name: "Kunal Khanna" },
+  { address: "kunalkhanna2007@gmail.com", name: "Kunal Khanna" },
+];
 const FROM_EMAIL = process.env.MAIL_FROM_ADDRESS || "notifications@whitefrogproductions.com";
 const FROM_NAME = "White Frog Productions";
 
@@ -190,7 +193,7 @@ export async function sendIntakeNotification(data: IntakeData) {
   `;
 
   return sendEmail({
-    to: [{ address: ADMIN_EMAIL, name: "Kunal Khanna" }],
+    to: ADMIN_EMAILS,
     replyTo: [{ address: data.email, name: data.fullName }],
     subject: `💍 New Wedding Intake: ${data.fullName} (${data.weddingDates || "Dates TBD"})`,
     htmlBody: html,
@@ -298,7 +301,7 @@ export async function sendInquiryNotification(data: InquiryData) {
   `;
 
   return sendEmail({
-    to: [{ address: ADMIN_EMAIL, name: "Kunal Khanna" }],
+    to: ADMIN_EMAILS,
     replyTo: [{ address: data.email, name: data.name }],
     subject: `📩 New Inquiry from ${data.name} ${data.eventDate ? `(${data.eventDate})` : ""}`,
     htmlBody: html,
@@ -308,116 +311,222 @@ export async function sendInquiryNotification(data: InquiryData) {
 export interface ClientConfirmationData {
   fullName: string;
   email: string;
+  weddingDates?: string;
+  venue?: string;
+  weddingType?: string;
 }
 
 export async function sendClientConfirmationEmail(data: ClientConfirmationData) {
-  const firstName = (data.fullName || "").trim().split(" ")[0] || "";
+  const rawFirst = (data.fullName || "").trim().split(" ")[0];
+  const firstName = rawFirst && rawFirst.length > 0 ? rawFirst : "there";
+
+  const hasDetails = data.weddingDates || data.venue || data.weddingType;
+  const detailsHtml = hasDetails
+    ? `
+      <div style="background:#faf8f5;border:1px solid #ede8df;border-radius:6px;padding:16px 20px;margin:22px 0;">
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#8a6d2b;margin-bottom:10px;">Celebration Overview</div>
+        ${data.weddingDates ? `<div style="margin-bottom:6px;font-size:13px;color:#444;"><span style="display:inline-block;width:130px;color:#7a7a78;text-transform:uppercase;font-size:11px;letter-spacing:0.05em;">Wedding Date(s):</span> <strong style="color:#1c1c1b;">${data.weddingDates}</strong></div>` : ""}
+        ${data.venue ? `<div style="margin-bottom:6px;font-size:13px;color:#444;"><span style="display:inline-block;width:130px;color:#7a7a78;text-transform:uppercase;font-size:11px;letter-spacing:0.05em;">Destination / Venue:</span> <strong style="color:#1c1c1b;">${data.venue}</strong></div>` : ""}
+        ${data.weddingType ? `<div style="margin-bottom:6px;font-size:13px;color:#444;"><span style="display:inline-block;width:130px;color:#7a7a78;text-transform:uppercase;font-size:11px;letter-spacing:0.05em;">Scope &amp; Format:</span> <strong style="color:#1c1c1b;">${data.weddingType}</strong></div>` : ""}
+      </div>
+    `
+    : "";
 
   const html = `
     <!DOCTYPE html>
     <html>
     <head>
       <meta charset="utf-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <style>
         body {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-          background-color: #ffffff;
-          color: #111111;
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          background-color: #f7f6f2;
+          color: #1c1c1b;
           margin: 0;
-          padding: 32px 20px;
-          line-height: 1.65;
-          font-size: 15px;
+          padding: 28px 16px;
+          line-height: 1.6;
         }
-        .container {
-          max-width: 600px;
+        .card {
+          max-width: 620px;
           margin: 0 auto;
           background: #ffffff;
+          border-radius: 8px;
+          border: 1px solid #e5e0d4;
+          overflow: hidden;
+          box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+        }
+        .header {
+          background: #1c1c1b;
+          color: #ffffff;
+          padding: 30px;
+          text-align: center;
+        }
+        .brand-title {
+          margin: 0;
+          font-size: 22px;
+          font-weight: 400;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #ffffff;
+        }
+        .brand-sub {
+          margin: 8px 0 0;
+          font-size: 11px;
+          color: #d4af37;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          font-weight: 500;
+        }
+        .content {
+          padding: 32px;
+        }
+        .badge {
+          display: inline-block;
+          background: #f4ede0;
+          color: #8a6d2b;
+          padding: 5px 14px;
+          border-radius: 4px;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 0.12em;
+          text-transform: uppercase;
+          margin-bottom: 20px;
         }
         .greeting {
-          font-size: 16px;
-          margin-bottom: 24px;
-          color: #111111;
+          font-size: 18px;
+          font-weight: 600;
+          color: #1c1c1b;
+          margin-bottom: 14px;
         }
-        p {
-          margin: 0 0 20px;
-          color: #111111;
+        .lead-text {
+          font-size: 15px;
+          color: #2e2e2c;
+          line-height: 1.7;
+          margin-bottom: 18px;
         }
-        .bold {
+        .timeline {
+          margin: 24px 0;
+          border-top: 1px solid #f0eae1;
+          padding-top: 20px;
+        }
+        .timeline-title {
+          font-size: 12px;
           font-weight: 700;
+          letter-spacing: 0.15em;
+          text-transform: uppercase;
+          color: #8a6d2b;
+          margin-bottom: 14px;
         }
-        .list-container {
-          margin: 16px 0 24px 0;
-          padding-left: 0;
-          list-style: none;
+        .timeline-step {
+          display: flex;
+          gap: 12px;
+          margin-bottom: 14px;
         }
-        .list-item {
-          margin-bottom: 10px;
-          padding-left: 24px;
-          position: relative;
+        .step-num {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          background: #1c1c1b;
+          color: #d4af37;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 11px;
+          font-weight: 700;
+          flex-shrink: 0;
         }
-        .list-number {
-          position: absolute;
-          left: 0;
-          top: 0;
-          font-weight: 400;
+        .step-text {
+          font-size: 13px;
+          color: #2e2e2c;
+          line-height: 1.5;
+        }
+        .cta-bar {
+          margin-top: 28px;
+          padding-top: 20px;
+          border-top: 1px solid #f0eae1;
+          text-align: center;
+        }
+        .btn {
+          display: inline-block;
+          background: #1c1c1b;
+          color: #ffffff !important;
+          text-decoration: none;
+          padding: 11px 22px;
+          border-radius: 4px;
+          font-size: 13px;
+          font-weight: 500;
+          margin: 0 4px 8px;
+        }
+        .btn-wa {
+          background: #25D366;
         }
         .signature {
-          margin-top: 36px;
-          color: #111111;
-        }
-        .signature-name {
-          font-weight: 700;
-          margin-top: 16px;
-          font-size: 15px;
-        }
-        .signature-brand {
-          color: #333333;
+          margin-top: 28px;
+          padding-top: 20px;
+          border-top: 1px solid #f0eae1;
           font-size: 14px;
-          margin-top: 4px;
+          color: #2e2e2c;
         }
-        .signature-link {
-          color: #0b57d0;
-          text-decoration: underline;
-          font-size: 14px;
-          display: inline-block;
-          margin-top: 8px;
+        .footer {
+          background: #faf8f5;
+          padding: 18px 30px;
+          text-align: center;
+          font-size: 11px;
+          color: #9c9c98;
+          border-top: 1px solid #f0eae1;
+          line-height: 1.6;
         }
       </style>
     </head>
     <body>
-      <div class="container">
-        <div class="greeting">Hi ${firstName ? `${firstName} ,` : ","}</div>
+      <div class="card">
+        <div class="header">
+          <div class="brand-title">White Frog Productions</div>
+          <div class="brand-sub">Exclusive Wedding Cinema &amp; Fine-Art Photography</div>
+        </div>
+        <div class="content">
+          <span class="badge">Wedding Vision Received</span>
+          <div class="greeting">Hi ${firstName},</div>
+          <p class="lead-text">Thank you for inviting us into the sacred beginnings of your wedding story. 💍✨</p>
+          <p class="lead-text">At <strong>White Frog Productions</strong>, we don’t merely document celebrations; we craft bespoke <em>cinematic heirlooms</em>. Every glance, unscripted tear, and joyous burst of emotion is preserved with the same reverence as if it were our own family.</p>
+          
+          ${detailsHtml}
 
-        <p><strong>Thank you for sharing your wedding details with us. 💍✨</strong></p>
-
-        <p><strong>At White Frog Productions, we don’t just capture weddings, we design cinematic heirlooms. Every moment, every glance, every detail is preserved with the same care as if it were our own family.</strong></p>
-
-        <p><strong>Here's what happens next:</strong></p>
-
-        <div class="list-container">
-          <div class="list-item">
-            <span class="list-number">1.</span>
-            Our creative team will carefully review your vision and preferences.
+          <div class="timeline">
+            <div class="timeline-title">What Happens Next</div>
+            <div class="timeline-step">
+              <div class="step-num">1</div>
+              <div class="step-text"><strong>Creative Vision Review:</strong> Our directorial team will carefully review your dates, destination aesthetics, and storytelling preferences.</div>
+            </div>
+            <div class="timeline-step">
+              <div class="step-num">2</div>
+              <div class="step-text"><strong>Curated Proposal:</strong> We will craft a personalized presentation and bespoke options tailored exclusively to your wedding story.</div>
+            </div>
+            <div class="timeline-step">
+              <div class="step-num">3</div>
+              <div class="step-text"><strong>Direct Consultation (Within 24–48 Hours):</strong> Kunal or Madhavi will connect with you directly to align on availability and begin crafting your heirlooms.</div>
+            </div>
           </div>
-          <div class="list-item">
-            <span class="list-number">2.</span>
-            We'll craft a <strong>personalized proposal</strong> aligned with your story and expectations.
+
+          <p class="lead-text" style="font-size: 13px; color: #7a7a78; font-style: italic;">
+            Because we accept only a limited number of destination weddings each season, every couple we work with receives our dedicated focus, artistic energy, and personal attention.
+          </p>
+
+          <div class="cta-bar">
+            <a href="https://wa.me/919899263434?text=Hi%20Kunal,%20we%20just%20submitted%20our%20wedding%20details%20on%20White%20Frog%20Productions!" class="btn btn-wa" target="_blank">Chat with Kunal on WhatsApp</a>
+            <a href="https://www.whitefrogproductions.com/films" class="btn" target="_blank">Explore Our Films</a>
           </div>
-          <div class="list-item">
-            <span class="list-number">3.</span>
-            Within the next <strong>48 hours</strong>, you'll receive a curated presentation with options designed exclusively for your wedding.
+
+          <div class="signature">
+            Warm regards,<br/>
+            <strong>Kunal &amp; Madhavi</strong><br/>
+            <span style="color:#7a7a78;font-size:12px;">Founders &amp; Directors &bull; White Frog Productions</span>
           </div>
         </div>
-
-        <p><strong>Because we accept only a limited number of weddings each year, every couple we work with receives our full attention, planning, and creative energy.</strong></p>
-
-        <p><strong>We're truly excited about the possibility of creating a timeless memory capsule for you and your family.</strong></p>
-
-        <div class="signature">
-          <p style="margin: 0;"><strong>Warm regards,</strong></p>
-          <div class="signature-name">Kunal Khanna</div>
-          <div class="signature-brand">White Frog Productions</div>
-          <a href="https://www.whitefrogproductions.com" class="signature-link">www.whitefrogproductions.com</a>
+        <div class="footer">
+          Sent from notifications@whitefrogproductions.com &bull; New Delhi &bull; Worldwide<br/>
+          <a href="https://www.whitefrogproductions.com" style="color:#8a6d2b;text-decoration:none;">www.whitefrogproductions.com</a> &bull; +91 98992 63434
         </div>
       </div>
     </body>
@@ -426,9 +535,10 @@ export async function sendClientConfirmationEmail(data: ClientConfirmationData) 
 
   return sendEmail({
     to: [{ address: data.email, name: data.fullName }],
-    replyTo: [{ address: ADMIN_EMAIL, name: "Kunal Khanna" }],
-    subject: "We’ve received your details",
+    replyTo: [{ address: "kunal@whitefrogproductions.com", name: "Kunal Khanna" }],
+    subject: "💍 We’ve received your wedding details · White Frog Productions",
     htmlBody: html,
   });
 }
+
 

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createAdminClient } from "@/lib/supabase";
 import { sendIntakeNotification, sendClientConfirmationEmail } from "@/lib/zeptomail";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
+import { saveLeadToDatabase } from "@/lib/leadsDb";
 
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLSc0xjgZJ9KZyVhfMXr6DjnaSNQYn8nXyCDvNxNc6enJ_AV3bA/formResponse";
@@ -92,30 +93,24 @@ export async function POST(req: Request) {
       console.warn("Notice: Google Form sync warning:", gErr?.message);
     }
 
-    // 2. Insert into Supabase (server-side admin client — never exposed to browser)
+    // 2. Persist to our own database (resilient storage + Supabase)
     try {
-      const adminClient = createAdminClient();
-      const { error: sbError } = await adminClient.from("intake_leads").insert([
-        {
-          full_name: fullName,
-          phone,
-          email,
-          wedding_dates: weddingDates,
-          venue,
-          wedding_type: weddingType,
-          primary_priority: primaryPriority,
-          biggest_fear: biggestFear,
-          emotional_vision: emotionalVision,
-          budget_bracket: budgetBracket,
-          decision_maker: decisionMaker,
-          created_at: new Date().toISOString(),
-        },
-      ]);
-      if (sbError) {
-        console.error("Supabase intake_leads insert error:", sbError.message);
-      }
-    } catch (sbErr: any) {
-      console.warn("Supabase intake insert notice:", sbErr?.message);
+      await saveLeadToDatabase({
+        fullName,
+        phone,
+        email,
+        weddingDates,
+        venue,
+        weddingType,
+        primaryPriority,
+        biggestFear,
+        emotionalVision,
+        budgetBracket,
+        decisionMaker,
+        source: "Website Intake Form",
+      });
+    } catch (dbErr: any) {
+      console.warn("Notice: Database persist warning:", dbErr?.message);
     }
 
     // 3. Dispatch instant luxury email notification via ZeptoMail to Kunal
@@ -137,11 +132,14 @@ export async function POST(req: Request) {
       console.warn("Notice: ZeptoMail intake notification warning:", mailErr?.message);
     }
 
-    // 4. Send branded confirmation email to the client ("We’ve received your details")
+    // 4. Send branded luxury confirmation email to the client
     try {
       await sendClientConfirmationEmail({
         fullName,
         email,
+        weddingDates,
+        venue,
+        weddingType,
       });
     } catch (clientMailErr: any) {
       console.warn("Notice: ZeptoMail client confirmation warning:", clientMailErr?.message);
