@@ -324,10 +324,12 @@ export async function sendClientConfirmationEmail(data: ClientConfirmationData) 
   const detailsHtml = hasDetails
     ? `
       <div style="background:#faf8f5;border:1px solid #ede8df;border-radius:6px;padding:16px 20px;margin:22px 0;">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#8a6d2b;margin-bottom:10px;">Celebration Overview</div>
-        ${data.weddingDates ? `<div style="margin-bottom:6px;font-size:13px;color:#444;"><span style="display:inline-block;width:130px;color:#7a7a78;text-transform:uppercase;font-size:11px;letter-spacing:0.05em;">Wedding Date(s):</span> <strong style="color:#1c1c1b;">${data.weddingDates}</strong></div>` : ""}
-        ${data.venue ? `<div style="margin-bottom:6px;font-size:13px;color:#444;"><span style="display:inline-block;width:130px;color:#7a7a78;text-transform:uppercase;font-size:11px;letter-spacing:0.05em;">Destination / Venue:</span> <strong style="color:#1c1c1b;">${data.venue}</strong></div>` : ""}
-        ${data.weddingType ? `<div style="margin-bottom:6px;font-size:13px;color:#444;"><span style="display:inline-block;width:130px;color:#7a7a78;text-transform:uppercase;font-size:11px;letter-spacing:0.05em;">Scope &amp; Format:</span> <strong style="color:#1c1c1b;">${data.weddingType}</strong></div>` : ""}
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.12em;color:#8a6d2b;margin-bottom:12px;">Celebration Overview</div>
+        <table cellpadding="0" cellspacing="0" border="0" style="width:100%;">
+          ${data.weddingDates ? `<tr><td style="width:140px;padding:4px 0;color:#7a7a78;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;" valign="top">Wedding Date(s):</td><td style="padding:4px 0;color:#1c1c1b;font-size:13px;font-weight:600;" valign="top">${data.weddingDates}</td></tr>` : ""}
+          ${data.venue ? `<tr><td style="width:140px;padding:4px 0;color:#7a7a78;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;" valign="top">Destination / Venue:</td><td style="padding:4px 0;color:#1c1c1b;font-size:13px;font-weight:600;" valign="top">${data.venue}</td></tr>` : ""}
+          ${data.weddingType ? `<tr><td style="width:140px;padding:4px 0;color:#7a7a78;font-size:11px;text-transform:uppercase;letter-spacing:0.05em;" valign="top">Scope &amp; Format:</td><td style="padding:4px 0;color:#1c1c1b;font-size:13px;font-weight:600;" valign="top">${data.weddingType}</td></tr>` : ""}
+        </table>
       </div>
     `
     : "";
@@ -405,42 +407,6 @@ export async function sendClientConfirmationEmail(data: ClientConfirmationData) 
           line-height: 1.7;
           margin-bottom: 18px;
         }
-        .timeline {
-          margin: 24px 0;
-          border-top: 1px solid #f0eae1;
-          padding-top: 20px;
-        }
-        .timeline-title {
-          font-size: 12px;
-          font-weight: 700;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: #8a6d2b;
-          margin-bottom: 14px;
-        }
-        .timeline-step {
-          display: flex;
-          gap: 12px;
-          margin-bottom: 14px;
-        }
-        .step-num {
-          width: 24px;
-          height: 24px;
-          border-radius: 50%;
-          background: #1c1c1b;
-          color: #d4af37;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 11px;
-          font-weight: 700;
-          flex-shrink: 0;
-        }
-        .step-text {
-          font-size: 13px;
-          color: #2e2e2c;
-          line-height: 1.5;
-        }
         .cta-bar {
           margin-top: 28px;
           padding-top: 20px;
@@ -493,20 +459,44 @@ export async function sendClientConfirmationEmail(data: ClientConfirmationData) 
           
           ${detailsHtml}
 
-          <div class="timeline">
-            <div class="timeline-title">What Happens Next</div>
-            <div class="timeline-step">
-              <div class="step-num">1</div>
-              <div class="step-text"><strong>Creative Vision Review:</strong> Our directorial team will carefully review your dates, destination aesthetics, and storytelling preferences.</div>
-            </div>
-            <div class="timeline-step">
-              <div class="step-num">2</div>
-              <div class="step-text"><strong>Curated Proposal:</strong> We will craft a personalized presentation and bespoke options tailored exclusively to your wedding story.</div>
-            </div>
-            <div class="timeline-step">
-              <div class="step-num">3</div>
-              <div class="step-text"><strong>Direct Consultation (Within 24–48 Hours):</strong> Kunal or Madhavi will connect with you directly to align on availability and begin crafting your heirlooms.</div>
-            </div>
+          <div style="margin: 24px 0; border-top: 1px solid #f0eae1; padding-top: 20px;">
+            <div style="font-size: 12px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #8a6d2b; margin-bottom: 16px;">What Happens Next</div>
+            
+            <!-- Step 1 -->
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 16px;">
+              <tr>
+                <td valign="top" style="width: 32px; padding-top: 2px;">
+                  <div style="width: 24px; height: 24px; border-radius: 50%; background: #1c1c1b; color: #d4af37; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">1</div>
+                </td>
+                <td valign="top" style="padding-left: 10px; font-size: 13.5px; color: #2e2e2c; line-height: 1.55;">
+                  <strong style="color: #1c1c1b;">Creative Vision Review:</strong> Our directorial team will carefully review your vision, dates, and aesthetic preferences.
+                </td>
+              </tr>
+            </table>
+
+            <!-- Step 2 -->
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 16px;">
+              <tr>
+                <td valign="top" style="width: 32px; padding-top: 2px;">
+                  <div style="width: 24px; height: 24px; border-radius: 50%; background: #1c1c1b; color: #d4af37; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">2</div>
+                </td>
+                <td valign="top" style="padding-left: 10px; font-size: 13.5px; color: #2e2e2c; line-height: 1.55;">
+                  <strong style="color: #1c1c1b;">Curated Proposal:</strong> We will craft a bespoke presentation tailored exclusively to your wedding story.
+                </td>
+              </tr>
+            </table>
+
+            <!-- Step 3 -->
+            <table cellpadding="0" cellspacing="0" border="0" style="width: 100%; margin-bottom: 16px;">
+              <tr>
+                <td valign="top" style="width: 32px; padding-top: 2px;">
+                  <div style="width: 24px; height: 24px; border-radius: 50%; background: #1c1c1b; color: #d4af37; text-align: center; line-height: 24px; font-size: 12px; font-weight: 700;">3</div>
+                </td>
+                <td valign="top" style="padding-left: 10px; font-size: 13.5px; color: #2e2e2c; line-height: 1.55;">
+                  <strong style="color: #1c1c1b;">Direct Conversation (Within 24–48 Hours):</strong> Our team will connect with you directly to align on availability and begin crafting your heirlooms.
+                </td>
+              </tr>
+            </table>
           </div>
 
           <p class="lead-text" style="font-size: 13px; color: #7a7a78; font-style: italic;">
@@ -514,14 +504,14 @@ export async function sendClientConfirmationEmail(data: ClientConfirmationData) 
           </p>
 
           <div class="cta-bar">
-            <a href="https://wa.me/919899263434?text=Hi%20Kunal,%20we%20just%20submitted%20our%20wedding%20details%20on%20White%20Frog%20Productions!" class="btn btn-wa" target="_blank">Chat with Kunal on WhatsApp</a>
+            <a href="https://wa.me/919899263434?text=Hi%20Team%20White%20Frog,%20we%20just%20submitted%20our%20wedding%20details%20on%20White%20Frog%20Productions!" class="btn btn-wa" target="_blank">Chat with Us on WhatsApp</a>
             <a href="https://www.whitefrogproductions.com/films" class="btn" target="_blank">Explore Our Films</a>
           </div>
 
           <div class="signature">
             Warm regards,<br/>
-            <strong>Kunal &amp; Madhavi</strong><br/>
-            <span style="color:#7a7a78;font-size:12px;">Founders &amp; Directors &bull; White Frog Productions</span>
+            <strong>Team White Frog Productions</strong><br/>
+            <span style="color:#7a7a78;font-size:12px;">Cinematic Wedding Heirlooms &bull; New Delhi &bull; Worldwide</span>
           </div>
         </div>
         <div class="footer">
