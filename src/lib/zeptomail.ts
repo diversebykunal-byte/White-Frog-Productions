@@ -1,14 +1,44 @@
-const ZEPTOMAIL_URL = process.env.ZEPTOMAIL_URL || "https://api.zeptomail.in/v1.1/email";
-const ZEPTOMAIL_API_KEY =
-  process.env.ZEPTOMAIL_API_KEY ||
-  process.env.ZEPTOMAIL_API_TOKEN ||
+const DEFAULT_KEY =
   "Zoho-enczapikey PHtE6r1YS+rijWB68hNV4vO4Q5TxNNsqr7xvelRC4twWDqBSTk1X/98pkTSz+EgjA/EQQv/Pwd08uLnOsrrXdDzqNjwfCWqyqK3sx/VYSPOZsbq6x00YtVQec0LeVIXoc9Rr0yzWvNjSNA==";
+
+function getZeptoApiKey(): string {
+  let key = (
+    process.env.ZEPTOMAIL_API_KEY ||
+    process.env.ZEPTOMAIL_API_TOKEN ||
+    DEFAULT_KEY
+  ).trim();
+
+  // Strip wrapping double or single quotes (common in env vars)
+  key = key.replace(/^["']|["']$/g, "").trim();
+
+  // Ensure Zoho-enczapikey prefix
+  if (!key.startsWith("Zoho-enczapikey") && !key.startsWith("Send-Mail-Token")) {
+    key = `Zoho-enczapikey ${key}`;
+  }
+
+  return key;
+}
+
+function getFromEmail(): string {
+  const from = (process.env.MAIL_FROM_ADDRESS || "notifications@whitefrogproductions.com")
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .trim();
+  return from || "notifications@whitefrogproductions.com";
+}
+
+function getZeptoUrl(): string {
+  const url = (process.env.ZEPTOMAIL_URL || "https://api.zeptomail.in/v1.1/email")
+    .trim()
+    .replace(/^["']|["']$/g, "")
+    .trim();
+  return url || "https://api.zeptomail.in/v1.1/email";
+}
 
 const ADMIN_EMAILS = [
   { address: "kunal@whitefrogproductions.com", name: "Kunal Khanna" },
   { address: "kunalkhanna2007@gmail.com", name: "Kunal Khanna" },
 ];
-const FROM_EMAIL = process.env.MAIL_FROM_ADDRESS || "notifications@whitefrogproductions.com";
 const FROM_NAME = "White Frog Productions";
 
 export interface SendEmailOptions {
@@ -20,9 +50,13 @@ export interface SendEmailOptions {
 
 export async function sendEmail({ to, subject, htmlBody, replyTo }: SendEmailOptions) {
   try {
+    const fromEmail = getFromEmail();
+    const zeptoUrl = getZeptoUrl();
+    const zeptoApiKey = getZeptoApiKey();
+
     const payload = {
       from: {
-        address: FROM_EMAIL,
+        address: fromEmail,
         name: FROM_NAME,
       },
       to: to.map((t) => ({
@@ -43,10 +77,10 @@ export async function sendEmail({ to, subject, htmlBody, replyTo }: SendEmailOpt
       htmlbody: htmlBody,
     };
 
-    const res = await fetch(ZEPTOMAIL_URL, {
+    const res = await fetch(zeptoUrl, {
       method: "POST",
       headers: {
-        Authorization: ZEPTOMAIL_API_KEY,
+        Authorization: zeptoApiKey,
         "Content-Type": "application/json",
         Accept: "application/json",
       },

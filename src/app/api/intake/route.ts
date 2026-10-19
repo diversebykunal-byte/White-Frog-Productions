@@ -70,7 +70,7 @@ export async function POST(req: Request) {
 
     // 2. Dispatch instant luxury email notification via ZeptoMail to Studio Team
     try {
-      await sendIntakeNotification({
+      const adminRes = await sendIntakeNotification({
         fullName,
         phone,
         email,
@@ -83,19 +83,25 @@ export async function POST(req: Request) {
         budgetBracket,
         decisionMaker,
       });
+      if (!adminRes.success) {
+        console.warn("Notice: ZeptoMail intake notification warning:", adminRes.error);
+      }
     } catch (mailErr: any) {
       console.warn("Notice: ZeptoMail intake notification warning:", mailErr?.message);
     }
 
     // 3. Send branded luxury confirmation email to the client from notifications@whitefrogproductions.com
     try {
-      await sendClientConfirmationEmail({
+      const clientRes = await sendClientConfirmationEmail({
         fullName,
         email,
         weddingDates,
         venue,
         weddingType,
       });
+      if (!clientRes.success) {
+        console.warn("Notice: ZeptoMail client confirmation warning:", clientRes.error);
+      }
     } catch (clientMailErr: any) {
       console.warn("Notice: ZeptoMail client confirmation warning:", clientMailErr?.message);
     }
