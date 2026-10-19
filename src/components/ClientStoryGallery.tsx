@@ -37,8 +37,29 @@ export default function ClientStoryGallery({
 
   const allPhotos = photos && photos.length > 0 ? photos : [coverImage];
 
+  const imageGallerySchema = {
+    "@context": "https://schema.org",
+    "@type": "ImageGallery",
+    name: `${couple} Luxury Wedding Photo Gallery at ${location}`,
+    description: `Fine-art destination wedding photography collection of ${couple} at ${location} by White Frog Productions.`,
+    image: allPhotos.map((photo, idx) => ({
+      "@type": "ImageObject",
+      contentUrl: photo,
+      thumbnailUrl: cld(photo, 600),
+      caption: `${couple} luxury wedding photography at ${location} - Image ${idx + 1}`,
+      author: {
+        "@type": "Organization",
+        name: "White Frog Productions",
+      },
+    })),
+  };
+
   return (
     <div className="bg-white min-h-screen">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(imageGallerySchema) }}
+      />
       {/* 1. Hero Cover Banner matching Pixieset block-call-to-action-banner */}
       <section className="relative w-full h-[65vh] sm:h-[75vh] md:h-[82vh] max-h-[850px] overflow-hidden bg-brand-cream">
         <Image

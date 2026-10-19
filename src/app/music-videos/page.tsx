@@ -27,8 +27,44 @@ export default function MusicVideosPage() {
       ? MUSIC_VIDEOS
       : MUSIC_VIDEOS.filter((v) => v.category === activeFilter);
 
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: MUSIC_VIDEOS.map((mv, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      item: {
+        "@type": "VideoObject",
+        name: mv.title,
+        description: `${mv.title} (${mv.artist}) - Directed and produced by White Frog Productions.`,
+        thumbnailUrl: [
+          mv.coverImage,
+          `https://i.ytimg.com/vi/${mv.youtubeId}/maxresdefault.jpg`,
+          `https://i.ytimg.com/vi/${mv.youtubeId}/hqdefault.jpg`,
+        ],
+        uploadDate: "2024-01-01T08:00:00+05:30",
+        contentUrl: `https://www.youtube.com/watch?v=${mv.youtubeId}`,
+        embedUrl: `https://www.youtube.com/embed/${mv.youtubeId}`,
+        duration: "PT3M30S",
+        inLanguage: "en",
+        publisher: {
+          "@type": "Organization",
+          name: "White Frog Productions",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
+          },
+        },
+      },
+    })),
+  };
+
   return (
     <div className="bg-white min-h-screen text-brand-dark">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
+      />
       {/* 1. Cinema Hero Banner */}
       <section className="relative w-full h-[55vh] sm:h-[65vh] md:h-[70vh] overflow-hidden bg-black">
         <Image

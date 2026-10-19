@@ -209,10 +209,11 @@ export const SEO_ARTICLES: SEOArticle[] = [
   },
   {
     "slug": "wedding-videographer-cost-delhi-ncr",
-    "title": "Wedding Videographer Cost in Delhi NCR: Packages, Inclusions & Price Factors [2026]",
+    "title": "Best Wedding Photographers in Delhi NCR with Price: 2026 Cost Guide & Packages | White Frog Productions",
     "category": "Pricing & Budgets",
-    "description": "A transparent guide to luxury wedding videography packages and costs in Delhi NCR. Learn what determines pricing from crew size to 4K cinematic deliverables.",
+    "description": "Transparent 2026 pricing guide for best wedding photographers in Delhi NCR with price, luxury cinematography packages, drone inclusions, and deliverables breakdown.",
     "keywords": [
+      "best wedding photographers in delhi with price",
       "wedding videographer cost Delhi NCR",
       "wedding photographer price Delhi NCR",
       "wedding packages Delhi NCR"
@@ -435,10 +436,11 @@ export const SEO_ARTICLES: SEOArticle[] = [
   },
   {
     "slug": "best-wedding-photographer-jaipur",
-    "title": "Best Luxury Wedding Photographer in Jaipur: Capturing Timeless Heirlooms",
+    "title": "Best Wedding Photographer in Jaipur (Heritage Palaces 2026 Guide) | White Frog Productions",
     "category": "Destination Guides",
-    "description": "Award-winning luxury wedding photography in Jaipur. Specializing in candid storytelling, fine-art portraits, and cinematic heirlooms for destination weddings in The Pink City featuring Rambagh Palace, Fairmont, Samode Palace, and Jai Mahal.",
+    "description": "Award-winning luxury wedding photographer in Jaipur. Specializing in royal celebrations at Rambagh Palace, Fairmont, and Samode Palace with 4K cinema and fine-art portraits.",
     "keywords": [
+      "wedding photographer in jaipur",
       "wedding photographer Jaipur",
       "luxury wedding photographer Jaipur",
       "best wedding photographer Jaipur",
@@ -2996,10 +2998,11 @@ export const SEO_ARTICLES: SEOArticle[] = [
   },
   {
     "slug": "best-wedding-photographer-agra",
-    "title": "Best Luxury Wedding Photographer in Agra: Capturing Timeless Heirlooms",
+    "title": "Best Wedding Photographer in Agra: Luxury Destination Weddings 2026 | White Frog Productions",
     "category": "Destination Guides",
-    "description": "Award-winning luxury wedding photography in Agra. Specializing in candid storytelling, fine-art portraits, and cinematic heirlooms for destination weddings in The monument of love, ITC Mughal, Oberoi Amarvilas, and Taj Mahal views.",
+    "description": "Award-winning luxury wedding photographer in Agra. Specializing in candid storytelling, fine-art portraits, and cinematic heirlooms for destination weddings at Oberoi Amarvilas, ITC Mughal & Taj Mahal views.",
     "keywords": [
+      "best photographer in agra",
       "wedding photographer Agra",
       "luxury wedding photographer Agra",
       "best wedding photographer Agra",

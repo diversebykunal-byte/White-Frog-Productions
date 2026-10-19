@@ -41,8 +41,44 @@ export default function PreWeddingsPage() {
           return f.category === activeFilter;
         });
 
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: PRE_WEDDING_FILMS.map((pw, idx) => ({
+      "@type": "ListItem",
+      position: idx + 1,
+      item: {
+        "@type": "VideoObject",
+        name: `${pw.title} · Pre-Wedding Film at ${pw.location}`,
+        description: `Cinematic pre-wedding film ${pw.title} shot at ${pw.location} by White Frog Productions.`,
+        thumbnailUrl: [
+          pw.coverImage,
+          `https://i.ytimg.com/vi/${pw.youtubeId}/maxresdefault.jpg`,
+          `https://i.ytimg.com/vi/${pw.youtubeId}/hqdefault.jpg`,
+        ],
+        uploadDate: "2024-01-01T08:00:00+05:30",
+        contentUrl: `https://www.youtube.com/watch?v=${pw.youtubeId}`,
+        embedUrl: `https://www.youtube.com/embed/${pw.youtubeId}`,
+        duration: "PT3M00S",
+        inLanguage: "en",
+        publisher: {
+          "@type": "Organization",
+          name: "White Frog Productions",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
+          },
+        },
+      },
+    })),
+  };
+
   return (
     <div className="bg-white min-h-screen text-brand-dark">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
+      />
       {/* 1. Romantic Hero Banner */}
       <section className="relative w-full h-[55vh] sm:h-[65vh] md:h-[70vh] overflow-hidden bg-black">
         <Image

@@ -13,8 +13,37 @@ export default function InMediaPage() {
 
   const feature = MEDIA_FEATURES[0];
 
+  const videoSchema = {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    name: `${feature.title} - ${feature.network}`,
+    description: feature.description,
+    thumbnailUrl: [
+      feature.coverImage,
+      `https://i.ytimg.com/vi/${feature.youtubeId}/maxresdefault.jpg`,
+      `https://i.ytimg.com/vi/${feature.youtubeId}/hqdefault.jpg`,
+    ],
+    uploadDate: "2024-01-01T08:00:00+05:30",
+    contentUrl: `https://www.youtube.com/watch?v=${feature.youtubeId}`,
+    embedUrl: `https://www.youtube.com/embed/${feature.youtubeId}`,
+    duration: "PT5M00S",
+    inLanguage: "en",
+    publisher: {
+      "@type": "Organization",
+      name: "White Frog Productions",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://res.cloudinary.com/lyoxtgem/image/upload/v1792099306/whitefrog/brand/logo.png",
+      },
+    },
+  };
+
   return (
     <div className="bg-white min-h-screen text-brand-dark">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(videoSchema) }}
+      />
       {/* 1. Broadcast Hero Banner */}
       <section className="relative w-full h-[50vh] sm:h-[60vh] md:h-[65vh] overflow-hidden bg-black">
         <Image
