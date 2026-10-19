@@ -40,18 +40,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
-      url: `${baseUrl}/cinematic-heirlooms`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/gallery-of-emotions`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
       url: `${baseUrl}/about`,
       lastModified: currentDate,
       changeFrequency: "monthly",
@@ -119,7 +107,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Wedding Story Pages (34 real luxury wedding heirloom galleries)
   const storyPages: MetadataRoute.Sitemap = STORIES.map((story) => ({
-    url: `${baseUrl}/cinematic-heirlooms/${story.slug}`,
+    url: `${baseUrl}/${story.slug}`,
     lastModified: currentDate,
     changeFrequency: "monthly",
     priority: 0.85,

@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import CinematicHeirloomsPage from "@/app/cinematic-heirlooms/page";
+import { STORIES } from "@/data/siteData";
 
 export const metadata: Metadata = {
   title: "Gallery · Client Wedding Stories | White Frog Productions",
@@ -35,4 +36,52 @@ export const metadata: Metadata = {
   },
 };
 
-export default CinematicHeirloomsPage;
+export default function GalleryPage() {
+  const breadcrumbsSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.whitefrogproductions.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Gallery",
+        item: "https://www.whitefrogproductions.com/gallery",
+      },
+    ],
+  };
+
+  const collectionSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "White Frog Productions · Wedding Cinema & Heirlooms Gallery",
+    description:
+      "Bespoke cinematic wedding films and fine-art photography stories captured worldwide by White Frog Productions.",
+    url: "https://www.whitefrogproductions.com/gallery",
+    hasPart: STORIES.map((story) => ({
+      "@type": "CreativeWork",
+      name: `${story.couple} · Wedding Cinema & Photography at ${story.location}`,
+      url: `https://www.whitefrogproductions.com/${story.slug}`,
+      image: story.coverImage,
+    })),
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionSchema) }}
+      />
+      <CinematicHeirloomsPage />
+    </>
+  );
+}

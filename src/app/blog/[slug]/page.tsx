@@ -454,7 +454,7 @@ export default function ArticlePage({ params }: PageProps) {
                   </p>
                   <div className="pt-1">
                     <Link
-                      href={`/cinematic-heirlooms/${matchedStory.slug}`}
+                      href={`/${matchedStory.slug}`}
                       className="inline-flex items-center gap-2 px-6 py-2.5 bg-brand-dark text-white rounded-full font-forum text-xs tracking-widest uppercase hover:bg-black transition-colors"
                     >
                       <span>Explore Full Gallery & Film</span>

@@ -59,6 +59,26 @@ const nextConfig = {
         destination: '/corporate',
         permanent: true,
       },
+      {
+        source: '/cinematic-heirlooms/:slug',
+        destination: '/:slug',
+        permanent: true,
+      },
+      {
+        source: '/cinematic-heirlooms',
+        destination: '/gallery',
+        permanent: true,
+      },
+      {
+        source: '/gallery-of-emotions',
+        destination: '/portfolio',
+        permanent: true,
+      },
+      {
+        source: '/feature-films',
+        destination: '/films',
+        permanent: true,
+      },
     ];
   },
 };

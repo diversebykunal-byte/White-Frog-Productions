@@ -22,6 +22,9 @@ import {
   ChevronRight,
   Shield,
   FileSpreadsheet,
+  Compass,
+  TrendingUp,
+  Activity,
 } from "lucide-react";
 import { IntakeLead } from "@/app/api/admin/leads/route";
 
@@ -38,6 +41,29 @@ export default function AdminPage() {
   const [selectedType, setSelectedType] = useState("All");
 
   const [selectedLead, setSelectedLead] = useState<IntakeLead | null>(null);
+
+  // Live SEO Radar state
+  const [showRadar, setShowRadar] = useState(false);
+  const [radarData, setRadarData] = useState<any>(null);
+  const [loadingRadar, setLoadingRadar] = useState(false);
+
+  const fetchRadar = async () => {
+    setLoadingRadar(true);
+    try {
+      const pin = sessionStorage.getItem("wfp_admin_pin") || "wfp2026";
+      const res = await fetch("/api/admin/seo-radar", {
+        headers: { "x-admin-pin": pin },
+      });
+      const data = await res.json();
+      if (data.success) {
+        setRadarData(data);
+      }
+    } catch (err) {
+      console.error("Failed to load SEO radar:", err);
+    } finally {
+      setLoadingRadar(false);
+    }
+  };
 
   // Check persisted admin session
   useEffect(() => {
@@ -223,8 +249,193 @@ export default function AdminPage() {
             >
               <span>Web Intake Form</span>
             </Link>
+
+            <button
+              onClick={() => {
+                const nextState = !showRadar;
+                setShowRadar(nextState);
+                if (nextState && !radarData) {
+                  fetchRadar();
+                }
+              }}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-full font-forum text-xs tracking-wider uppercase transition-all ${
+                showRadar
+                  ? "bg-brand-gold text-brand-dark font-medium shadow-sm"
+                  : "bg-white border border-brand-sand text-brand-dark hover:border-brand-gold"
+              }`}
+            >
+              <Compass className="w-3.5 h-3.5 text-brand-gold" />
+              <span>Live SEO Radar</span>
+            </button>
           </div>
         </div>
+
+        {/* Live SEO Radar Panel */}
+        {showRadar && (
+          <div className="bg-[#faf8f5] p-6 sm:p-8 rounded-3xl border border-brand-gold/30 shadow-md space-y-6 animate-fadeIn">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-brand-sand/60 pb-5">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-xs uppercase tracking-[0.25em] text-brand-gold font-forum">
+                    Autonomous SERP Engine
+                  </span>
+                </div>
+                <h3 className="font-forum text-2xl text-brand-dark">
+                  Live Google Search &amp; GA4 Intelligence Radar
+                </h3>
+              </div>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={fetchRadar}
+                  disabled={loadingRadar}
+                  className="inline-flex items-center gap-2 px-4 py-1.5 bg-white border border-brand-sand rounded-full font-forum text-xs tracking-wider uppercase text-brand-dark hover:bg-brand-cream disabled:opacity-50 transition-colors"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${loadingRadar ? "animate-spin" : ""}`} />
+                  <span>Refresh Radar</span>
+                </button>
+                <button
+                  onClick={() => setShowRadar(false)}
+                  className="p-1.5 text-brand-muted hover:text-brand-dark transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {loadingRadar && !radarData ? (
+              <div className="py-12 text-center space-y-3">
+                <RefreshCw className="w-6 h-6 animate-spin mx-auto text-brand-gold" />
+                <p className="font-cormorant text-base text-brand-muted italic">
+                  Polling live Google Search Console &amp; GA4 telemetry...
+                </p>
+              </div>
+            ) : radarData ? (
+              <div className="space-y-6">
+                {/* Radar Top Stats */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                  <div className="bg-white p-4 rounded-xl border border-brand-sand/60">
+                    <span className="text-[10px] uppercase tracking-wider text-brand-muted font-forum">
+                      Active Realtime Users
+                    </span>
+                    <p className="font-forum text-2xl text-emerald-600 mt-1">
+                      {radarData.summary?.ga4RealtimeUsers || 0}
+                    </p>
+                    <span className="text-[10px] text-brand-muted font-cormorant italic">Live in last 30 mins</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl border border-brand-sand/60">
+                    <span className="text-[10px] uppercase tracking-wider text-brand-muted font-forum">
+                      Striking Distance (Pos 2-15)
+                    </span>
+                    <p className="font-forum text-2xl text-brand-gold mt-1">
+                      {radarData.summary?.strikingDistanceCount || 0}
+                    </p>
+                    <span className="text-[10px] text-brand-muted font-cormorant italic">Prime for #1 takeover</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl border border-brand-sand/60">
+                    <span className="text-[10px] uppercase tracking-wider text-brand-muted font-forum">
+                      Top Converting Keywords
+                    </span>
+                    <p className="font-forum text-2xl text-brand-dark mt-1">
+                      {radarData.summary?.topPerformersCount || 0}
+                    </p>
+                    <span className="text-[10px] text-brand-muted font-cormorant italic">Dominating Top 5</span>
+                  </div>
+                  <div className="bg-white p-4 rounded-xl border border-brand-sand/60">
+                    <span className="text-[10px] uppercase tracking-wider text-brand-muted font-forum">
+                      Total Tracked Queries
+                    </span>
+                    <p className="font-forum text-2xl text-brand-dark mt-1">
+                      {radarData.summary?.totalGscQueriesTracked || 0}
+                    </p>
+                    <span className="text-[10px] text-brand-muted font-cormorant italic">In Google Index</span>
+                  </div>
+                </div>
+
+                {/* 2-Column Deep Dive */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Striking Distance Targets */}
+                  <div className="bg-white p-5 rounded-2xl border border-brand-sand/60 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="w-4 h-4 text-brand-gold" />
+                      <h4 className="font-forum text-sm tracking-wider uppercase text-brand-dark">
+                        Striking Distance Hijack Opportunities
+                      </h4>
+                    </div>
+                    <div className="divide-y divide-brand-sand/40 max-h-72 overflow-y-auto">
+                      {(radarData.strikingDistance || []).map((item: any, i: number) => (
+                        <div key={i} className="py-2.5 flex items-center justify-between text-xs font-cormorant">
+                          <div className="space-y-0.5 max-w-[70%]">
+                            <p className="font-medium text-brand-dark truncate">{item.query}</p>
+                            <p className="text-[11px] text-brand-muted">
+                              Impressions: <span className="text-brand-dark">{item.impressions}</span> · Clicks: {item.clicks}
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <span className="inline-block px-2 py-0.5 bg-amber-50 text-amber-900 border border-amber-200/60 rounded font-forum text-[11px]">
+                              Pos {item.position}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Top Performers & High-Opportunity Queries */}
+                  <div className="bg-white p-5 rounded-2xl border border-brand-sand/60 space-y-4">
+                    <div className="flex items-center gap-2">
+                      <Activity className="w-4 h-4 text-emerald-600" />
+                      <h4 className="font-forum text-sm tracking-wider uppercase text-brand-dark">
+                        Top Performers &amp; High Impressions
+                      </h4>
+                    </div>
+                    <div className="divide-y divide-brand-sand/40 max-h-72 overflow-y-auto">
+                      {(radarData.topPerformers || []).map((item: any, i: number) => (
+                        <div key={i} className="py-2.5 flex items-center justify-between text-xs font-cormorant">
+                          <div className="space-y-0.5 max-w-[70%]">
+                            <p className="font-medium text-brand-dark truncate">{item.query}</p>
+                            <p className="text-[11px] text-brand-muted">
+                              Clicks: <span className="text-emerald-700 font-semibold">{item.clicks}</span> · CTR: {(item.ctr * 100).toFixed(1)}%
+                            </p>
+                          </div>
+                          <div className="text-right">
+                            <span className="inline-block px-2 py-0.5 bg-emerald-50 text-emerald-900 border border-emerald-200/60 rounded font-forum text-[11px]">
+                              Rank #{item.position}
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Real-Time Geographies */}
+                {radarData.ga4TopLocations && radarData.ga4TopLocations.length > 0 && (
+                  <div className="bg-white p-4 rounded-xl border border-brand-sand/60">
+                    <div className="flex items-center gap-2 mb-3">
+                      <MapPin className="w-4 h-4 text-brand-gold" />
+                      <h5 className="font-forum text-xs tracking-wider uppercase text-brand-dark">
+                        Top Audience Locations (GA4 30-Day Activity)
+                      </h5>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {radarData.ga4TopLocations.map((loc: any, i: number) => (
+                        <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1 bg-brand-cream text-brand-dark rounded-full font-forum text-xs border border-brand-sand/50">
+                          <span>{loc.city || "Direct/Global"}</span>
+                          <span className="text-brand-muted font-sans text-[10px]">({loc.views} views)</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div className="py-6 text-center font-cormorant text-sm text-brand-muted">
+                Radar data currently unavailable.
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Executive KPI Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

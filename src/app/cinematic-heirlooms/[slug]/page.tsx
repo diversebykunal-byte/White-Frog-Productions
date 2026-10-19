@@ -108,6 +108,52 @@ export default function StoryPage({ params }: PageProps) {
 
   const relatedGuides = getGuidesForStory(story.location);
 
+  // Breadcrumbs Schema for Google SERP Navigation Hierarchy
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://www.whitefrogproductions.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Gallery",
+        item: "https://www.whitefrogproductions.com/gallery",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: `${story.couple} · ${story.location}`,
+        item: `https://www.whitefrogproductions.com/${story.slug}`,
+      },
+    ],
+  };
+
+  // VisualArtwork / CreativeWork Schema for Google Images & Knowledge Graph
+  const creativeWorkSchema = {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    name: `${story.couple} · Luxury Destination Wedding Cinema & Photography Heirloom`,
+    description: `Fine-art destination wedding cinema and photography heirlooms of ${story.couple} at ${story.location} by White Frog Productions.`,
+    image: story.coverImage,
+    creator: {
+      "@type": "Organization",
+      name: "White Frog Productions",
+      url: "https://www.whitefrogproductions.com",
+    },
+    artMedium: "Cinematography & Fine-Art Photography",
+    artform: "Wedding Cinema Film & Photo Gallery",
+    contentLocation: {
+      "@type": "Place",
+      name: story.location,
+    },
+  };
+
   // Video Schema if YouTube film is present
   const videoSchema = story.youtubeId
     ? {
@@ -136,6 +182,14 @@ export default function StoryPage({ params }: PageProps) {
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(creativeWorkSchema) }}
+      />
       {videoSchema && (
         <script
           type="application/ld+json"

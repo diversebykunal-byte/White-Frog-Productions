@@ -5,6 +5,16 @@ import crypto from "crypto";
 export const dynamic = "force-dynamic";
 
 function getGoogleCredentials() {
+  // Support direct JSON in environment variables for Vercel / serverless hosting
+  const envCreds = process.env.GOOGLE_CREDENTIALS_JSON || process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
+  if (envCreds) {
+    try {
+      return JSON.parse(envCreds);
+    } catch (e) {
+      console.warn("Failed to parse GOOGLE_CREDENTIALS_JSON env variable:", e);
+    }
+  }
+
   const customPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
   const defaultPath = `${process.env.HOME || "/Users/kunalkhanna"}/.gemini/config/google-credentials.json`;
 

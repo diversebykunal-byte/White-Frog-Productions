@@ -16,9 +16,9 @@ export async function GET() {
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   xml += `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n`;
 
-  // 1. Core Gallery Photos on /gallery-of-emotions
+  // 1. Core Gallery Photos on /portfolio
   xml += `  <url>\n`;
-  xml += `    <loc>${baseUrl}/gallery-of-emotions</loc>\n`;
+  xml += `    <loc>${baseUrl}/portfolio</loc>\n`;
   for (const photo of GALLERY_PHOTOS.slice(0, 50)) {
     xml += `    <image:image>\n`;
     xml += `      <image:loc>${escapeXml(photo)}</image:loc>\n`;
@@ -30,7 +30,7 @@ export async function GET() {
 
   // 2. Each Story and its Full Photo Gallery
   for (const story of STORIES) {
-    const pageUrl = `${baseUrl}/cinematic-heirlooms/${story.slug}`;
+    const pageUrl = `${baseUrl}/${story.slug}`;
     const allPhotos = [story.coverImage, ...(story.photos || [])];
     const uniquePhotos = Array.from(new Set(allPhotos));
 
