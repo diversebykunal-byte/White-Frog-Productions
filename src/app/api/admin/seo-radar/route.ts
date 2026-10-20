@@ -5,7 +5,18 @@ import crypto from "crypto";
 export const dynamic = "force-dynamic";
 
 function getGoogleCredentials() {
-  // Support direct JSON in environment variables for Vercel / serverless hosting
+  // 1. Support Base64 encoded JSON (recommended for Vercel: avoids multiline escaping issues)
+  const base64Creds = process.env.GOOGLE_CREDENTIALS_BASE64;
+  if (base64Creds) {
+    try {
+      const decoded = Buffer.from(base64Creds.trim(), "base64").toString("utf8");
+      return JSON.parse(decoded);
+    } catch (e) {
+      console.warn("Failed to parse GOOGLE_CREDENTIALS_BASE64:", e);
+    }
+  }
+
+  // 2. Support direct JSON string in environment variable
   const envCreds = process.env.GOOGLE_CREDENTIALS_JSON || process.env.GOOGLE_SERVICE_ACCOUNT_KEY;
   if (envCreds) {
     try {
@@ -15,20 +26,34 @@ function getGoogleCredentials() {
     }
   }
 
+  // 3. Support separate email and private key env vars
+  if (process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL && process.env.GOOGLE_PRIVATE_KEY) {
+    return {
+      client_email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY.replace(/\\n/g, "\n"),
+    };
+  }
+
+  // 4. Fallback to local files (development environment)
   const customPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
-  const defaultPath = `${process.env.HOME || "/Users/kunalkhanna"}/.gemini/config/google-credentials.json`;
+  const homeDir = process.env.HOME || "/Users/kunalkhanna";
+  const candidatePaths = [
+    customPath,
+    `${homeDir}/.gemini/config/google-credentials.json`,
+    `${homeDir}/Desktop/tokyo-equator-512120-j7-1599869db3ba.json`,
+  ].filter(Boolean) as string[];
 
-  const pathToUse = customPath && fs.existsSync(customPath) ? customPath : defaultPath;
-
-  if (!fs.existsSync(pathToUse)) {
-    return null;
+  for (const p of candidatePaths) {
+    if (fs.existsSync(p)) {
+      try {
+        return JSON.parse(fs.readFileSync(p, "utf8"));
+      } catch {
+        continue;
+      }
+    }
   }
 
-  try {
-    return JSON.parse(fs.readFileSync(pathToUse, "utf8"));
-  } catch {
-    return null;
-  }
+  return null;
 }
 
 async function getGoogleAccessToken(creds: any, scopes: string[]) {
@@ -79,7 +104,8 @@ export async function GET(req: Request) {
     if (!creds) {
       return NextResponse.json({
         success: false,
-        message: "Google credentials not found on server.",
+        message: "Google Service Account credentials not configured in environment. Please add GOOGLE_CREDENTIALS_BASE64 to your Vercel Environment Variables.",
+        code: "CREDENTIALS_MISSING",
       });
     }
 

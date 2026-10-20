@@ -45,10 +45,12 @@ export default function AdminPage() {
   // Live SEO Radar state
   const [showRadar, setShowRadar] = useState(false);
   const [radarData, setRadarData] = useState<any>(null);
+  const [radarError, setRadarError] = useState("");
   const [loadingRadar, setLoadingRadar] = useState(false);
 
   const fetchRadar = async () => {
     setLoadingRadar(true);
+    setRadarError("");
     try {
       const pin = sessionStorage.getItem("wfp_admin_pin") || "wfp2026";
       const res = await fetch("/api/admin/seo-radar", {
@@ -57,9 +59,13 @@ export default function AdminPage() {
       const data = await res.json();
       if (data.success) {
         setRadarData(data);
+        setRadarError("");
+      } else {
+        setRadarError(data.message || "Failed to load SEO radar data.");
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to load SEO radar:", err);
+      setRadarError("Network connection error while connecting to SEO radar.");
     } finally {
       setLoadingRadar(false);
     }
@@ -428,6 +434,30 @@ export default function AdminPage() {
                     </div>
                   </div>
                 )}
+              </div>
+            ) : radarError ? (
+              <div className="py-8 px-6 bg-white rounded-2xl border border-amber-300/80 shadow-sm space-y-4 max-w-2xl mx-auto text-center">
+                <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-800 flex items-center justify-center mx-auto">
+                  <Shield className="w-5 h-5" />
+                </div>
+                <div className="space-y-1.5">
+                  <h4 className="font-forum text-lg text-brand-dark">
+                    Google Cloud Telemetry Setup Required
+                  </h4>
+                  <p className="font-cormorant text-sm sm:text-base text-brand-muted leading-relaxed">
+                    {radarError}
+                  </p>
+                </div>
+                <div className="pt-2">
+                  <button
+                    onClick={fetchRadar}
+                    disabled={loadingRadar}
+                    className="inline-flex items-center gap-2 px-5 py-2 bg-brand-dark text-white rounded-full font-forum text-xs tracking-wider uppercase hover:bg-black transition-colors"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${loadingRadar ? "animate-spin" : ""}`} />
+                    <span>Retry Connection</span>
+                  </button>
+                </div>
               </div>
             ) : (
               <div className="py-6 text-center font-cormorant text-sm text-brand-muted">
