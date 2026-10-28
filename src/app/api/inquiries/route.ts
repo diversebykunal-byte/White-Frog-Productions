@@ -45,37 +45,47 @@ export async function POST(req: Request) {
     };
 
     const { saveInquiryToDatabase } = await import("@/lib/leadsDb");
-    await saveInquiryToDatabase({
-      name: payload.name,
-      email: payload.email,
-      phone: payload.phone,
-      message: payload.message,
-      eventLocation: payload.event_location,
-      eventDate: payload.event_date,
-    });
+    const { sendInquiryNotification, sendClientConfirmationEmail } = await import("@/lib/zeptomail");
 
-    // Send email notification to Kunal via ZeptoMail
-    try {
-      const { sendInquiryNotification, sendClientConfirmationEmail } = await import("@/lib/zeptomail");
-      await sendInquiryNotification({
+    // Concurrently persist inquiry to DB and fire instant ZeptoMail notifications
+    const [dbResult, adminMailResult, clientMailResult] = await Promise.allSettled([
+      saveInquiryToDatabase({
+        name: payload.name,
+        email: payload.email,
+        phone: payload.phone,
+        message: payload.message,
+        eventLocation: payload.event_location,
+        eventDate: payload.event_date,
+      }),
+      sendInquiryNotification({
         name,
         email,
         phone,
         message,
         location,
         eventDate,
-      });
-
-      // Also send luxury branded confirmation email to the client
-      await sendClientConfirmationEmail({
+      }),
+      sendClientConfirmationEmail({
         fullName: name,
         email,
         weddingDates: eventDate || undefined,
         venue: location || undefined,
         weddingType: "Exclusive Wedding Celebration",
-      });
-    } catch (mailErr: any) {
-      console.warn("Notice: ZeptoMail notification warning:", mailErr?.message);
+      }),
+    ]);
+
+    if (dbResult.status === "rejected") {
+      console.warn("Notice: Inquiry DB persist warning:", dbResult.reason);
+    }
+    if (adminMailResult.status === "rejected") {
+      console.warn("Notice: Inquiry admin mail warning:", adminMailResult.reason);
+    } else if (!adminMailResult.value?.success) {
+      console.warn("Notice: Inquiry admin mail notice:", adminMailResult.value?.error);
+    }
+    if (clientMailResult.status === "rejected") {
+      console.warn("Notice: Inquiry client mail warning:", clientMailResult.reason);
+    } else if (!clientMailResult.value?.success) {
+      console.warn("Notice: Inquiry client mail notice:", clientMailResult.value?.error);
     }
 
     return NextResponse.json(

@@ -48,9 +48,9 @@ export async function POST(req: Request) {
       );
     }
 
-    // 1. Persist directly to our own database (resilient storage + Supabase)
-    try {
-      await saveLeadToDatabase({
+    // Concurrently persist to DB and fire instant ZeptoMail notifications (Zero-Blocking)
+    const [dbResult, adminMailResult, clientMailResult] = await Promise.allSettled([
+      saveLeadToDatabase({
         fullName,
         phone,
         email,
@@ -63,14 +63,8 @@ export async function POST(req: Request) {
         budgetBracket,
         decisionMaker,
         source: "Website Intake Form",
-      });
-    } catch (dbErr: any) {
-      console.warn("Notice: Database persist warning:", dbErr?.message);
-    }
-
-    // 2. Dispatch instant luxury email notification via ZeptoMail to Studio Team
-    try {
-      const adminRes = await sendIntakeNotification({
+      }),
+      sendIntakeNotification({
         fullName,
         phone,
         email,
@@ -82,28 +76,28 @@ export async function POST(req: Request) {
         emotionalVision,
         budgetBracket,
         decisionMaker,
-      });
-      if (!adminRes.success) {
-        console.warn("Notice: ZeptoMail intake notification warning:", adminRes.error);
-      }
-    } catch (mailErr: any) {
-      console.warn("Notice: ZeptoMail intake notification warning:", mailErr?.message);
-    }
-
-    // 3. Send branded luxury confirmation email to the client from notifications@whitefrogproductions.com
-    try {
-      const clientRes = await sendClientConfirmationEmail({
+      }),
+      sendClientConfirmationEmail({
         fullName,
         email,
         weddingDates,
         venue,
         weddingType,
-      });
-      if (!clientRes.success) {
-        console.warn("Notice: ZeptoMail client confirmation warning:", clientRes.error);
-      }
-    } catch (clientMailErr: any) {
-      console.warn("Notice: ZeptoMail client confirmation warning:", clientMailErr?.message);
+      }),
+    ]);
+
+    if (dbResult.status === "rejected") {
+      console.warn("Notice: Database persist warning:", dbResult.reason);
+    }
+    if (adminMailResult.status === "rejected") {
+      console.warn("Notice: Admin mail dispatch warning:", adminMailResult.reason);
+    } else if (!adminMailResult.value?.success) {
+      console.warn("Notice: Admin mail dispatch notice:", adminMailResult.value?.error);
+    }
+    if (clientMailResult.status === "rejected") {
+      console.warn("Notice: Client confirmation dispatch warning:", clientMailResult.reason);
+    } else if (!clientMailResult.value?.success) {
+      console.warn("Notice: Client confirmation dispatch notice:", clientMailResult.value?.error);
     }
 
     return NextResponse.json({

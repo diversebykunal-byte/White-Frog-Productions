@@ -30,6 +30,24 @@ export interface StoredInquiry {
   eventDate?: string | null;
 }
 
+// Helper for resilient database operations with strict timeout
+async function withTimeout<T>(promise: PromiseLike<T>, ms = 3500, fallback: T): Promise<T> {
+  let timer: NodeJS.Timeout;
+  const timeoutPromise = new Promise<T>((resolve) => {
+    timer = setTimeout(() => {
+      console.warn(`[Timeout] Supabase query timed out after ${ms}ms - continuing execution.`);
+      resolve(fallback);
+    }, ms);
+  });
+  return Promise.race([
+    Promise.resolve(promise).then((res) => {
+      clearTimeout(timer);
+      return res;
+    }),
+    timeoutPromise,
+  ]);
+}
+
 // Resilient filesystem paths (local dev vs Vercel serverless)
 const LOCAL_LEADS_FILE = path.join(process.cwd(), "src", "data", "leads_storage.json");
 const TMP_LEADS_FILE = path.join("/tmp", "wfp_leads_db.json");
@@ -93,25 +111,29 @@ export async function saveLeadToDatabase(lead: Omit<StoredLead, "id" | "timestam
     console.warn("Notice: Local DB file write notice:", fsErr?.message);
   }
 
-  // 2. Insert into Supabase (if configured)
+  // 2. Insert into Supabase (if configured, wrapped with 3.5s timeout)
   try {
     const admin = createAdminClient();
-    await admin.from("intake_leads").insert([
-      {
-        full_name: newLead.fullName,
-        phone: newLead.phone,
-        email: newLead.email,
-        wedding_dates: newLead.weddingDates || null,
-        venue: newLead.venue || null,
-        wedding_type: newLead.weddingType || null,
-        primary_priority: newLead.primaryPriority || null,
-        biggest_fear: newLead.biggestFear || null,
-        emotional_vision: newLead.emotionalVision || null,
-        budget_bracket: newLead.budgetBracket || null,
-        decision_maker: newLead.decisionMaker || null,
-        created_at: newLead.timestamp,
-      },
-    ]);
+    await withTimeout(
+      admin.from("intake_leads").insert([
+        {
+          full_name: newLead.fullName,
+          phone: newLead.phone,
+          email: newLead.email,
+          wedding_dates: newLead.weddingDates || null,
+          venue: newLead.venue || null,
+          wedding_type: newLead.weddingType || null,
+          primary_priority: newLead.primaryPriority || null,
+          biggest_fear: newLead.biggestFear || null,
+          emotional_vision: newLead.emotionalVision || null,
+          budget_bracket: newLead.budgetBracket || null,
+          decision_maker: newLead.decisionMaker || null,
+          created_at: newLead.timestamp,
+        },
+      ]),
+      3500,
+      { data: null, error: { message: "Supabase insert timed out" } } as any
+    );
   } catch (sbErr: any) {
     // Non-blocking fallback
     console.warn("Supabase lead sync note:", sbErr?.message);
@@ -142,20 +164,24 @@ export async function saveInquiryToDatabase(inquiry: Omit<StoredInquiry, "id" | 
     console.warn("Notice: Local Inquiry file write notice:", fsErr?.message);
   }
 
-  // 2. Insert into Supabase (if configured)
+  // 2. Insert into Supabase (if configured, wrapped with 3.5s timeout)
   try {
     const admin = createAdminClient();
-    await admin.from("inquiries").insert([
-      {
-        name: newInq.name,
-        email: newInq.email,
-        phone: newInq.phone || null,
-        message: newInq.message || null,
-        event_location: newInq.eventLocation || null,
-        event_date: newInq.eventDate || null,
-        created_at: newInq.timestamp,
-      },
-    ]);
+    await withTimeout(
+      admin.from("inquiries").insert([
+        {
+          name: newInq.name,
+          email: newInq.email,
+          phone: newInq.phone || null,
+          message: newInq.message || null,
+          event_location: newInq.eventLocation || null,
+          event_date: newInq.eventDate || null,
+          created_at: newInq.timestamp,
+        },
+      ]),
+      3500,
+      { data: null, error: { message: "Supabase insert timed out" } } as any
+    );
   } catch (sbErr: any) {
     console.warn("Supabase inquiry sync note:", sbErr?.message);
   }

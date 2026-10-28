@@ -8,8 +8,12 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // Server-side admin client — NEVER use on the client side
 export function createAdminClient() {
-  const url = process.env.SUPABASE_URL!;
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL!;
+  // Prefer service role JWT, safely falling back to anon key if service role is misconfigured or a CLI token
+  let serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!serviceRoleKey || serviceRoleKey.startsWith("sb_secret_")) {
+    serviceRoleKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+  }
   return createClient(url, serviceRoleKey, {
     auth: {
       autoRefreshToken: false,
